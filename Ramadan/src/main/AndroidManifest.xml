@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.apptitive.ramadan"
+    android:versionCode="1"
+    android:versionName="first release">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_ramadan"
+        android:label="@string/app_name"
+        android:theme="@style/Theme.Ramadan">
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"></activity>
+        <activity
+            android:name=".DetailsActivity"
+            android:parentActivityName=".TopicsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.apptitive.ramadan.TopicsActivity" />
+        </activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:parentActivityName=".MainActivity"></activity>
+        <activity
+            android:name=".TopicsActivity"
+            android:launchMode="singleTask"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.apptitive.ramadan.MainActivity" />
+        </activity>
+        <activity
+            android:name=".SehriIfterActivity"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.apptitive.ramadan.MainActivity" />
+        </activity>
+        <activity
+            android:name=".SaomVongerKaronActivity"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.apptitive.ramadan.MainActivity" />
+        </activity>
+        <activity
+            android:name=".SplashScreen"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".BaseActionBar"></activity>
+        <activity
+            android:name=".AlarmActivity"
+            android:theme="@android:style/Theme.Dialog"></activity>
+
+        <service
+            android:name=".services.RingtoneService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <receiver
+            android:name=".receiver.AlarmReceiver"
+            android:enabled="true"
+            android:exported="true" />
+        <receiver
+            android:name=".receiver.NotificationCancelReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="notification_cancelled" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:icon="@drawable/widget_timetable"
+            android:label="@string/widget_label"
+            android:name=".receiver.TimeTableWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info" />
+        </receiver>
+
+        <!-- Used for Google Play Store Campaign Measurement-->
+        <service android:name="com.google.analytics.tracking.android.CampaignTrackingService" />
+        <receiver
+            android:name="com.google.analytics.tracking.android.CampaignTrackingReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
+            </intent-filter>
+        </receiver>
+    </application>
+
+</manifest>
