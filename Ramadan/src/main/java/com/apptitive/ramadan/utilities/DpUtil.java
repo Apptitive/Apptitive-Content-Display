@@ -1,5 +1,6 @@
 package com.apptitive.ramadan.utilities;
 
+import android.content.Context;
 import android.util.DisplayMetrics;
 
 /**
@@ -16,14 +17,16 @@ public class DpUtil {
     public static final String DENSITY_DEFAULT = DENSITY_MDPI;
 
 
-    public static String getDeviceDensity(int screenWidth, int densityDPI) {
-        if (600 <= screenWidth && screenWidth < 720) {
+    public static String getDeviceDensity(Context context) {
+        DisplayMetrics displaymetrics = context.getResources().getDisplayMetrics();
+
+        if (600 <= displaymetrics.widthPixels && displaymetrics.widthPixels < 720) {
             return DENSITY_SW600;
-        } else if (screenWidth >= 720) {
+        } else if (displaymetrics.widthPixels >= 720) {
             return DENSITY_SW720;
         }
 
-        switch (densityDPI) {
+        switch (displaymetrics.densityDpi) {
             case DisplayMetrics.DENSITY_HIGH:
                 return DENSITY_HDPI;
             case DisplayMetrics.DENSITY_MEDIUM:
