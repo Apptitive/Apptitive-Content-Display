@@ -9,7 +9,7 @@ public class LogUtil {
 
     private LogUtil() {
     }
-    
+
     public static final String LOG_TAG = "-----tag: content display-----";
 
     public static void LOGD(String message) {

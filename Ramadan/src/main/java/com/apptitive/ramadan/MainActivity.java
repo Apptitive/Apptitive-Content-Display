@@ -9,22 +9,30 @@ import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
 import com.apptitive.ramadan.helper.CSVToDbHelper;
 import com.apptitive.ramadan.helper.DbManager;
 import com.apptitive.ramadan.helper.DbTableName;
+import com.apptitive.ramadan.interfaces.JsonTaskCompleteListener;
 import com.apptitive.ramadan.model.Region;
 import com.apptitive.ramadan.model.TimeTable;
 import com.apptitive.ramadan.model.Topics;
 import com.apptitive.ramadan.receiver.TimeTableWidgetProvider;
+import com.apptitive.ramadan.utilities.Config;
 import com.apptitive.ramadan.utilities.Constants;
+import com.apptitive.ramadan.utilities.HttpHelper;
+import com.apptitive.ramadan.utilities.LogUtil;
 import com.apptitive.ramadan.utilities.PreferenceHelper;
 import com.apptitive.ramadan.utilities.UIUtils;
 import com.apptitive.ramadan.views.BanglaTextView;
+
+import org.json.JSONArray;
+
 import java.text.ParseException;
 import java.util.List;
 
 
-public class MainActivity extends BaseActionBar implements View.OnClickListener {
+public class MainActivity extends BaseActionBar implements View.OnClickListener, JsonTaskCompleteListener<JSONArray> {
     private int mAppWidgetId;
     private ActionBar actionBar;
     private PreferenceHelper preferenceHelper;
@@ -85,6 +93,11 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener 
 
         timeTables = DbManager.getInstance().getAllTimeTables();
         regions = DbManager.getInstance().getAllRegions();
+
+
+        HttpHelper httpHelper = HttpHelper.getInstance(this, this);
+        httpHelper.getJsonArray(Config.getBaseUrl());
+
     }
 
     @Override
@@ -184,5 +197,10 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener 
             default:
                 break;
         }
+    }
+
+    @Override
+    public void onJsonArray(JSONArray result) {
+        LogUtil.LOGE(result.toString());
     }
 }

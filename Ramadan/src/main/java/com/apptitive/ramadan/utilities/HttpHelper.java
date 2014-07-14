@@ -2,8 +2,6 @@ package com.apptitive.ramadan.utilities;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -75,7 +73,7 @@ public class HttpHelper {
 
             @Override
             public void onErrorResponse(VolleyError arg0) {
-                Log.e("response error", "error");
+                LogUtil.LOGE("response error");
             }
         });
         addToRequestQueue(req);
