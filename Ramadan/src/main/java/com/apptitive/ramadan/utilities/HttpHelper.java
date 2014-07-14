@@ -21,8 +21,6 @@ import org.json.JSONException;
  */
 public class HttpHelper {
     private RequestQueue mRequestQueue;
-    private String book_url;
-
     private static HttpHelper uniqueInstance = new HttpHelper();
     private static Context context;
     private static JsonTaskCompleteListener<JSONArray> jsonCallBack;
@@ -72,7 +70,6 @@ public class HttpHelper {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
                     }
                 }, new Response.ErrorListener() {
 
