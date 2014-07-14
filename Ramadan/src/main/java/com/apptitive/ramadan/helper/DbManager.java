@@ -2,9 +2,10 @@ package com.apptitive.ramadan.helper;
 
 import android.content.Context;
 
+import com.apptitive.ramadan.model.Menu;
 import com.apptitive.ramadan.model.Region;
 import com.apptitive.ramadan.model.TimeTable;
-
+import com.apptitive.ramadan.model.Topics;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -137,6 +138,76 @@ public class DbManager {
         return regionNames.toArray(new String[regionNames.size()]);
     }
 
+
+    public List<Topics> getAllTopics() {
+        List<Topics> topicsList = null;
+        try {
+            topicsList = getHelper().getTopicsDao().queryForAll();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return topicsList;
+    }
+
+
+    public void addTopics(Topics topics) {
+        try {
+            getHelper().getTopicsDao().create(topics);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteTopics(Topics topics){
+        try {
+            getHelper().getTopicsDao().delete(topics);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateTopics(Topics topics){
+        try {
+            getHelper().getTopicsDao().update(topics);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public List<Menu> getAllMenus() {
+        List<Menu> menuList = null;
+        try {
+            menuList = getHelper().getMenuDao().queryForAll();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return menuList;
+    }
+
+
+    public void addMenu(Menu menu) {
+        try {
+            getHelper().getMenuDao().create(menu);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteMenu(Menu menu){
+        try {
+            getHelper().getMenuDao().delete(menu);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateMenu(Menu menu){
+        try {
+            getHelper().getMenuDao().update(menu);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
 
 
