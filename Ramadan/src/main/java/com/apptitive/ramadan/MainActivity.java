@@ -9,7 +9,6 @@ import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-
 import com.apptitive.ramadan.helper.CSVToDbHelper;
 import com.apptitive.ramadan.helper.DbManager;
 import com.apptitive.ramadan.helper.DbTableName;
@@ -21,7 +20,6 @@ import com.apptitive.ramadan.utilities.Constants;
 import com.apptitive.ramadan.utilities.PreferenceHelper;
 import com.apptitive.ramadan.utilities.UIUtils;
 import com.apptitive.ramadan.views.BanglaTextView;
-
 import java.text.ParseException;
 import java.util.List;
 
