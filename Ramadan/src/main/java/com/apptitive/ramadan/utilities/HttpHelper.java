@@ -8,11 +8,15 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.apptitive.ramadan.interfaces.JsonTaskCompleteListener;
+import com.apptitive.ramadan.interfaces.JsonArrayCompleteListener;
+import com.apptitive.ramadan.model.Menu;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by Sharif on 7/14/2014.
@@ -21,11 +25,11 @@ public class HttpHelper {
     private RequestQueue mRequestQueue;
     private static HttpHelper uniqueInstance = new HttpHelper();
     private static Context context;
-    private static JsonTaskCompleteListener<JSONArray> jsonCallBack;
+    private static JsonArrayCompleteListener<JSONArray> jsonCallBack;
+
     public static final String TAG = "VolleyTag";
 
-    public static HttpHelper getInstance(Context context,
-                                           JsonTaskCompleteListener<JSONArray> jsonCallBack) {
+    public static HttpHelper getInstance(Context context,JsonArrayCompleteListener<JSONArray> jsonCallBack) {
         HttpHelper.context = context;
         HttpHelper.jsonCallBack = jsonCallBack;
         return uniqueInstance;
@@ -77,5 +81,21 @@ public class HttpHelper {
             }
         });
         addToRequestQueue(req);
+    }
+
+
+    public  void getJsonObject(String url){
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url,null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject jsonObject) {
+              LogUtil.LOGE(jsonObject.toString());
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                LogUtil.LOGE("error");
+            }
+        });
+        addToRequestQueue(jsonObjectRequest);
     }
 }
