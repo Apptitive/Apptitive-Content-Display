@@ -8,7 +8,7 @@ import android.content.Context;
 public class Config {
     private static final String BASE_URL = "http:\\sharif.com";
 
-    public static String getBaseUrl(){
+    public static String getBaseUrl() {
         return BASE_URL;
     }
 
