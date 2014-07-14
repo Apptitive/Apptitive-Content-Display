@@ -2,8 +2,8 @@
 <resources>
     <color name="table_colomn_divider">#33000000</color>
     <color name="table_row_selected">#80009245</color>
-    <color name="table_heading_background">#FAFAC0</color>
-    <color name="table_row_background">#E7EAF2</color>
+    <color name="table_header_bg">#FAFAC0</color>
+    <color name="table_even_row_bg">#E7EAF2</color>
     <color name="bgColor">#81BEF7</color>
     <color name="red">#FE2E2E</color>
     <color name="yellow">#FFFF00</color>

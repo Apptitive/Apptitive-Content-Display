@@ -46,7 +46,7 @@ public class SehriIfterActivity extends BaseActionBar {
         preferenceHelper = new PreferenceHelper(this);
         supportRequestWindowFeature(WindowCompat.FEATURE_ACTION_BAR_OVERLAY);
         actionBar = getSupportActionBar();
-        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.AB_Green_Ramadan)));
+        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.ActionBarInnerBg)));
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setIcon(getResources().getDrawable(R.drawable.ic_sehri_iftar));
         currentDateIndex = UIUtils.getCurrentDateIndex();
@@ -63,7 +63,6 @@ public class SehriIfterActivity extends BaseActionBar {
                 timeTable.setSehriTime(UIUtils.getSehriIftarTime(-usersRegion.getIntervalSehri(), timeTable, getBaseContext(), true));
                 timeTable.setIfterTime(UIUtils.getSehriIftarTime(-usersRegion.getIntervalIfter(), timeTable, getBaseContext(), false));
             }
-
         }
         lvTimeTable = (ListView) findViewById(R.id.lv_time_table);
         timeTableAdapter = new TimeTableAdapter(this, R.layout.list_item_time_table, timeTables) {
@@ -82,7 +81,7 @@ public class SehriIfterActivity extends BaseActionBar {
                 View v = super.getView(position, convertView, parent);
 
                 if (currentDateIndex < 100 && position == currentDateIndex) {
-                    v.setBackgroundColor(getResources().getColor(R.color.table_row_selected));
+                    v.setBackgroundColor(getResources().getColor(R.color.TableSelectedRowBg));
                 }
                 return v;
             }
@@ -105,19 +104,17 @@ public class SehriIfterActivity extends BaseActionBar {
         }
         SpinnerAdapter adapter = new ArrayAdapter<String>(this, R.layout.sehri_ifter_time_actionbar_spinner_dropdown_item, items) {
 
-
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View v = super.getView(position, convertView, parent);
                 ((TextView) v).setText(Utilities.getBanglaSpannableString(regionMap.get(items[position]), getBaseContext()));
-
                 return v;
             }
 
             @Override
             public View getDropDownView(int position, View convertView, ViewGroup parent) {
                 View v = super.getDropDownView(position, convertView, parent);
-                v.setBackgroundColor(getResources().getColor(R.color.ActionBar_Navigation));
+                v.setBackgroundColor(getResources().getColor(R.color.ActionBarDropDownItemBg));
                 ((TextView) v).setText(Utilities.getBanglaSpannableString(regionMap.get(items[position]), getBaseContext()));
                 return v;
             }

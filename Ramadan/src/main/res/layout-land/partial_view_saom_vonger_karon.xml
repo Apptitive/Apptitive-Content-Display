@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/tab_selector">
+    android:background="@drawable/menu_selector">
 
     <ImageView
         android:id="@+id/iv_icon"
@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:banglaText="সাওম ভঙ্গের কারণসমূহ"
-        android:textColor="@color/white"
+        android:textColor="@color/MenuText"
         android:layout_centerHorizontal="true"
         android:gravity="center"
         android:textStyle="bold"

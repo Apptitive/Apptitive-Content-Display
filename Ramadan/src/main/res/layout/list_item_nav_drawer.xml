@@ -12,7 +12,7 @@
         android:padding="@dimen/dp_10"
         android:layout_marginLeft="@dimen/dp_8"
         android:layout_gravity="left"
-        android:textColor="@color/white"
+        android:textColor="@color/NavDrawerListItemText"
         android:textSize="18sp"
-        app:fontName="@string/font_solaimanlipi"/>
+        app:fontName="@string/font_solaimanlipi" />
 </LinearLayout>
