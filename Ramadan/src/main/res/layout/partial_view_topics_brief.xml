@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/tab_selector">
+    android:background="@drawable/content_brief_selector">
 
     <com.apptitive.ramadan.views.BanglaTextView
         android:id="@+id/btv_topic_hint"
@@ -15,7 +15,7 @@
         android:padding="@dimen/dp_10"
         app:fontName="@string/font_solaimanlipi"
         android:textSize="@dimen/text_size_15"
-        android:textColor="@color/White" />
+        android:textColor="@color/ContentItemBriefText" />
 
     <View
         android:id="@+id/divider"
@@ -26,7 +26,7 @@
         android:layout_alignBottom="@id/btv_topic_hint"
         android:layout_toLeftOf="@+id/imageView_details"
         android:layout_alignTop="@id/imageView_details"
-        android:background="@color/white_20_transparent" />
+        android:background="@color/ContentItemBriefDivider" />
 
     <ImageView
         android:id="@+id/imageView_details"
@@ -34,5 +34,5 @@
         android:layout_height="match_parent"
         android:layout_centerVertical="true"
         android:src="@drawable/arrow"
-        android:layout_alignParentRight="true"/>
+        android:layout_alignParentRight="true" />
 </RelativeLayout>

@@ -81,7 +81,7 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
         }
 
         actionBar = getSupportActionBar();
-        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.AB_White_Ramadan)));
+        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.ActionBarHomeBg)));
         actionBar.setDisplayShowTitleEnabled(false);
 
         findViewById(R.id.tab_iftar_time).setOnClickListener(this);

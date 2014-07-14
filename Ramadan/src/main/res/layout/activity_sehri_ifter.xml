@@ -13,7 +13,7 @@
         android:layout_height="@dimen/dp_30"
         android:gravity="center"
         android:orientation="horizontal"
-        android:background="@color/table_heading_background">
+        android:background="@color/TableHeaderBg">
 
         <com.apptitive.ramadan.views.BanglaTextView
             app:banglaText="@string/ramadan"
@@ -23,7 +23,8 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textStyle="bold"
-            android:textSize="@dimen/text_size_15" />
+            android:textSize="@dimen/text_size_15"
+            android:textColor="@color/TableHeaderText" />
 
         <View
             android:layout_width="1dp"
@@ -38,7 +39,8 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textStyle="bold"
-            android:textSize="@dimen/text_size_15" />
+            android:textSize="@dimen/text_size_15"
+            android:textColor="@color/TableHeaderText" />
 
         <View
             android:layout_width="1dp"
@@ -53,7 +55,8 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textStyle="bold"
-            android:textSize="@dimen/text_size_15" />
+            android:textSize="@dimen/text_size_15"
+            android:textColor="@color/TableHeaderText" />
 
         <View
             android:layout_width="1dp"
@@ -69,7 +72,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:textStyle="bold"
-            android:textSize="@dimen/text_size_15" />
+            android:textSize="@dimen/text_size_15"
+            android:textColor="@color/TableHeaderText" />
 
     </LinearLayout>
 

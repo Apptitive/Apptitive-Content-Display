@@ -49,7 +49,7 @@ public class DetailsActivity extends BaseActionBar implements DetailsFragment.De
         topicInView = topics.get(topicPosition);
 
         actionBar = getSupportActionBar();
-        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.AB_Green_Ramadan)));
+        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.ActionBarInnerBg)));
         actionBar.setTitle(Utilities.getBanglaSpannableString(topicInView.getHeader(), this));
         actionBar.setIcon(getResources().getDrawable(iconDrawableId));
         actionBar.setDisplayShowHomeEnabled(true);
@@ -59,7 +59,7 @@ public class DetailsActivity extends BaseActionBar implements DetailsFragment.De
         drawerLayout = (DrawerLayout) findViewById(R.id.layout_drawer);
         listViewDrawer = (ListView) findViewById(R.id.listView_drawer);
 
-        drawerListAdapter = new ArrayAdapter<Topic>(this, R.layout.drawer_layout,
+        drawerListAdapter = new ArrayAdapter<Topic>(this, R.layout.list_item_nav_drawer,
                 topics) {
             @Override
             public int getViewTypeCount() {
@@ -77,12 +77,12 @@ public class DetailsActivity extends BaseActionBar implements DetailsFragment.De
             public View getView(int position, View convertView, ViewGroup parent) {
                 BanglaTextView btv;
                 if (convertView == null) {
-                    convertView = getLayoutInflater().inflate(R.layout.drawer_layout, parent, false);
+                    convertView = getLayoutInflater().inflate(R.layout.list_item_nav_drawer, parent, false);
                 }
                 btv = (BanglaTextView) convertView.findViewById(R.id.btv_nav);
                 btv.setBanglaText(getItem(position).getHeader());
                 if (position == topics.indexOf(topicInView))
-                    convertView.setBackgroundColor(getResources().getColor(R.color.ActionBar_Navigation));
+                    convertView.setBackgroundColor(getResources().getColor(R.color.NavDrawerListItemSelected));
                 return convertView;
             }
         };

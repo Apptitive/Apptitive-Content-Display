@@ -9,8 +9,8 @@
         android:layout_width="@dimen/dp_110"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:textSize="@dimen/text_size_15"/>
-
+        android:textSize="@dimen/text_size_15"
+        android:textColor="@color/TableRowText" />
 
     <View
         android:layout_width="1dp"
@@ -22,7 +22,8 @@
         android:layout_width="@dimen/dp_110"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:textSize="@dimen/text_size_15"/>
+        android:textSize="@dimen/text_size_15"
+        android:textColor="@color/TableRowText" />
 
     <View
         android:layout_width="1dp"
@@ -34,7 +35,8 @@
         android:layout_width="@dimen/dp_110"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:textSize="@dimen/text_size_15"/>
+        android:textSize="@dimen/text_size_15"
+        android:textColor="@color/TableRowText" />
 
     <View
         android:layout_width="1dp"
@@ -47,6 +49,7 @@
         android:layout_width="0dp"
         android:layout_weight="1"
         android:textSize="@dimen/text_size_15"
-        android:gravity="center" />
+        android:gravity="center"
+        android:textColor="@color/TableRowText" />
 
 </LinearLayout>

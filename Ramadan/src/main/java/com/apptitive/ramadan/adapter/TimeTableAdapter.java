@@ -7,9 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
 import com.apptitive.ramadan.R;
 import com.apptitive.ramadan.model.TimeTable;
 import com.apptitive.ramadan.utilities.Utilities;
+
 import java.util.List;
 
 /**
@@ -30,7 +32,7 @@ public class TimeTableAdapter extends ArrayAdapter<TimeTable> {
         layoutResourceId = layout;
         tf = Utilities.getFont(this.context);
         isBuildVersionAboveThirteen = Utilities.isBuildAboveThirteen();
-        isBanglaAvailable=Utilities.isBanglaAvailable();
+        isBanglaAvailable = Utilities.isBanglaAvailable();
     }
 
     private class ViewHolder {
@@ -57,7 +59,6 @@ public class TimeTableAdapter extends ArrayAdapter<TimeTable> {
         View inflatedView = LayoutInflater.from(context).inflate(
                 layoutResourceId, parent, false);
 
-
         ViewHolder holder = null;
         if (convertView == null) {
 
@@ -76,7 +77,7 @@ public class TimeTableAdapter extends ArrayAdapter<TimeTable> {
 
 
         if (isBuildVersionAboveThirteen) {
-            if (isBanglaAvailable){
+            if (isBanglaAvailable) {
                 holder.rojaCount.setTypeface(tf);
                 holder.sehriTime.setTypeface(tf);
                 holder.ifterTime.setTypeface(tf);
@@ -98,8 +99,9 @@ public class TimeTableAdapter extends ArrayAdapter<TimeTable> {
         }
 
         if (Integer.parseInt(timeTable.getId()) % 2 == 0)
-            convertView.setBackgroundColor(context.getResources().getColor(R.color.table_row_background));
-
+            convertView.setBackgroundColor(context.getResources().getColor(R.color.TableEvenRowBg));
+        else
+            convertView.setBackgroundColor(context.getResources().getColor(R.color.TableOddRowBg));
 
         return convertView;
     }
