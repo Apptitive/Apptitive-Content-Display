@@ -32,7 +32,7 @@ public class DetailsListAdapter extends BaseAdapter {
 
     @Override
     public int getItemViewType(int position) {
-        return details.get(position).getViewType();
+        return details.get(position).getTag();
     }
 
     @Override

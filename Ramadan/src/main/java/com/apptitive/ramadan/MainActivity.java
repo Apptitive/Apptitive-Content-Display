@@ -49,7 +49,7 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener 
 
         List<Topics> tList = DbManager.getInstance().getAllTopics();
         for (Topics topics : tList) {
-            android.util.Log.e("Topics Log", topics.getTitle());
+            android.util.Log.e("Topics Log", topics.getHeader());
         }
 
         List<com.apptitive.ramadan.model.Menu> mList = DbManager.getInstance().getAllMenus();
