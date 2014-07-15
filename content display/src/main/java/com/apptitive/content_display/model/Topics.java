@@ -32,10 +32,13 @@ public class Topics implements Parcelable{
     @DatabaseField
     private String actionType;
 
+    @DatabaseField
+    private String menuId;
+
     public Topics() {
     }
 
-    public Topics(int actionId, String topicId, String header, String shortDescription, String details, String viewType, String actionType) {
+    public Topics(int actionId, String topicId, String header, String shortDescription, String details, String viewType, String actionType, String menuId) {
         this.actionId = actionId;
         this.topicId = topicId;
         this.header = header;
@@ -43,6 +46,7 @@ public class Topics implements Parcelable{
         this.details = details;
         this.viewType = viewType;
         this.actionType = actionType;
+        this.menuId = menuId;
     }
 
     public int getActionId() {
@@ -81,5 +85,9 @@ public class Topics implements Parcelable{
     @Override
     public void writeToParcel(Parcel parcel, int flags) {
         parcel.writeString(header);
+    }
+
+    public String getMenuId() {
+        return menuId;
     }
 }

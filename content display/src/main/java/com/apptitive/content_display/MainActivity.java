@@ -9,7 +9,6 @@ import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-
 import com.apptitive.content_display.helper.CSVToDbHelper;
 import com.apptitive.content_display.helper.DbManager;
 import com.apptitive.content_display.helper.DbTableName;
@@ -21,14 +20,11 @@ import com.apptitive.content_display.receiver.TimeTableWidgetProvider;
 import com.apptitive.content_display.utilities.Config;
 import com.apptitive.content_display.utilities.Constants;
 import com.apptitive.content_display.utilities.HttpHelper;
-import com.apptitive.content_display.utilities.LogUtil;
 import com.apptitive.content_display.utilities.PreferenceHelper;
 import com.apptitive.content_display.utilities.UIUtils;
 import com.apptitive.content_display.views.BanglaTextView;
 import com.google.gson.Gson;
-
 import org.json.JSONArray;
-
 import java.text.ParseException;
 import java.util.Arrays;
 import java.util.List;
@@ -52,13 +48,13 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
         setContentView(R.layout.activity_main);
 
         com.apptitive.content_display.model.Menu m = new com.apptitive.content_display.model.Menu(1, "1", "Menu Title Edited", "Add", 1, 1);
-        Topics t = new Topics(1, "1", "Topic Title Edited", "short topics", "details", "webview", "edit");
+        Topics t = new Topics(1, "1", "Topic Title Edited", "short topics", "details", "webview", "edit","1");
 
         DbManager.getInstance().addTopics(t);
 
         List<Topics> tList = DbManager.getInstance().getTopicsForMenu("1");
         for (Topics topics : tList) {
-            android.util.Log.e("Topics Log", topics.getHeader());
+            android.util.Log.e("Topics Log", topics.getMenuId());
         }
 
         List<com.apptitive.content_display.model.Menu> mList = DbManager.getInstance().getAllMenus();
