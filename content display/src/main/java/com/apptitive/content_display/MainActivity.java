@@ -1,4 +1,4 @@
-package com.apptitive.content_display;
+package com.apptitive.ramadan;
 
 import android.appwidget.AppWidgetManager;
 import android.content.Intent;
@@ -23,6 +23,23 @@ import com.apptitive.content_display.utilities.HttpHelper;
 import com.apptitive.content_display.utilities.PreferenceHelper;
 import com.apptitive.content_display.utilities.UIUtils;
 import com.apptitive.content_display.views.BanglaTextView;
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
+import com.apptitive.ramadan.helper.CSVToDbHelper;
+import com.apptitive.ramadan.helper.DbManager;
+import com.apptitive.ramadan.helper.DbTableName;
+import com.apptitive.ramadan.interfaces.JsonArrayCompleteListener;
+import com.apptitive.ramadan.model.Region;
+import com.apptitive.ramadan.model.TimeTable;
+import com.apptitive.ramadan.model.Topics;
+import com.apptitive.ramadan.receiver.TimeTableWidgetProvider;
+import com.apptitive.ramadan.utilities.Config;
+import com.apptitive.ramadan.utilities.Constants;
+import com.apptitive.ramadan.utilities.HttpHelper;
+import com.apptitive.ramadan.utilities.LogUtil;
+import com.apptitive.ramadan.utilities.PreferenceHelper;
+import com.apptitive.ramadan.utilities.UIUtils;
+import com.apptitive.ramadan.views.BanglaTextView;
 import com.google.gson.Gson;
 import org.json.JSONArray;
 import java.text.ParseException;
@@ -47,19 +64,13 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
         supportRequestWindowFeature(WindowCompat.FEATURE_ACTION_BAR_OVERLAY);
         setContentView(R.layout.activity_main);
 
-        com.apptitive.content_display.model.Menu m = new com.apptitive.content_display.model.Menu(1, "1", "Menu Title Edited", "Add", 1, 1);
         Topics t = new Topics(1, "1", "Topic Title Edited", "short topics", "details", "webview", "edit","1");
 
         DbManager.getInstance().addTopics(t);
 
-        List<Topics> tList = DbManager.getInstance().getTopicsForMenu("1");
+        List<Topics> tList = DbManager.getInstance().getAllTopics();
         for (Topics topics : tList) {
             android.util.Log.e("Topics Log", topics.getMenuId());
-        }
-
-        List<com.apptitive.content_display.model.Menu> mList = DbManager.getInstance().getAllMenus();
-        for (com.apptitive.content_display.model.Menu menu : mList) {
-            android.util.Log.e("Menu Log", menu.getTitle());
         }
 
         Bundle extras = getIntent().getExtras();
@@ -92,7 +103,10 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
         regions = DbManager.getInstance().getAllRegions();
 
         HttpHelper httpHelper = HttpHelper.getInstance(this, this);
-        httpHelper.getJsonArray(Config.getBaseUrl());
+        httpHelper.getJsonArray(Config.getMenuUrl());
+/*        ImageLoader imageLoader = HttpHelper.getInstance(this).getImageLoader();
+        NetworkImageView imgNetWorkView=(NetworkImageView)findViewById(R.id.imgDemo);
+        imgNetWorkView.setImageUrl(Config.getImageUrl(this)+"1.9.png", imageLoader);*/
     }
 
     @Override
@@ -196,8 +210,9 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
 
     @Override
     public void onJsonArray(JSONArray result) {
+      /*  LogUtil.LOGE(result.toString());
         Gson gson = new Gson();
-        List<com.apptitive.content_display.model.Menu> menus = Arrays.asList(gson.fromJson(result.toString(), com.apptitive.content_display.model.Menu[].class));
-        DbManager.getInstance().addMenu(menus);
+        List<com.apptitive.ramadan.model.Menu> menus = Arrays.asList(gson.fromJson(result.toString(), com.apptitive.ramadan.model.Menu[].class));
+        DbManager.getInstance().addMenu(menus);*/
     }
 }
