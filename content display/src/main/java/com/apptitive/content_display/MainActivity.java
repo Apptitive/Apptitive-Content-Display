@@ -54,7 +54,6 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
         com.apptitive.content_display.model.Menu m = new com.apptitive.content_display.model.Menu(1, "1", "Menu Title Edited", "Add", 1, 1);
         Topics t = new Topics(1, "1", "Topic Title Edited", "short topics", "details", "webview", "edit");
 
-        DbManager.getInstance().addMenu(m);
         DbManager.getInstance().addTopics(t);
 
         List<Topics> tList = DbManager.getInstance().getAllTopics();
@@ -201,8 +200,8 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
 
     @Override
     public void onJsonArray(JSONArray result) {
-        LogUtil.LOGE(result.toString());
         Gson gson = new Gson();
         List<com.apptitive.content_display.model.Menu> menus = Arrays.asList(gson.fromJson(result.toString(), com.apptitive.content_display.model.Menu[].class));
+        DbManager.getInstance().addMenu(menus);
     }
 }
