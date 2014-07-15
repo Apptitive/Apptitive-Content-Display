@@ -6,7 +6,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.view.WindowCompat;
 import android.support.v7.app.ActionBar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -202,6 +201,7 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
 
     @Override
     public void onJsonArray(JSONArray result) {
+        LogUtil.LOGE(result.toString());
         Gson gson = new Gson();
         List<com.apptitive.ramadan.model.Menu> menus = Arrays.asList(gson.fromJson(result.toString(), com.apptitive.ramadan.model.Menu[].class));
     }
