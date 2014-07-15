@@ -10,6 +10,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
 import com.apptitive.ramadan.helper.CSVToDbHelper;
 import com.apptitive.ramadan.helper.DbManager;
 import com.apptitive.ramadan.helper.DbTableName;
@@ -21,6 +23,7 @@ import com.apptitive.ramadan.receiver.TimeTableWidgetProvider;
 import com.apptitive.ramadan.utilities.Config;
 import com.apptitive.ramadan.utilities.Constants;
 import com.apptitive.ramadan.utilities.HttpHelper;
+import com.apptitive.ramadan.utilities.LogUtil;
 import com.apptitive.ramadan.utilities.PreferenceHelper;
 import com.apptitive.ramadan.utilities.UIUtils;
 import com.apptitive.ramadan.views.BanglaTextView;
@@ -89,7 +92,10 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
         regions = DbManager.getInstance().getAllRegions();
 
         HttpHelper httpHelper = HttpHelper.getInstance(this, this);
-        httpHelper.getJsonArray(Config.getBaseUrl());
+        httpHelper.getJsonArray(Config.getMenuUrl());
+/*        ImageLoader imageLoader = HttpHelper.getInstance(this).getImageLoader();
+        NetworkImageView imgNetWorkView=(NetworkImageView)findViewById(R.id.imgDemo);
+        imgNetWorkView.setImageUrl(Config.getImageUrl(this)+"1.9.png", imageLoader);*/
     }
 
     @Override
@@ -193,8 +199,9 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
 
     @Override
     public void onJsonArray(JSONArray result) {
+      /*  LogUtil.LOGE(result.toString());
         Gson gson = new Gson();
         List<com.apptitive.ramadan.model.Menu> menus = Arrays.asList(gson.fromJson(result.toString(), com.apptitive.ramadan.model.Menu[].class));
-        DbManager.getInstance().addMenu(menus);
+        DbManager.getInstance().addMenu(menus);*/
     }
 }

@@ -6,13 +6,20 @@ import android.content.Context;
  * Created by Sharif on 7/14/2014.
  */
 public class Config {
-    private static final String BASE_URL = "http://www.json-generator.com/api/json/get/chGFSfyFBu?indent=2";
+    private static final String MENU_URL = "http://apptitive.com/content_display/json/menu.json";
+    private static final String TOPIC_URL = " http://apptitive.com/content_display/json/topicJSON.json";
 
-    public static String getBaseUrl() {
-        return BASE_URL;
+
+    private static final String BASE_IMAGE_URL="http://apptitive.com/content_display/media/images/";
+
+    public static String getMenuUrl() {
+        return MENU_URL;
+    }
+    public static String getTopicUrl(){
+        return TOPIC_URL;
     }
 
-    public static String getDensityUrl(Context context) {
-        return BASE_URL + DpUtil.getDeviceDensity(context);
+    public static String getImageUrl(Context context) {
+        return BASE_IMAGE_URL + DpUtil.getDeviceDensity(context)+"/";
     }
 }

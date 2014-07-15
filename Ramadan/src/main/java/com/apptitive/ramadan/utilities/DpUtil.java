@@ -1,13 +1,16 @@
 package com.apptitive.ramadan.utilities;
 
 import android.content.Context;
+import android.content.res.Configuration;
+import android.graphics.Point;
 import android.util.DisplayMetrics;
+import android.view.Display;
+import android.view.WindowManager;
 
 /**
  * Created by Sharif on 7/14/2014.
  */
 public class DpUtil {
-
     public static final String DENSITY_MDPI = "mdpi";
     public static final String DENSITY_HDPI = "hdpi";
     public static final String DENSITY_XHDPI = "xhdpi";
@@ -19,10 +22,11 @@ public class DpUtil {
 
     public static String getDeviceDensity(Context context) {
         DisplayMetrics displaymetrics = context.getResources().getDisplayMetrics();
+        Configuration config = context.getResources().getConfiguration();
 
-        if (600 <= displaymetrics.widthPixels && displaymetrics.widthPixels < 720) {
+        if (600 <= config.smallestScreenWidthDp && config.smallestScreenWidthDp < 720) {
             return DENSITY_SW600;
-        } else if (displaymetrics.widthPixels >= 720) {
+        } else if (config.smallestScreenWidthDp >= 720) {
             return DENSITY_SW720;
         }
 
