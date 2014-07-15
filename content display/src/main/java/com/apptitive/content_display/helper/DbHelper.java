@@ -7,7 +7,7 @@ import com.apptitive.content_display.R;
 import com.apptitive.content_display.model.Menu;
 import com.apptitive.content_display.model.Region;
 import com.apptitive.content_display.model.TimeTable;
-import com.apptitive.content_display.model.Topics;
+import com.apptitive.content_display.model.DbContent;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
@@ -28,7 +28,7 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
     private Dao<Region, String> regionDao = null;
     private Dao<TimeTable, String> timeTableDao = null;
     private Dao<Menu, String> menuDao = null;
-    private Dao<Topics, String> topicsDao = null;
+    private Dao<DbContent, String> topicsDao = null;
 
     public DbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -41,7 +41,7 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, Region.class);
             TableUtils.createTable(connectionSource, TimeTable.class);
             TableUtils.createTable(connectionSource, Menu.class);
-            TableUtils.createTable(connectionSource, Topics.class);
+            TableUtils.createTable(connectionSource, DbContent.class);
         } catch (SQLException e) {
             Log.e(DbHelper.class.getName(), "Can't create database", e);
             throw new RuntimeException(e);
@@ -57,7 +57,7 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.clearTable(connectionSource, Region.class);
             TableUtils.clearTable(connectionSource, TimeTable.class);
             TableUtils.clearTable(connectionSource, Menu.class);
-            TableUtils.clearTable(connectionSource, Topics.class);
+            TableUtils.clearTable(connectionSource, DbContent.class);
             CSVToDbHelper.readCSVAndInserIntoDb(context, R.raw.region, DbTableName.Region);
             CSVToDbHelper.readCSVAndInserIntoDb(context, R.raw.timetable, DbTableName.TimeTable);
             for (String sql : allSql) {
@@ -102,10 +102,10 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
         return menuDao;
     }
 
-    public Dao<Topics, String> getTopicsDao() {
+    public Dao<DbContent, String> getTopicsDao() {
         if (null == topicsDao) {
             try {
-                topicsDao = getDao(Topics.class);
+                topicsDao = getDao(DbContent.class);
             } catch (java.sql.SQLException e) {
                 e.printStackTrace();
             }

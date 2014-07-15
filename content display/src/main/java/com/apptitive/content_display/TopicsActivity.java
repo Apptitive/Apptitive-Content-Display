@@ -11,8 +11,8 @@ import com.apptitive.content_display.utilities.Utilities;
 
 public class TopicsActivity extends BaseActionBar {
 
-    private int iconDrawableId, topicResId;
-    private String topicTitle;
+    private int iconDrawableId;
+    private String menuTitle;
     private ActionBar actionBar;
 
     @Override
@@ -22,22 +22,17 @@ public class TopicsActivity extends BaseActionBar {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            topicTitle = extras.getString(Constants.topic.EXTRA_TITLE);
-            iconDrawableId = extras.getInt(Constants.topic.EXTRA_ICON_ID);
-            topicResId = extras.getInt(Constants.topic.EXTRA_DATA_FILE);
+            menuTitle = extras.getString(Constants.content.EXTRA_MENU_TITLE);
+            iconDrawableId = extras.getInt(Constants.content.EXTRA_ICON_ID);
         }
 
         actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.ActionBarHomeBg)));
-        actionBar.setTitle(Utilities.getBanglaSpannableString(topicTitle, this));
+        actionBar.setTitle(Utilities.getBanglaSpannableString(menuTitle, this));
         actionBar.setIcon(getResources().getDrawable(iconDrawableId));
         actionBar.setDisplayShowHomeEnabled(true);
 
         setContentView(R.layout.activity_topics);
-    }
-
-    public int getTopicResId() {
-        return topicResId;
     }
 
     public int getIconDrawableId() {
