@@ -25,7 +25,8 @@ public final class Constants {
 
 
     public final class content {
-        public static final String EXTRA_MENU_TITLE = "_title";
+        public static final String EXTRA_MENU_ID = "_menuId";
+        public static final String EXTRA_MENU_TITLE = "_menuTitle";
         public static final String EXTRA_PARCELABLE_LIST = "_parcelable";
         public static final String EXTRA_VIEWING_NOW = "_viewingNow";
         public static final String EXTRA_ICON_ID = "_iconId";

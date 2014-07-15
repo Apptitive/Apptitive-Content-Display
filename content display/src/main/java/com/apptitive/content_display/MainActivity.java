@@ -142,6 +142,7 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
         switch (view.getId()) {
             case R.id.tab_saom:
                 i = new Intent(this, TopicsActivity.class);
+                i.putExtra(Constants.content.EXTRA_MENU_ID, "1");
                 i.putExtra(Constants.content.EXTRA_MENU_TITLE, getString(R.string.saom));
                 i.putExtra(Constants.content.EXTRA_ICON_ID, R.drawable.ic_saom);
                 startActivity(i);
