@@ -27,6 +27,6 @@ dependencies {
     compile project(':paralloid')
     compile files('libs/ormlite-android-4.48.jar')
     compile files('libs/ormlite-core-4.48.jar')
-    compile 'com.android.support:appcompat-v7:19.+'
     compile files('libs/volley.jar')
+    compile 'com.android.support:appcompat-v7:19.+'
 }

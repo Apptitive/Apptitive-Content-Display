@@ -158,6 +158,16 @@ public class DbManager {
         }
     }
 
+    public void addTopics(List<Topics> topics){
+        try {
+            for (Topics t: topics){
+                getHelper().getTopicsDao().create(t);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void deleteTopics(Topics topics){
         try {
             getHelper().getTopicsDao().delete(topics);
@@ -188,6 +198,16 @@ public class DbManager {
     public void addMenu(Menu menu) {
         try {
             getHelper().getMenuDao().create(menu);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addMenu(List<Menu> menus) {
+        try {
+            for(Menu m: menus){
+                getHelper().getMenuDao().create(m);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }

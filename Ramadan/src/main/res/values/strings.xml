@@ -40,17 +40,21 @@
     <string name="before_iftar">ইফতারের পূর্বে</string>
     <string name="widget_label">Ramjan - রমজান</string>
     <string name="widget_left_label">সময়সূচী</string>
+
     <string-array name="sehri_time">
         <item>০ ঘন্টা ৩০ মিনিট</item>
         <item>১ ঘন্টা ০ মিনিট </item>
         <item>১ ঘন্টা ৩০ মিনিট </item>
         <item>২ ঘন্টা ০ মিনিট</item>
     </string-array>
-
     <string-array name="iftar_time">
         <item>০ মিনিট</item>
         <item>৫ মিনিট</item>
         <item>১০ মিনিট</item>
         <item>৩০ মিনিট</item>
     </string-array>
+
+    <string name="title_activity_start">StartActivity</string>
+    <string name="hello_world">Hello world!</string>
+
 </resources>
