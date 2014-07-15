@@ -57,7 +57,7 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
         DbManager.getInstance().addMenu(m);
         DbManager.getInstance().addTopics(t);
 
-        List<Topics> tList = DbManager.getInstance().getAllTopics();
+        List<Topics> tList = DbManager.getInstance().getTopicsForMenu("1");
         for (Topics topics : tList) {
             android.util.Log.e("Topics Log", topics.getHeader());
         }

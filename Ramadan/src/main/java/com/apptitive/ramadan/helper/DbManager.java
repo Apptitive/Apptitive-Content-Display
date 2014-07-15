@@ -6,6 +6,7 @@ import com.apptitive.ramadan.model.Menu;
 import com.apptitive.ramadan.model.Region;
 import com.apptitive.ramadan.model.TimeTable;
 import com.apptitive.ramadan.model.Topics;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +63,7 @@ public class DbManager {
             if (region.getName().equals(name))
                 return region;
         }
-        return new Region("1", "Dhaka", "", true,0, 0);
+        return new Region("1", "Dhaka", "", true, 0, 0);
     }
 
     public Region getDonorWithId(String regionId) {
@@ -158,9 +159,9 @@ public class DbManager {
         }
     }
 
-    public void addTopics(List<Topics> topics){
+    public void addTopics(List<Topics> topics) {
         try {
-            for (Topics t: topics){
+            for (Topics t : topics) {
                 getHelper().getTopicsDao().create(t);
             }
         } catch (SQLException e) {
@@ -168,7 +169,7 @@ public class DbManager {
         }
     }
 
-    public void deleteTopics(Topics topics){
+    public void deleteTopics(Topics topics) {
         try {
             getHelper().getTopicsDao().delete(topics);
         } catch (SQLException e) {
@@ -176,7 +177,17 @@ public class DbManager {
         }
     }
 
-    public void updateTopics(Topics topics){
+    public List<Topics> getTopicsForMenu(String menuId) {
+        List<Topics> tList = new ArrayList<Topics>();
+        try {
+            tList = getHelper().getTopicsDao().queryForEq("menuId", menuId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return tList;
+    }
+
+    public void updateTopics(Topics topics) {
         try {
             getHelper().getTopicsDao().update(topics);
         } catch (SQLException e) {
@@ -205,7 +216,7 @@ public class DbManager {
 
     public void addMenu(List<Menu> menus) {
         try {
-            for(Menu m: menus){
+            for (Menu m : menus) {
                 getHelper().getMenuDao().create(m);
             }
         } catch (SQLException e) {
@@ -213,7 +224,7 @@ public class DbManager {
         }
     }
 
-    public void deleteMenu(Menu menu){
+    public void deleteMenu(Menu menu) {
         try {
             getHelper().getMenuDao().delete(menu);
         } catch (SQLException e) {
@@ -221,7 +232,7 @@ public class DbManager {
         }
     }
 
-    public void updateMenu(Menu menu){
+    public void updateMenu(Menu menu) {
         try {
             getHelper().getMenuDao().update(menu);
         } catch (SQLException e) {
