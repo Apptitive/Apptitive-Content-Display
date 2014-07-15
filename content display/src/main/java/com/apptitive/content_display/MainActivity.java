@@ -51,7 +51,7 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
         supportRequestWindowFeature(WindowCompat.FEATURE_ACTION_BAR_OVERLAY);
         setContentView(R.layout.activity_main);
 
-        Topics t = new Topics(1, "1", "Topic Title Edited", "short topics", "details", "webview", "edit","1");
+        DbContent t = new DbContent(1, "1", "Topic Title Edited", "short topics", "details", "webview", "edit","1");
 
         DbManager.getInstance().addTopics(t);
 
