@@ -9,22 +9,32 @@ import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
 import com.apptitive.ramadan.helper.CSVToDbHelper;
 import com.apptitive.ramadan.helper.DbManager;
 import com.apptitive.ramadan.helper.DbTableName;
+import com.apptitive.ramadan.interfaces.JsonArrayCompleteListener;
 import com.apptitive.ramadan.model.Region;
 import com.apptitive.ramadan.model.TimeTable;
 import com.apptitive.ramadan.model.Topics;
 import com.apptitive.ramadan.receiver.TimeTableWidgetProvider;
+import com.apptitive.ramadan.utilities.Config;
 import com.apptitive.ramadan.utilities.Constants;
+import com.apptitive.ramadan.utilities.HttpHelper;
+import com.apptitive.ramadan.utilities.LogUtil;
 import com.apptitive.ramadan.utilities.PreferenceHelper;
 import com.apptitive.ramadan.utilities.UIUtils;
 import com.apptitive.ramadan.views.BanglaTextView;
+import com.google.gson.Gson;
+
+import org.json.JSONArray;
+
 import java.text.ParseException;
+import java.util.Arrays;
 import java.util.List;
 
 
-public class MainActivity extends BaseActionBar implements View.OnClickListener {
+public class MainActivity extends BaseActionBar implements View.OnClickListener, JsonArrayCompleteListener<JSONArray> {
     private int mAppWidgetId;
     private ActionBar actionBar;
     private PreferenceHelper preferenceHelper;
@@ -44,8 +54,8 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener 
         com.apptitive.ramadan.model.Menu m = new com.apptitive.ramadan.model.Menu(1, "1", "Menu Title Edited", "Add", 1, 1);
         Topics t = new Topics(1, "1", "Topic Title Edited", "short topics", "details", "webview", "edit");
 
-        DbManager.getInstance().updateMenu(m);
-        DbManager.getInstance().updateTopics(t);
+        DbManager.getInstance().addMenu(m);
+        DbManager.getInstance().addTopics(t);
 
         List<Topics> tList = DbManager.getInstance().getAllTopics();
         for (Topics topics : tList) {
@@ -85,6 +95,9 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener 
 
         timeTables = DbManager.getInstance().getAllTimeTables();
         regions = DbManager.getInstance().getAllRegions();
+
+        HttpHelper httpHelper = HttpHelper.getInstance(this, this);
+        httpHelper.getJsonArray(Config.getBaseUrl());
     }
 
     @Override
@@ -184,5 +197,12 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener 
             default:
                 break;
         }
+    }
+
+    @Override
+    public void onJsonArray(JSONArray result) {
+        LogUtil.LOGE(result.toString());
+        Gson gson = new Gson();
+        List<com.apptitive.ramadan.model.Menu> menus = Arrays.asList(gson.fromJson(result.toString(), com.apptitive.ramadan.model.Menu[].class));
     }
 }
