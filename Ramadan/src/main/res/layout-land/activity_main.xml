@@ -62,7 +62,7 @@
         android:layout_marginRight="@dimen/dp_4"
         android:layout_marginTop="@dimen/dp_8"
         android:layout_weight=".30"
-        android:background="@drawable/tab_selector"
+        android:background="@drawable/menu_selector"
         android:orientation="vertical">
 
         <LinearLayout
@@ -83,7 +83,7 @@
                     android:id="@+id/tv_time_seheri"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/white"
+                    android:textColor="@color/MenuText"
                     android:textSize="@dimen/text_size_12"
                     app:banglaText="@string/sehri_time"
                     app:fontName="@string/font_solaimanlipi" />
@@ -94,7 +94,7 @@
                     android:layout_marginTop="@dimen/dp_ng_10"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/white"
+                    android:textColor="@color/MenuText"
                     android:textSize="@dimen/text_size_35"
                     android:textStyle="bold"
                     app:banglaText="0:00"

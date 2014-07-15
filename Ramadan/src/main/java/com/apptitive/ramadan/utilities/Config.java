@@ -6,9 +6,9 @@ import android.content.Context;
  * Created by Sharif on 7/14/2014.
  */
 public class Config {
-    private static final String BASE_URL = "http:\\sharif.com";
+    private static final String BASE_URL = "http://www.json-generator.com/api/json/get/bVydYHpRki?indent=2";
 
-    public static String getBaseUrl(){
+    public static String getBaseUrl() {
         return BASE_URL;
     }
 

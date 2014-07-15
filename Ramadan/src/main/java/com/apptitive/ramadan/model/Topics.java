@@ -15,7 +15,7 @@ public class Topics {
     private String topicId;
 
     @DatabaseField
-    private String title;
+    private String header;
 
     @DatabaseField
     private String shortDescription;
@@ -32,10 +32,10 @@ public class Topics {
     public Topics() {
     }
 
-    public Topics(int actionId, String topicId, String title, String shortDescription, String details, String viewType, String actionType) {
+    public Topics(int actionId, String topicId, String header, String shortDescription, String details, String viewType, String actionType) {
         this.actionId = actionId;
         this.topicId = topicId;
-        this.title = title;
+        this.header = header;
         this.shortDescription = shortDescription;
         this.details = details;
         this.viewType = viewType;
@@ -50,8 +50,8 @@ public class Topics {
         return topicId;
     }
 
-    public String getTitle() {
-        return title;
+    public String getHeader() {
+        return header;
     }
 
     public String getShortDescription() {

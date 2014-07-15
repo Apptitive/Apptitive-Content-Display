@@ -5,14 +5,14 @@ package com.apptitive.ramadan.model;
  */
 public class Detail {
     private String text;
-    private int viewType;
+    private int tag;
 
     public Detail() {
     }
 
     public Detail(String text, int detailViewType) {
         this.text = text;
-        viewType = detailViewType;
+        tag = detailViewType;
     }
 
     public String getText() {
@@ -23,11 +23,11 @@ public class Detail {
         this.text = text;
     }
 
-    public int getViewType() {
-        return viewType;
+    public int getTag() {
+        return tag;
     }
 
-    public void setViewType(int viewType) {
-        this.viewType = viewType;
+    public void setTag(int tag) {
+        this.tag = tag;
     }
 }

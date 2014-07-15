@@ -23,7 +23,7 @@
         android:layout_toRightOf="@id/iv_icon"
         app:banglaText="সেহরি\nও ইফতারের\nসময়সূচী"
         android:textSize="@dimen/text_size_15"
-        android:textColor="@color/white"
+        android:textColor="@color/MenuText"
         android:textStyle="bold" />
 
 </RelativeLayout>
