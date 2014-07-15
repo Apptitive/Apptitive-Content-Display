@@ -2,10 +2,12 @@ package com.apptitive.content_display.helper;
 
 import android.content.Context;
 
+import com.apptitive.content_display.model.DbContent;
 import com.apptitive.content_display.model.Menu;
 import com.apptitive.content_display.model.Region;
 import com.apptitive.content_display.model.TimeTable;
 import com.apptitive.content_display.model.DbContent;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +64,7 @@ public class DbManager {
             if (region.getName().equals(name))
                 return region;
         }
-        return new Region("1", "Dhaka", "", true,0, 0);
+        return new Region("1", "Dhaka", "", true, 0, 0);
     }
 
     public Region getDonorWithId(String regionId) {
@@ -140,27 +142,27 @@ public class DbManager {
 
 
     public List<DbContent> getAllTopics() {
-        List<DbContent> dbContentList = null;
+        List<DbContent> topicsList = null;
         try {
-            dbContentList = getHelper().getTopicsDao().queryForAll();
+            topicsList = getHelper().getTopicsDao().queryForAll();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return dbContentList;
+        return topicsList;
     }
 
 
-    public void addTopics(DbContent dbContent) {
+    public void addTopics(DbContent topics) {
         try {
-            getHelper().getTopicsDao().create(dbContent);
+            getHelper().getTopicsDao().create(topics);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public void addTopics(List<DbContent> topics){
+    public void addTopics(List<DbContent> topics) {
         try {
-            for (DbContent t: topics){
+            for (DbContent t : topics) {
                 getHelper().getTopicsDao().create(t);
             }
         } catch (SQLException e) {
@@ -168,17 +170,27 @@ public class DbManager {
         }
     }
 
-    public void deleteTopics(DbContent dbContent){
+    public void deleteTopics(DbContent topics) {
         try {
-            getHelper().getTopicsDao().delete(dbContent);
+            getHelper().getTopicsDao().delete(topics);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public void updateTopics(DbContent dbContent){
+    public List<DbContent> getTopicsForMenu(String menuId) {
+        List<DbContent> tList = new ArrayList<DbContent>();
         try {
-            getHelper().getTopicsDao().update(dbContent);
+            tList = getHelper().getTopicsDao().queryForEq("menuId", menuId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return tList;
+    }
+
+    public void updateTopics(DbContent topics) {
+        try {
+            getHelper().getTopicsDao().update(topics);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -205,7 +217,7 @@ public class DbManager {
 
     public void addMenu(List<Menu> menus) {
         try {
-            for(Menu m: menus){
+            for (Menu m : menus) {
                 getHelper().getMenuDao().create(m);
             }
         } catch (SQLException e) {
@@ -213,7 +225,7 @@ public class DbManager {
         }
     }
 
-    public void deleteMenu(Menu menu){
+    public void deleteMenu(Menu menu) {
         try {
             getHelper().getMenuDao().delete(menu);
         } catch (SQLException e) {
@@ -221,7 +233,7 @@ public class DbManager {
         }
     }
 
-    public void updateMenu(Menu menu){
+    public void updateMenu(Menu menu) {
         try {
             getHelper().getMenuDao().update(menu);
         } catch (SQLException e) {

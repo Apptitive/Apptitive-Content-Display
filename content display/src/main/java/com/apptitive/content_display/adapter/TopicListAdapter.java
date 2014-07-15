@@ -65,13 +65,13 @@ public class TopicListAdapter extends ArrayAdapter<Content> {
         }
         holder.btvHeader.setBanglaText(content.getHeader());
         holder.btvShortDesc.setBanglaText(content.getShortDescription());
-        if (content.hasFullText()) {
+        /*if (content.hasFullText()) {
             holder.divider.setVisibility(View.GONE);
             holder.imageViewDetails.setVisibility(View.GONE);
         } else {
             holder.divider.setVisibility(View.VISIBLE);
             holder.imageViewDetails.setVisibility(View.VISIBLE);
-        }
+        }*/
 
         final ViewHolder finalViewHolder = holder;
         finalViewHolder.selectableView.setOnClickListener(new View.OnClickListener() {
