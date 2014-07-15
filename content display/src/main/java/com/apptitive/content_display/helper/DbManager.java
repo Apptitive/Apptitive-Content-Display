@@ -141,7 +141,7 @@ public class DbManager {
     }
 
 
-    public List<DbContent> getAllTopics() {
+    public List<DbContent> getAllDbContent() {
         List<DbContent> topicsList = null;
         try {
             topicsList = getHelper().getTopicsDao().queryForAll();
@@ -152,7 +152,7 @@ public class DbManager {
     }
 
 
-    public void addTopics(DbContent topics) {
+    public void addDbContent(DbContent topics) {
         try {
             getHelper().getTopicsDao().create(topics);
         } catch (SQLException e) {
@@ -160,7 +160,7 @@ public class DbManager {
         }
     }
 
-    public void addTopics(List<DbContent> topics) {
+    public void addDbContent(List<DbContent> topics) {
         try {
             for (DbContent t : topics) {
                 getHelper().getTopicsDao().create(t);
@@ -170,7 +170,7 @@ public class DbManager {
         }
     }
 
-    public void deleteTopics(DbContent topics) {
+    public void deleteDbContent(DbContent topics) {
         try {
             getHelper().getTopicsDao().delete(topics);
         } catch (SQLException e) {
@@ -178,7 +178,7 @@ public class DbManager {
         }
     }
 
-    public List<DbContent> getTopicsForMenu(String menuId) {
+    public List<DbContent> getDbContentForMenu(String menuId) {
         List<DbContent> tList = new ArrayList<DbContent>();
         try {
             tList = getHelper().getTopicsDao().queryForEq("menuId", menuId);
@@ -188,7 +188,7 @@ public class DbManager {
         return tList;
     }
 
-    public void updateTopics(DbContent topics) {
+    public void updateDbContent(DbContent topics) {
         try {
             getHelper().getTopicsDao().update(topics);
         } catch (SQLException e) {

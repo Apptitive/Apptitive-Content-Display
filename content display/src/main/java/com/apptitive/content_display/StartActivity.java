@@ -17,7 +17,6 @@ public class StartActivity extends ActionBarActivity {
 
         LayoutInflater inflater = (LayoutInflater)getBaseContext().getSystemService
                 (Context.LAYOUT_INFLATER_SERVICE);
-        LinearLayout llItem=(LinearLayout)LayoutInflater.createFromSource(test_inner, null);
     }
 
 }
