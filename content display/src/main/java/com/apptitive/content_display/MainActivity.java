@@ -9,13 +9,15 @@ import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+import com.apptitive.content_display.BaseActionBar;
 import com.apptitive.content_display.helper.CSVToDbHelper;
 import com.apptitive.content_display.helper.DbManager;
 import com.apptitive.content_display.helper.DbTableName;
 import com.apptitive.content_display.interfaces.JsonArrayCompleteListener;
 import com.apptitive.content_display.model.Region;
 import com.apptitive.content_display.model.TimeTable;
-import com.apptitive.content_display.model.Topics;
+import com.apptitive.content_display.model.DbContent;
 import com.apptitive.content_display.receiver.TimeTableWidgetProvider;
 import com.apptitive.content_display.utilities.Config;
 import com.apptitive.content_display.utilities.Constants;
@@ -23,6 +25,9 @@ import com.apptitive.content_display.utilities.HttpHelper;
 import com.apptitive.content_display.utilities.PreferenceHelper;
 import com.apptitive.content_display.utilities.UIUtils;
 import com.apptitive.content_display.views.BanglaTextView;
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
+import com.google.gson.Gson;
 import org.json.JSONArray;
 import java.text.ParseException;
 import java.util.List;
@@ -45,12 +50,12 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
         supportRequestWindowFeature(WindowCompat.FEATURE_ACTION_BAR_OVERLAY);
         setContentView(R.layout.activity_main);
 
-        Topics t = new Topics(1, "1", "Topic Title Edited", "short topics", "details", "webview", "edit","1");
+        DbContent t = new DbContent(1, "1", "Topic Title Edited", "short topics", "details", "webview", "edit","1");
 
         DbManager.getInstance().addTopics(t);
 
-        List<Topics> tList = DbManager.getInstance().getAllTopics();
-        for (Topics topics : tList) {
+        List<DbContent> tList = DbManager.getInstance().getTopicsForMenu("1");
+        for (DbContent topics : tList) {
             android.util.Log.e("Topics Log", topics.getMenuId());
         }
 
@@ -84,8 +89,9 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
         regions = DbManager.getInstance().getAllRegions();
 
         HttpHelper httpHelper = HttpHelper.getInstance(this, this);
-        httpHelper.getJsonArray(Config.getMenuUrl());
-/*        ImageLoader imageLoader = HttpHelper.getInstance(this).getImageLoader();
+        httpHelper.getJsonArray(Config.getMenuUrl(),Constants.MENU_REQUEST_CODE);
+        httpHelper.getJsonArray(Config.getTopicUrl(),Constants.TOPIC_REQUEST_CODE);
+/*      ImageLoader imageLoader = HttpHelper.getInstance(this).getImageLoader();
         NetworkImageView imgNetWorkView=(NetworkImageView)findViewById(R.id.imgDemo);
         imgNetWorkView.setImageUrl(Config.getImageUrl(this)+"1.9.png", imageLoader);*/
     }
@@ -148,9 +154,8 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
         switch (view.getId()) {
             case R.id.tab_saom:
                 i = new Intent(this, TopicsActivity.class);
-                i.putExtra(Constants.topic.EXTRA_TITLE, getString(R.string.saom));
-                i.putExtra(Constants.topic.EXTRA_ICON_ID, R.drawable.ic_saom);
-                i.putExtra(Constants.topic.EXTRA_DATA_FILE, R.raw.data_topic_saom);
+                i.putExtra(Constants.content.EXTRA_MENU_TITLE, getString(R.string.saom));
+                i.putExtra(Constants.content.EXTRA_ICON_ID, R.drawable.ic_saom);
                 startActivity(i);
                 break;
             case R.id.tab_iftar_time:
@@ -158,30 +163,26 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
                 break;
             case R.id.tab_nioat:
                 i = new Intent(this, TopicsActivity.class);
-                i.putExtra(Constants.topic.EXTRA_TITLE, getString(R.string.niyat_o_doa));
-                i.putExtra(Constants.topic.EXTRA_ICON_ID, R.drawable.ic_niyat);
-                i.putExtra(Constants.topic.EXTRA_DATA_FILE, R.raw.data_topic_niyat_o_doa);
+                i.putExtra(Constants.content.EXTRA_MENU_TITLE, getString(R.string.niyat_o_doa));
+                i.putExtra(Constants.content.EXTRA_ICON_ID, R.drawable.ic_niyat);
                 startActivity(i);
                 break;
             case R.id.tab_ramadan:
                 i = new Intent(this, TopicsActivity.class);
-                i.putExtra(Constants.topic.EXTRA_TITLE, getString(R.string.ramadan));
-                i.putExtra(Constants.topic.EXTRA_ICON_ID, R.drawable.ic_romzan);
-                i.putExtra(Constants.topic.EXTRA_DATA_FILE, R.raw.data_topic_ramadan);
+                i.putExtra(Constants.content.EXTRA_MENU_TITLE, getString(R.string.ramadan));
+                i.putExtra(Constants.content.EXTRA_ICON_ID, R.drawable.ic_romzan);
                 startActivity(i);
                 break;
             case R.id.tab_saom_vonger_karon:
                 i = new Intent(this, SaomVongerKaronActivity.class);
-                i.putExtra(Constants.topic.EXTRA_TITLE, getString(R.string.saom_vongo));
-                i.putExtra(Constants.topic.EXTRA_ICON_ID, R.drawable.ic_saom_vongo);
-                i.putExtra(Constants.topic.EXTRA_DATA_FILE, R.raw.data_topic_saom_vongo);
+                i.putExtra(Constants.content.EXTRA_MENU_TITLE, getString(R.string.saom_vongo));
+                i.putExtra(Constants.content.EXTRA_ICON_ID, R.drawable.ic_saom_vongo);
                 startActivity(i);
                 break;
             case R.id.tab_tarabih:
                 i = new Intent(this, TopicsActivity.class);
-                i.putExtra(Constants.topic.EXTRA_TITLE, getString(R.string.tarabih));
-                i.putExtra(Constants.topic.EXTRA_ICON_ID, R.drawable.ic_tarabih);
-                i.putExtra(Constants.topic.EXTRA_DATA_FILE, R.raw.data_topic_tarabih);
+                i.putExtra(Constants.content.EXTRA_MENU_TITLE, getString(R.string.tarabih));
+                i.putExtra(Constants.content.EXTRA_ICON_ID, R.drawable.ic_tarabih);
                 startActivity(i);
                 break;
             default:
@@ -190,10 +191,13 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
     }
 
     @Override
-    public void onJsonArray(JSONArray result) {
-      /*  LogUtil.LOGE(result.toString());
+    public void onJsonArray(JSONArray result,int requestCode) {
         Gson gson = new Gson();
-        List<com.apptitive.ramadan.model.Menu> menus = Arrays.asList(gson.fromJson(result.toString(), com.apptitive.ramadan.model.Menu[].class));
-        DbManager.getInstance().addMenu(menus);*/
+        if (requestCode==Constants.MENU_REQUEST_CODE){
+            List<com.apptitive.content_display.model.Menu> menus = Arrays.asList(gson.fromJson(result.toString(), com.apptitive.content_display.model.Menu[].class));
+            DbManager.getInstance().addMenu(menus);
+        }else if(requestCode==Constants.TOPIC_REQUEST_CODE){
+            List<DbContent> dbContents = Arrays.asList(gson.fromJson(result.toString(), DbContent[].class));
+        }
     }
 }

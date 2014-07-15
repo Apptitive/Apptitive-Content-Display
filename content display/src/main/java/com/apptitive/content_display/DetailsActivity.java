@@ -15,7 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.apptitive.content_display.model.Topic;
+import com.apptitive.content_display.model.Content;
 import com.apptitive.content_display.utilities.Constants;
 import com.apptitive.content_display.utilities.Utilities;
 import com.apptitive.content_display.views.BanglaTextView;
@@ -26,12 +26,12 @@ import java.util.ArrayList;
 
 public class DetailsActivity extends BaseActionBar implements DetailsFragment.DetailProvider {
 
-    private int fileResId, iconDrawableId, topicPosition;
-    private Topic topicInView;
+    private int iconDrawableId, topicPosition;
+    private Content contentInView;
     private ActionBar actionBar;
     private DrawerLayout drawerLayout;
-    private ArrayList<Topic> topics;
-    private ArrayAdapter<Topic> drawerListAdapter;
+    private ArrayList<Content> contents;
+    private ArrayAdapter<Content> drawerListAdapter;
     private ListView listViewDrawer;
 
     @Override
@@ -39,18 +39,17 @@ public class DetailsActivity extends BaseActionBar implements DetailsFragment.De
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(WindowCompat.FEATURE_ACTION_BAR_OVERLAY);
 
-        topics = getIntent().getParcelableArrayListExtra(Constants.topic.EXTRA_PARCELABLE_LIST);
+        contents = getIntent().getParcelableArrayListExtra(Constants.content.EXTRA_PARCELABLE_LIST);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            topicPosition = extras.getInt(Constants.topic.EXTRA_VIEWING_NOW);
-            iconDrawableId = extras.getInt(Constants.topic.EXTRA_ICON_ID);
-            fileResId = extras.getInt(Constants.topic.EXTRA_DATA_FILE);
+            topicPosition = extras.getInt(Constants.content.EXTRA_VIEWING_NOW);
+            iconDrawableId = extras.getInt(Constants.content.EXTRA_ICON_ID);
         }
-        topicInView = topics.get(topicPosition);
+        contentInView = contents.get(topicPosition);
 
         actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.ActionBarInnerBg)));
-        actionBar.setTitle(Utilities.getBanglaSpannableString(topicInView.getHeader(), this));
+        actionBar.setTitle(Utilities.getBanglaSpannableString(contentInView.getHeader(), this));
         actionBar.setIcon(getResources().getDrawable(iconDrawableId));
         actionBar.setDisplayShowHomeEnabled(true);
 
@@ -59,8 +58,8 @@ public class DetailsActivity extends BaseActionBar implements DetailsFragment.De
         drawerLayout = (DrawerLayout) findViewById(R.id.layout_drawer);
         listViewDrawer = (ListView) findViewById(R.id.listView_drawer);
 
-        drawerListAdapter = new ArrayAdapter<Topic>(this, R.layout.list_item_nav_drawer,
-                topics) {
+        drawerListAdapter = new ArrayAdapter<Content>(this, R.layout.list_item_nav_drawer,
+                contents) {
             @Override
             public int getViewTypeCount() {
                 if (getCount() != 0)
@@ -81,7 +80,7 @@ public class DetailsActivity extends BaseActionBar implements DetailsFragment.De
                 }
                 btv = (BanglaTextView) convertView.findViewById(R.id.btv_nav);
                 btv.setBanglaText(getItem(position).getHeader());
-                if (position == topics.indexOf(topicInView))
+                if (position == contents.indexOf(contentInView))
                     convertView.setBackgroundColor(getResources().getColor(R.color.NavDrawerListItemSelected));
                 return convertView;
             }
@@ -91,18 +90,18 @@ public class DetailsActivity extends BaseActionBar implements DetailsFragment.De
         listViewDrawer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View item, int position, long id) {
-                topicInView = topics.get(position);
-                if (TextUtils.isEmpty(topicInView.getDetailUri().toString())) {
-                    actionBar.setTitle(Utilities.getBanglaSpannableString(topicInView.getHeader(), DetailsActivity.this));
+                contentInView = contents.get(position);
+                /*if (TextUtils.isEmpty(contentInView.getDetailUri().toString())) {
+                    actionBar.setTitle(Utilities.getBanglaSpannableString(contentInView.getHeader(), DetailsActivity.this));
                     DetailsFragment detailsFragment = (DetailsFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_details);
-                    detailsFragment.changeTopic(topicInView);
+                    detailsFragment.changeTopic(contentInView);
                     listViewDrawer.setAdapter(drawerListAdapter);
                     drawerLayout.closeDrawer(listViewDrawer);
                 } else {
                     Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(topicInView.getDetailUri());
+                    intent.setData(contentInView.getDetailUri());
                     startActivity(intent);
-                }
+                }*/
             }
         });
     }
@@ -138,11 +137,7 @@ public class DetailsActivity extends BaseActionBar implements DetailsFragment.De
         actionBar.setTitle(AndroidCustomFontSupport.getCorrectedBengaliFormat(title.toString(), Utilities.getFont(this), -1));
     }
 
-    public Topic getTopic() {
-        return topicInView;
-    }
-
-    public int getFileResId() {
-        return fileResId;
+    public Content getContent() {
+        return contentInView;
     }
 }

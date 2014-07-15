@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
 import com.apptitive.content_display.R;
-import com.apptitive.content_display.model.Topic;
+import com.apptitive.content_display.model.Content;
 import com.apptitive.content_display.views.BanglaTextView;
 
 import java.util.List;
@@ -16,11 +16,11 @@ import java.util.List;
 /**
  * Created by Iftekhar on 6/4/2014.
  */
-public class TopicListAdapter extends ArrayAdapter<Topic> {
+public class TopicListAdapter extends ArrayAdapter<Content> {
     private int layoutResId;
     private TopicClickListener topicClickListener;
 
-    public TopicListAdapter(Context context, int resource, List<Topic> objects, TopicClickListener topicClickListener) {
+    public TopicListAdapter(Context context, int resource, List<Content> objects, TopicClickListener topicClickListener) {
         super(context, resource, objects);
         layoutResId = resource;
         this.topicClickListener = topicClickListener;
@@ -48,7 +48,7 @@ public class TopicListAdapter extends ArrayAdapter<Topic> {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        final Topic topic = getItem(position);
+        final Content content = getItem(position);
         ViewHolder holder;
 
         if (convertView == null) {
@@ -63,21 +63,21 @@ public class TopicListAdapter extends ArrayAdapter<Topic> {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        holder.btvHeader.setBanglaText(topic.getHeader());
-        holder.btvShortDesc.setBanglaText(topic.getShortDescription());
-        if (topic.hasFullText()) {
+        holder.btvHeader.setBanglaText(content.getHeader());
+        holder.btvShortDesc.setBanglaText(content.getShortDescription());
+        /*if (content.hasFullText()) {
             holder.divider.setVisibility(View.GONE);
             holder.imageViewDetails.setVisibility(View.GONE);
         } else {
             holder.divider.setVisibility(View.VISIBLE);
             holder.imageViewDetails.setVisibility(View.VISIBLE);
-        }
+        }*/
 
         final ViewHolder finalViewHolder = holder;
         finalViewHolder.selectableView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                topicClickListener.onTopicClick(topic, position);
+                topicClickListener.onTopicClick(content, position);
             }
         });
 
@@ -85,6 +85,6 @@ public class TopicListAdapter extends ArrayAdapter<Topic> {
     }
 
     public interface TopicClickListener {
-        void onTopicClick(Topic topic, int position);
+        void onTopicClick(Content content, int position);
     }
 }

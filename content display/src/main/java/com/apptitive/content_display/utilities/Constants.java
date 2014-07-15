@@ -20,13 +20,15 @@ public final class Constants {
     public static final String IFTAR_ROW_POSITION="iftar_row_position";
     public static final String SEHRI_ROW_POSITION="sehri_row_position";
 
+    public static final int MENU_REQUEST_CODE=1;
+    public static final int TOPIC_REQUEST_CODE=2;
 
-    public final class topic {
-        public static final String EXTRA_TITLE = "_title";
+
+    public final class content {
+        public static final String EXTRA_MENU_TITLE = "_title";
         public static final String EXTRA_PARCELABLE_LIST = "_parcelable";
         public static final String EXTRA_VIEWING_NOW = "_viewingNow";
         public static final String EXTRA_ICON_ID = "_iconId";
-        public static final String EXTRA_DATA_FILE = "_dataFile";
     }
 
     public final class detail {
