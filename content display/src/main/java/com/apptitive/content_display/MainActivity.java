@@ -17,6 +17,7 @@ import com.apptitive.content_display.helper.DbTableName;
 import com.apptitive.content_display.interfaces.JsonArrayCompleteListener;
 import com.apptitive.content_display.model.Region;
 import com.apptitive.content_display.model.TimeTable;
+import com.apptitive.content_display.model.Topic;
 import com.apptitive.content_display.model.Topics;
 import com.apptitive.content_display.receiver.TimeTableWidgetProvider;
 import com.apptitive.content_display.utilities.Config;
@@ -90,7 +91,8 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
         regions = DbManager.getInstance().getAllRegions();
 
         HttpHelper httpHelper = HttpHelper.getInstance(this, this);
-        httpHelper.getJsonArray(Config.getMenuUrl());
+        httpHelper.getJsonArray(Config.getMenuUrl(),Constants.MENU_REQUEST_CODE);
+        httpHelper.getJsonArray(Config.getTopicUrl(),Constants.TOPIC_REQUEST_CODE);
 /*      ImageLoader imageLoader = HttpHelper.getInstance(this).getImageLoader();
         NetworkImageView imgNetWorkView=(NetworkImageView)findViewById(R.id.imgDemo);
         imgNetWorkView.setImageUrl(Config.getImageUrl(this)+"1.9.png", imageLoader);*/
@@ -196,10 +198,13 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
     }
 
     @Override
-    public void onJsonArray(JSONArray result) {
-      /*  LogUtil.LOGE(result.toString());
+    public void onJsonArray(JSONArray result,int requestCode) {
         Gson gson = new Gson();
-        List<com.apptitive.ramadan.model.Menu> menus = Arrays.asList(gson.fromJson(result.toString(), com.apptitive.ramadan.model.Menu[].class));
-        DbManager.getInstance().addMenu(menus);*/
+        if (requestCode==Constants.MENU_REQUEST_CODE){
+            List<com.apptitive.content_display.model.Menu> menus = Arrays.asList(gson.fromJson(result.toString(), com.apptitive.content_display.model.Menu[].class));
+            DbManager.getInstance().addMenu(menus);
+        }else if(requestCode==Constants.TOPIC_REQUEST_CODE){
+            List<Topic> topics = Arrays.asList(gson.fromJson(result.toString(), Topic[].class));
+        }
     }
 }

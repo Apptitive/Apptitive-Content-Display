@@ -20,6 +20,9 @@ public final class Constants {
     public static final String IFTAR_ROW_POSITION="iftar_row_position";
     public static final String SEHRI_ROW_POSITION="sehri_row_position";
 
+    public static final int MENU_REQUEST_CODE=1;
+    public static final int TOPIC_REQUEST_CODE=2;
+
 
     public final class topic {
         public static final String EXTRA_TITLE = "_title";

@@ -71,7 +71,7 @@ public class HttpHelper {
         }
     }
 
-    public void getJsonArray(String url) {
+    public void getJsonArray(String url, final int requestCode) {
 
         JsonArrayRequest req = new JsonArrayRequest(url,
                 new Response.Listener<JSONArray>() {
@@ -80,7 +80,7 @@ public class HttpHelper {
                     public void onResponse(JSONArray response) {
                         try {
                             VolleyLog.v("Response:%n %s", response.toString(4));
-                            jsonCallBack.onJsonArray(response);
+                            jsonCallBack.onJsonArray(response,requestCode);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
