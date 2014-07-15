@@ -21,7 +21,6 @@ import com.apptitive.ramadan.receiver.TimeTableWidgetProvider;
 import com.apptitive.ramadan.utilities.Config;
 import com.apptitive.ramadan.utilities.Constants;
 import com.apptitive.ramadan.utilities.HttpHelper;
-import com.apptitive.ramadan.utilities.LogUtil;
 import com.apptitive.ramadan.utilities.PreferenceHelper;
 import com.apptitive.ramadan.utilities.UIUtils;
 import com.apptitive.ramadan.views.BanglaTextView;
@@ -51,20 +50,13 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
         supportRequestWindowFeature(WindowCompat.FEATURE_ACTION_BAR_OVERLAY);
         setContentView(R.layout.activity_main);
 
-        com.apptitive.ramadan.model.Menu m = new com.apptitive.ramadan.model.Menu(1, "1", "Menu Title Edited", "Add", 1, 1);
         Topics t = new Topics(1, "1", "Topic Title Edited", "short topics", "details", "webview", "edit");
 
-        DbManager.getInstance().addMenu(m);
         DbManager.getInstance().addTopics(t);
 
         List<Topics> tList = DbManager.getInstance().getAllTopics();
         for (Topics topics : tList) {
             android.util.Log.e("Topics Log", topics.getHeader());
-        }
-
-        List<com.apptitive.ramadan.model.Menu> mList = DbManager.getInstance().getAllMenus();
-        for (com.apptitive.ramadan.model.Menu menu : mList) {
-            android.util.Log.e("Menu Log", menu.getTitle());
         }
 
         Bundle extras = getIntent().getExtras();
@@ -201,8 +193,8 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
 
     @Override
     public void onJsonArray(JSONArray result) {
-        LogUtil.LOGE(result.toString());
         Gson gson = new Gson();
         List<com.apptitive.ramadan.model.Menu> menus = Arrays.asList(gson.fromJson(result.toString(), com.apptitive.ramadan.model.Menu[].class));
+        DbManager.getInstance().addMenu(menus);
     }
 }
