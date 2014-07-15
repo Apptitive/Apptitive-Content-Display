@@ -1,4 +1,4 @@
-package com.apptitive.ramadan;
+package com.apptitive.content_display;
 
 import android.appwidget.AppWidgetManager;
 import android.content.Intent;
@@ -23,27 +23,8 @@ import com.apptitive.content_display.utilities.HttpHelper;
 import com.apptitive.content_display.utilities.PreferenceHelper;
 import com.apptitive.content_display.utilities.UIUtils;
 import com.apptitive.content_display.views.BanglaTextView;
-import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.NetworkImageView;
-import com.apptitive.ramadan.helper.CSVToDbHelper;
-import com.apptitive.ramadan.helper.DbManager;
-import com.apptitive.ramadan.helper.DbTableName;
-import com.apptitive.ramadan.interfaces.JsonArrayCompleteListener;
-import com.apptitive.ramadan.model.Region;
-import com.apptitive.ramadan.model.TimeTable;
-import com.apptitive.ramadan.model.Topics;
-import com.apptitive.ramadan.receiver.TimeTableWidgetProvider;
-import com.apptitive.ramadan.utilities.Config;
-import com.apptitive.ramadan.utilities.Constants;
-import com.apptitive.ramadan.utilities.HttpHelper;
-import com.apptitive.ramadan.utilities.LogUtil;
-import com.apptitive.ramadan.utilities.PreferenceHelper;
-import com.apptitive.ramadan.utilities.UIUtils;
-import com.apptitive.ramadan.views.BanglaTextView;
-import com.google.gson.Gson;
 import org.json.JSONArray;
 import java.text.ParseException;
-import java.util.Arrays;
 import java.util.List;
 
 
