@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.apptitive.content_display.adapter.TopicListAdapter;
-import com.apptitive.content_display.model.Topic;
+import com.apptitive.content_display.model.Content;
 import com.apptitive.content_display.utilities.Constants;
 import com.apptitive.content_display.views.ParallaxListView;
 import com.google.analytics.tracking.android.EasyTracker;
@@ -28,11 +28,10 @@ import uk.co.chrisjenx.paralloid.Parallaxor;
 
 public class TopicsFragment extends ListFragment implements TopicListAdapter.TopicClickListener {
 
-    private int topicFileResId;
     private XmlPullParserFactory parserFactory;
     private TopicsActivity parentActivity;
     private TopicListAdapter topicListAdapter;
-    private ArrayList<Topic> topics;
+    private ArrayList<Content> contents;
 
     public TopicsFragment() {
 
@@ -59,52 +58,51 @@ public class TopicsFragment extends ListFragment implements TopicListAdapter.Top
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        topics = new ArrayList<Topic>();
-        topicListAdapter = new TopicListAdapter(parentActivity, R.layout.list_item_topics, topics, this);
-        topicFileResId = parentActivity.getTopicResId();
-        try {
+        contents = new ArrayList<Content>();
+        topicListAdapter = new TopicListAdapter(parentActivity, R.layout.list_item_topics, contents, this);
+        /*try {
             populateList(topicFileResId);
         } catch (XmlPullParserException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
-    private void populateList(int topicResId) throws XmlPullParserException, IOException {
+    /*private void populateList(int topicResId) throws XmlPullParserException, IOException {
         parserFactory = XmlPullParserFactory.newInstance();
         parserFactory.setNamespaceAware(false);
         XmlPullParser xpp = parserFactory.newPullParser();
         xpp.setInput(getResources().openRawResource(topicResId), "utf-8");
 
-        Topic topic = null;
+        Content content = null;
 
         for (int eventType = xpp.getEventType(); eventType != XmlPullParser.END_DOCUMENT; eventType = xpp.nextToken()) {
             String name = xpp.getName();
             if (eventType == XmlPullParser.START_TAG) {
                 if (name.equalsIgnoreCase("subtopic")) {
-                    topic = new Topic();
-                    topic.setHeader(xpp.getAttributeValue(null, "name"));
-                    topic.setHasFullText(Boolean.parseBoolean(xpp.getAttributeValue(null, "show_all")));
+                    content = new Content();
+                    content.setHeader(xpp.getAttributeValue(null, "name"));
+                    content.setHasFullText(Boolean.parseBoolean(xpp.getAttributeValue(null, "show_all")));
                 }
                 if (name.equalsIgnoreCase("details")) {
-                    topic.setDetailId(Integer.parseInt(xpp.getAttributeValue(null, "id")));
+                    content.setDetailId(Integer.parseInt(xpp.getAttributeValue(null, "id")));
                 }
                 if (name.equalsIgnoreCase("brief")) {
-                    topic.setShortDescription(xpp.getAttributeValue(null, "text"));
+                    content.setShortDescription(xpp.getAttributeValue(null, "text"));
                 }
                 if(name.equalsIgnoreCase("url")) {
-                    topic.setDetailUri(Uri.parse(xpp.getAttributeValue(null, "link")));
+                    content.setDetailUri(Uri.parse(xpp.getAttributeValue(null, "link")));
                 }
             }
             if (eventType == XmlPullParser.END_TAG) {
                 if (name.equalsIgnoreCase("subtopic")) {
-                    topics.add(topic);
+                    contents.add(content);
                 }
             }
         }
         xpp.setInput(null);
-    }
+    }*/
 
     private void parallaxListViewBackground(int drawable) {
         final ListView listView = getListView();
@@ -148,21 +146,21 @@ public class TopicsFragment extends ListFragment implements TopicListAdapter.Top
     }
 
     @Override
-    public void onTopicClick(Topic topic, int position) {
-        if (!topic.hasFullText()) {
-            if(topic.getDetailUri() == null && topic.getDetailId() > 0) {
+    public void onTopicClick(Content content, int position) {
+        /*if (!content.hasFullText()) {
+            if(content.getDetailUri() == null && content.getDetailId() > 0) {
                 Intent i = new Intent(parentActivity, DetailsActivity.class);
-                i.putParcelableArrayListExtra(Constants.topic.EXTRA_PARCELABLE_LIST, topics);
-                i.putExtra(Constants.topic.EXTRA_VIEWING_NOW, position);
-                i.putExtra(Constants.topic.EXTRA_ICON_ID, parentActivity.getIconDrawableId());
-                i.putExtra(Constants.topic.EXTRA_DATA_FILE, topicFileResId);
+                i.putParcelableArrayListExtra(Constants.content.EXTRA_PARCELABLE_LIST, contents);
+                i.putExtra(Constants.content.EXTRA_VIEWING_NOW, position);
+                i.putExtra(Constants.content.EXTRA_ICON_ID, parentActivity.getIconDrawableId());
+                i.putExtra(Constants.content.EXTRA_DATA_FILE, topicFileResId);
                 startActivity(i);
             }
-            else if(topic.getDetailUri() != null) {
+            else if(content.getDetailUri() != null) {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(topic.getDetailUri());
+                intent.setData(content.getDetailUri());
                 startActivity(intent);
             }
-        }
+        }*/
     }
 }

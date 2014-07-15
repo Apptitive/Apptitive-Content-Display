@@ -16,12 +16,11 @@ import com.apptitive.content_display.helper.DbTableName;
 import com.apptitive.content_display.interfaces.JsonArrayCompleteListener;
 import com.apptitive.content_display.model.Region;
 import com.apptitive.content_display.model.TimeTable;
-import com.apptitive.content_display.model.Topics;
+import com.apptitive.content_display.model.DbContent;
 import com.apptitive.content_display.receiver.TimeTableWidgetProvider;
 import com.apptitive.content_display.utilities.Config;
 import com.apptitive.content_display.utilities.Constants;
 import com.apptitive.content_display.utilities.HttpHelper;
-import com.apptitive.content_display.utilities.LogUtil;
 import com.apptitive.content_display.utilities.PreferenceHelper;
 import com.apptitive.content_display.utilities.UIUtils;
 import com.apptitive.content_display.views.BanglaTextView;
@@ -52,13 +51,13 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
         setContentView(R.layout.activity_main);
 
         com.apptitive.content_display.model.Menu m = new com.apptitive.content_display.model.Menu(1, "1", "Menu Title Edited", "Add", 1, 1);
-        Topics t = new Topics(1, "1", "Topic Title Edited", "short topics", "details", "webview", "edit");
+        DbContent t = new DbContent(1, "1", "1", "Topic Title Edited", "short topics", "details", "webview", "edit");
 
         DbManager.getInstance().addTopics(t);
 
-        List<Topics> tList = DbManager.getInstance().getAllTopics();
-        for (Topics topics : tList) {
-            android.util.Log.e("Topics Log", topics.getHeader());
+        List<DbContent> tList = DbManager.getInstance().getAllTopics();
+        for (DbContent dbContent : tList) {
+            android.util.Log.e("Topics Log", dbContent.getHeader());
         }
 
         List<com.apptitive.content_display.model.Menu> mList = DbManager.getInstance().getAllMenus();
@@ -157,9 +156,8 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
         switch (view.getId()) {
             case R.id.tab_saom:
                 i = new Intent(this, TopicsActivity.class);
-                i.putExtra(Constants.topic.EXTRA_TITLE, getString(R.string.saom));
-                i.putExtra(Constants.topic.EXTRA_ICON_ID, R.drawable.ic_saom);
-                i.putExtra(Constants.topic.EXTRA_DATA_FILE, R.raw.data_topic_saom);
+                i.putExtra(Constants.content.EXTRA_MENU_TITLE, getString(R.string.saom));
+                i.putExtra(Constants.content.EXTRA_ICON_ID, R.drawable.ic_saom);
                 startActivity(i);
                 break;
             case R.id.tab_iftar_time:
@@ -167,30 +165,26 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
                 break;
             case R.id.tab_nioat:
                 i = new Intent(this, TopicsActivity.class);
-                i.putExtra(Constants.topic.EXTRA_TITLE, getString(R.string.niyat_o_doa));
-                i.putExtra(Constants.topic.EXTRA_ICON_ID, R.drawable.ic_niyat);
-                i.putExtra(Constants.topic.EXTRA_DATA_FILE, R.raw.data_topic_niyat_o_doa);
+                i.putExtra(Constants.content.EXTRA_MENU_TITLE, getString(R.string.niyat_o_doa));
+                i.putExtra(Constants.content.EXTRA_ICON_ID, R.drawable.ic_niyat);
                 startActivity(i);
                 break;
             case R.id.tab_ramadan:
                 i = new Intent(this, TopicsActivity.class);
-                i.putExtra(Constants.topic.EXTRA_TITLE, getString(R.string.ramadan));
-                i.putExtra(Constants.topic.EXTRA_ICON_ID, R.drawable.ic_romzan);
-                i.putExtra(Constants.topic.EXTRA_DATA_FILE, R.raw.data_topic_ramadan);
+                i.putExtra(Constants.content.EXTRA_MENU_TITLE, getString(R.string.ramadan));
+                i.putExtra(Constants.content.EXTRA_ICON_ID, R.drawable.ic_romzan);
                 startActivity(i);
                 break;
             case R.id.tab_saom_vonger_karon:
                 i = new Intent(this, SaomVongerKaronActivity.class);
-                i.putExtra(Constants.topic.EXTRA_TITLE, getString(R.string.saom_vongo));
-                i.putExtra(Constants.topic.EXTRA_ICON_ID, R.drawable.ic_saom_vongo);
-                i.putExtra(Constants.topic.EXTRA_DATA_FILE, R.raw.data_topic_saom_vongo);
+                i.putExtra(Constants.content.EXTRA_MENU_TITLE, getString(R.string.saom_vongo));
+                i.putExtra(Constants.content.EXTRA_ICON_ID, R.drawable.ic_saom_vongo);
                 startActivity(i);
                 break;
             case R.id.tab_tarabih:
                 i = new Intent(this, TopicsActivity.class);
-                i.putExtra(Constants.topic.EXTRA_TITLE, getString(R.string.tarabih));
-                i.putExtra(Constants.topic.EXTRA_ICON_ID, R.drawable.ic_tarabih);
-                i.putExtra(Constants.topic.EXTRA_DATA_FILE, R.raw.data_topic_tarabih);
+                i.putExtra(Constants.content.EXTRA_MENU_TITLE, getString(R.string.tarabih));
+                i.putExtra(Constants.content.EXTRA_ICON_ID, R.drawable.ic_tarabih);
                 startActivity(i);
                 break;
             default:

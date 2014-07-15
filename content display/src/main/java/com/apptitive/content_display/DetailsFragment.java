@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import com.apptitive.content_display.adapter.DetailsListAdapter;
 import com.apptitive.content_display.model.Detail;
-import com.apptitive.content_display.model.Topic;
+import com.apptitive.content_display.model.Content;
 import com.apptitive.content_display.utilities.Constants;
 import com.google.analytics.tracking.android.EasyTracker;
 
@@ -60,13 +60,13 @@ public class DetailsFragment extends ListFragment {
         super.onCreate(savedInstanceState);
         details = new ArrayList<Detail>();
         detailsListAdapter = new DetailsListAdapter(getActivity(), details);
-        try {
-            populateList(detailProvider.getFileResId(), detailProvider.getTopic().getDetailId());
+        /*try {
+            populateList(detailProvider.getFileResId(), detailProvider.getContent().getDetailId());
         } catch (XmlPullParserException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     @Override
@@ -123,20 +123,19 @@ public class DetailsFragment extends ListFragment {
         return 0;
     }
 
-    public void changeTopic(Topic topic) {
+    public void changeTopic(Content content) {
         details.clear();
-        try {
-            populateList(detailProvider.getFileResId(), topic.getDetailId());
+        /*try {
+            populateList(detailProvider.getFileResId(), content.getDetailId());
         } catch (XmlPullParserException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
         getListView().setAdapter(detailsListAdapter);
     }
 
     public interface DetailProvider {
-        Topic getTopic();
-        int getFileResId();
+        Content getContent();
     }
 }

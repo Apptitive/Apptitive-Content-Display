@@ -5,7 +5,7 @@ import android.content.Context;
 import com.apptitive.content_display.model.Menu;
 import com.apptitive.content_display.model.Region;
 import com.apptitive.content_display.model.TimeTable;
-import com.apptitive.content_display.model.Topics;
+import com.apptitive.content_display.model.DbContent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -139,28 +139,28 @@ public class DbManager {
     }
 
 
-    public List<Topics> getAllTopics() {
-        List<Topics> topicsList = null;
+    public List<DbContent> getAllTopics() {
+        List<DbContent> dbContentList = null;
         try {
-            topicsList = getHelper().getTopicsDao().queryForAll();
+            dbContentList = getHelper().getTopicsDao().queryForAll();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return topicsList;
+        return dbContentList;
     }
 
 
-    public void addTopics(Topics topics) {
+    public void addTopics(DbContent dbContent) {
         try {
-            getHelper().getTopicsDao().create(topics);
+            getHelper().getTopicsDao().create(dbContent);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public void addTopics(List<Topics> topics){
+    public void addTopics(List<DbContent> topics){
         try {
-            for (Topics t: topics){
+            for (DbContent t: topics){
                 getHelper().getTopicsDao().create(t);
             }
         } catch (SQLException e) {
@@ -168,17 +168,17 @@ public class DbManager {
         }
     }
 
-    public void deleteTopics(Topics topics){
+    public void deleteTopics(DbContent dbContent){
         try {
-            getHelper().getTopicsDao().delete(topics);
+            getHelper().getTopicsDao().delete(dbContent);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public void updateTopics(Topics topics){
+    public void updateTopics(DbContent dbContent){
         try {
-            getHelper().getTopicsDao().update(topics);
+            getHelper().getTopicsDao().update(dbContent);
         } catch (SQLException e) {
             e.printStackTrace();
         }
