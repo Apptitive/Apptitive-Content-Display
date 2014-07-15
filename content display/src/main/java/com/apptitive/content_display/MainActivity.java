@@ -1,4 +1,4 @@
-package com.apptitive.ramadan;
+package com.apptitive.content_display;
 
 import android.appwidget.AppWidgetManager;
 import android.content.Intent;
@@ -9,6 +9,8 @@ import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+import com.apptitive.content_display.BaseActionBar;
 import com.apptitive.content_display.helper.CSVToDbHelper;
 import com.apptitive.content_display.helper.DbManager;
 import com.apptitive.content_display.helper.DbTableName;
@@ -25,21 +27,6 @@ import com.apptitive.content_display.utilities.UIUtils;
 import com.apptitive.content_display.views.BanglaTextView;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
-import com.apptitive.ramadan.helper.CSVToDbHelper;
-import com.apptitive.ramadan.helper.DbManager;
-import com.apptitive.ramadan.helper.DbTableName;
-import com.apptitive.ramadan.interfaces.JsonArrayCompleteListener;
-import com.apptitive.ramadan.model.Region;
-import com.apptitive.ramadan.model.TimeTable;
-import com.apptitive.ramadan.model.Topics;
-import com.apptitive.ramadan.receiver.TimeTableWidgetProvider;
-import com.apptitive.ramadan.utilities.Config;
-import com.apptitive.ramadan.utilities.Constants;
-import com.apptitive.ramadan.utilities.HttpHelper;
-import com.apptitive.ramadan.utilities.LogUtil;
-import com.apptitive.ramadan.utilities.PreferenceHelper;
-import com.apptitive.ramadan.utilities.UIUtils;
-import com.apptitive.ramadan.views.BanglaTextView;
 import com.google.gson.Gson;
 import org.json.JSONArray;
 import java.text.ParseException;
@@ -104,7 +91,7 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
 
         HttpHelper httpHelper = HttpHelper.getInstance(this, this);
         httpHelper.getJsonArray(Config.getMenuUrl());
-/*        ImageLoader imageLoader = HttpHelper.getInstance(this).getImageLoader();
+/*      ImageLoader imageLoader = HttpHelper.getInstance(this).getImageLoader();
         NetworkImageView imgNetWorkView=(NetworkImageView)findViewById(R.id.imgDemo);
         imgNetWorkView.setImageUrl(Config.getImageUrl(this)+"1.9.png", imageLoader);*/
     }
