@@ -9,8 +9,6 @@ import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-
-
 import com.apptitive.content_display.helper.CSVToDbHelper;
 import com.apptitive.content_display.helper.DbManager;
 import com.apptitive.content_display.helper.DbTableName;
@@ -25,8 +23,6 @@ import com.apptitive.content_display.utilities.HttpHelper;
 import com.apptitive.content_display.utilities.PreferenceHelper;
 import com.apptitive.content_display.utilities.UIUtils;
 import com.apptitive.content_display.views.BanglaTextView;
-import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.NetworkImageView;
 import com.google.gson.Gson;
 import org.json.JSONArray;
 import java.text.ParseException;
@@ -50,15 +46,6 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
         DbManager.init(this);
         supportRequestWindowFeature(WindowCompat.FEATURE_ACTION_BAR_OVERLAY);
         setContentView(R.layout.activity_main);
-
-        DbContent t = new DbContent(1, "1", "Topic Title Edited", "short topics", "details", "webview", "edit","1");
-
-        DbManager.getInstance().addTopics(t);
-
-        List<DbContent> tList = DbManager.getInstance().getTopicsForMenu("1");
-        for (DbContent topics : tList) {
-            android.util.Log.e("Topics Log", topics.getMenuId());
-        }
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
