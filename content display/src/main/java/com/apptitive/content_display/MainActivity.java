@@ -78,7 +78,7 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
 
         HttpHelper httpHelper = HttpHelper.getInstance(this, this);
         httpHelper.getJsonArray(Config.getMenuUrl(),Constants.MENU_REQUEST_CODE);
-        httpHelper.getJsonArray(Config.getTopicUrl(),Constants.TOPIC_REQUEST_CODE);
+        httpHelper.getJsonArray(Config.getTopicUrl(),Constants.CONTENT_REQUEST_CODE);
 /*      ImageLoader imageLoader = HttpHelper.getInstance(this).getImageLoader();
         NetworkImageView imgNetWorkView=(NetworkImageView)findViewById(R.id.imgDemo);
         imgNetWorkView.setImageUrl(Config.getImageUrl(this)+"1.9.png", imageLoader);*/
@@ -184,8 +184,9 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
         if (requestCode==Constants.MENU_REQUEST_CODE){
             List<com.apptitive.content_display.model.Menu> menus = Arrays.asList(gson.fromJson(result.toString(), com.apptitive.content_display.model.Menu[].class));
             DbManager.getInstance().addMenu(menus);
-        }else if(requestCode==Constants.TOPIC_REQUEST_CODE){
+        }else if(requestCode==Constants.CONTENT_REQUEST_CODE){
             List<DbContent> dbContents = Arrays.asList(gson.fromJson(result.toString(), DbContent[].class));
+            DbManager.getInstance().addDbContent(dbContents);
         }
     }
 }
