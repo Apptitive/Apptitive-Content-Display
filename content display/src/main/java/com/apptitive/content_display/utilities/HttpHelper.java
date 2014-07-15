@@ -7,6 +7,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
@@ -26,18 +27,31 @@ public class HttpHelper {
     private static JsonArrayCompleteListener<JSONArray> jsonCallBack;
 
     public static final String TAG = "VolleyTag";
+    private ImageLoader mImageLoader;
 
     public static HttpHelper getInstance(Context context,JsonArrayCompleteListener<JSONArray> jsonCallBack) {
         HttpHelper.context = context;
         HttpHelper.jsonCallBack = jsonCallBack;
         return uniqueInstance;
     }
-
+    public static HttpHelper getInstance(Context context) {
+        HttpHelper.context = context;
+        return uniqueInstance;
+    }
     public RequestQueue getRequestQueue() {
         if (mRequestQueue == null) {
             mRequestQueue = Volley.newRequestQueue(context);
         }
         return mRequestQueue;
+    }
+
+    public ImageLoader getImageLoader() {
+        getRequestQueue();
+        if (mImageLoader == null) {
+            mImageLoader = new ImageLoader(this.mRequestQueue,
+                    new LruBitmapCache());
+        }
+        return this.mImageLoader;
     }
 
     public <T> void addToRequestQueue(Request<T> req, String tag) {
