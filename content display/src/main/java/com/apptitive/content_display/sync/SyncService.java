@@ -1,4 +1,4 @@
-package com.apptitive.content_display.com.apptitive.content_display.sync;
+package com.apptitive.content_display.sync;
 
 import android.app.Service;
 import android.content.Intent;
