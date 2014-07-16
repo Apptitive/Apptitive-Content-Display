@@ -18,10 +18,10 @@
     <color name="white">#FFFFFF</color>
     <color name="white_dark">#F2F2F2</color>
     <color name="ActionBar_Navigation">#05764A</color>
-    <color name="AB_Green_Ramadan">#B3009245</color>
-    <color name="AB_White_Ramadan">#1AFFFFFF</color>
-    <color name="Green_Ramadan">#009245</color>
-    <color name="Red_Ramadan">#ED1C24</color>
+    <color name="AB_Green_ContentDisplay">#B3009245</color>
+    <color name="AB_White_ContentDisplay">#1AFFFFFF</color>
+    <color name="Green_ContentDisplay">#009245</color>
+    <color name="Red_ContentDisplay">#ED1C24</color>
     <color name="White">#FFFFFF</color>
     <color name="Ivory">#FFFFF0</color>
     <color name="LightYellow">#FFFFE0</color>
@@ -164,5 +164,5 @@
     <color name="Black">#000000</color>
     <color name="white_transparent_20">#33FFFFFF</color>
     <color name="blue_light">#81BEF7</color>
-    <color name="blue_dark">@color/AB_Green_Ramadan</color>
+    <color name="blue_dark">@color/AB_Green_ContentDisplay</color>
 </resources>

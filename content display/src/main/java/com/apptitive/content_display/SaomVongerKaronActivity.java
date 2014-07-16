@@ -35,7 +35,7 @@ public class SaomVongerKaronActivity extends BaseActionBar implements DetailsFra
         }
 
         actionBar = getSupportActionBar();
-        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.AB_Green_Ramadan)));
+        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.ActionBarInnerBg)));
         actionBar.setTitle(Utilities.getBanglaSpannableString(topicTitle, this));
         actionBar.setIcon(getResources().getDrawable(iconDrawableId));
         actionBar.setDisplayShowHomeEnabled(true);

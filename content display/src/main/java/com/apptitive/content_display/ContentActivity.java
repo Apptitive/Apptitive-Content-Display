@@ -9,10 +9,10 @@ import com.apptitive.content_display.utilities.Constants;
 import com.apptitive.content_display.utilities.Utilities;
 
 
-public class TopicsActivity extends BaseActionBar {
+public class ContentActivity extends BaseActionBar implements ContentFragment.ContentProvider {
 
     private int iconDrawableId;
-    private String menuTitle;
+    private String menuId, menuTitle;
     private ActionBar actionBar;
 
     @Override
@@ -22,6 +22,7 @@ public class TopicsActivity extends BaseActionBar {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
+            menuId = extras.getString(Constants.content.EXTRA_MENU_ID);
             menuTitle = extras.getString(Constants.content.EXTRA_MENU_TITLE);
             iconDrawableId = extras.getInt(Constants.content.EXTRA_ICON_ID);
         }
@@ -32,10 +33,11 @@ public class TopicsActivity extends BaseActionBar {
         actionBar.setIcon(getResources().getDrawable(iconDrawableId));
         actionBar.setDisplayShowHomeEnabled(true);
 
-        setContentView(R.layout.activity_topics);
+        setContentView(R.layout.activity_content);
     }
 
-    public int getIconDrawableId() {
-        return iconDrawableId;
+    @Override
+    public String getMenuId() {
+        return menuId;
     }
 }

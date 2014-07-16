@@ -148,7 +148,8 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
         Intent i;
         switch (view.getId()) {
             case R.id.tab_saom:
-                i = new Intent(this, TopicsActivity.class);
+                i = new Intent(this, ContentActivity.class);
+                i.putExtra(Constants.content.EXTRA_MENU_ID, "1");
                 i.putExtra(Constants.content.EXTRA_MENU_TITLE, getString(R.string.saom));
                 i.putExtra(Constants.content.EXTRA_ICON_ID, R.drawable.ic_saom);
                 startActivity(i);
@@ -157,13 +158,13 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
                 this.startActivity(new Intent(MainActivity.this, SehriIfterActivity.class));
                 break;
             case R.id.tab_nioat:
-                i = new Intent(this, TopicsActivity.class);
+                i = new Intent(this, ContentActivity.class);
                 i.putExtra(Constants.content.EXTRA_MENU_TITLE, getString(R.string.niyat_o_doa));
                 i.putExtra(Constants.content.EXTRA_ICON_ID, R.drawable.ic_niyat);
                 startActivity(i);
                 break;
             case R.id.tab_ramadan:
-                i = new Intent(this, TopicsActivity.class);
+                i = new Intent(this, ContentActivity.class);
                 i.putExtra(Constants.content.EXTRA_MENU_TITLE, getString(R.string.ramadan));
                 i.putExtra(Constants.content.EXTRA_ICON_ID, R.drawable.ic_romzan);
                 startActivity(i);
@@ -175,7 +176,7 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
                 startActivity(i);
                 break;
             case R.id.tab_tarabih:
-                i = new Intent(this, TopicsActivity.class);
+                i = new Intent(this, ContentActivity.class);
                 i.putExtra(Constants.content.EXTRA_MENU_TITLE, getString(R.string.tarabih));
                 i.putExtra(Constants.content.EXTRA_ICON_ID, R.drawable.ic_tarabih);
                 startActivity(i);

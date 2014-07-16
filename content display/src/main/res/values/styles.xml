@@ -2,8 +2,8 @@
 
 <resources>
     <!-- All colors -->
-    <color name="ActionBarHomeBg">@color/AB_White_Ramadan</color>
-    <color name="ActionBarInnerBg">@color/AB_Green_Ramadan</color>
+    <color name="ActionBarHomeBg">@color/AB_White_ContentDisplay</color>
+    <color name="ActionBarInnerBg">@color/AB_Green_ContentDisplay</color>
 
     <color name="ActionBarDropDownItemBg">@color/ActionBar_Navigation</color>
     <color name="ActionBarDropDownItemText">@color/white</color>
@@ -19,7 +19,7 @@
     <color name="TableSelectedRowBg">@color/table_row_selected</color>
     <color name="TableRowText">@color/black</color>
 
-    <color name="ContentItemHeaderBg">@color/AB_Green_Ramadan</color>
+    <color name="ContentItemHeaderBg">@color/AB_Green_ContentDisplay</color>
     <color name="ContentItemHeaderText">@color/white</color>
     <color name="ContentItemBriefBg">@color/black</color>
     <color name="ContentItemBriefPressedBg">@color/table_row_selected</color>
@@ -35,66 +35,66 @@
 
     <color name="ContentDetailFragmentBg">@color/black_80</color>
 
-    <style name="Theme.Ramadan" parent="@style/Theme.AppCompat.Light">
+    <style name="Theme.ContentDisplay" parent="@style/Theme.AppCompat.Light">
         <item name="actionBarItemBackground">@drawable/selectable_background_ramadan</item>
-        <item name="popupMenuStyle">@style/PopupMenu.Ramadan</item>
-        <item name="dropDownListViewStyle">@style/DropDownListView.Ramadan</item>
-        <item name="actionBarTabStyle">@style/ActionBarTabStyle.Ramadan</item>
-        <item name="actionDropDownStyle">@style/DropDownNav.Ramadan</item>
-        <item name="actionBarStyle">@style/ActionBar.Transparent.Ramadan</item>
+        <item name="popupMenuStyle">@style/PopupMenu.ContentDisplay</item>
+        <item name="dropDownListViewStyle">@style/DropDownListView.ContentDisplay</item>
+        <item name="actionBarTabStyle">@style/ActionBarTabStyle.ContentDisplay</item>
+        <item name="actionDropDownStyle">@style/DropDownNav.ContentDisplay</item>
+        <item name="actionBarStyle">@style/ActionBar.Transparent.ContentDisplay</item>
         <item name="actionModeBackground">@drawable/cab_background_top_ramadan</item>
         <item name="actionModeSplitBackground">@drawable/cab_background_bottom_ramadan</item>
-        <item name="actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Ramadan</item>
+        <item name="actionModeCloseButtonStyle">@style/ActionButton.CloseMode.ContentDisplay</item>
     </style>
 
-    <style name="ActionBar.Solid.Ramadan" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
+    <style name="ActionBar.Solid.ContentDisplay" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
         <item name="background">@drawable/ab_solid_ramadan</item>
         <item name="backgroundStacked">@drawable/ab_stacked_solid_ramadan</item>
         <item name="backgroundSplit">@drawable/ab_bottom_solid_ramadan</item>
-        <item name="progressBarStyle">@style/ProgressBar.Ramadan</item>
+        <item name="progressBarStyle">@style/ProgressBar.ContentDisplay</item>
     </style>
 
-    <style name="ActionBar.Transparent.Ramadan" parent="@style/Widget.AppCompat.Light.ActionBar">
+    <style name="ActionBar.Transparent.ContentDisplay" parent="@style/Widget.AppCompat.Light.ActionBar">
         <item name="background">@null</item>
-        <item name="progressBarStyle">@style/ProgressBar.Ramadan</item>
+        <item name="progressBarStyle">@style/ProgressBar.ContentDisplay</item>
         <item name="windowActionBarOverlay">true</item>
-        <item name="titleTextStyle">@style/TitleText.Ramadan</item>
+        <item name="titleTextStyle">@style/TitleText.ContentDisplay</item>
     </style>
 
-    <style name="TitleText.Ramadan" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
+    <style name="TitleText.ContentDisplay" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textColor">@color/White</item>
     </style>
 
-    <style name="PopupMenu.Ramadan" parent="@style/Widget.AppCompat.Light.PopupMenu">
+    <style name="PopupMenu.ContentDisplay" parent="@style/Widget.AppCompat.Light.PopupMenu">
         <item name="android:popupBackground">@drawable/menu_dropdown_panel_ramadan</item>
     </style>
 
-    <style name="DropDownListView.Ramadan" parent="@style/Widget.AppCompat.Light.ListView.DropDown">
+    <style name="DropDownListView.ContentDisplay" parent="@style/Widget.AppCompat.Light.ListView.DropDown">
         <item name="android:listSelector">@drawable/selectable_background_ramadan</item>
     </style>
 
-    <style name="ActionBarTabStyle.Ramadan" parent="@style/Widget.AppCompat.Light.ActionBar.TabView">
+    <style name="ActionBarTabStyle.ContentDisplay" parent="@style/Widget.AppCompat.Light.ActionBar.TabView">
         <item name="android:background">@drawable/tab_indicator_ab_ramadan</item>
     </style>
 
-    <style name="DropDownNav.Ramadan" parent="@style/Widget.AppCompat.Light.Spinner.DropDown.ActionBar">
+    <style name="DropDownNav.ContentDisplay" parent="@style/Widget.AppCompat.Light.Spinner.DropDown.ActionBar">
         <item name="android:background">@drawable/spinner_background_ab_ramadan</item>
         <item name="android:popupBackground">@drawable/menu_dropdown_panel_ramadan</item>
         <item name="android:dropDownSelector">@drawable/selectable_background_ramadan</item>
     </style>
 
-    <style name="ProgressBar.Ramadan" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
+    <style name="ProgressBar.ContentDisplay" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
         <item name="android:progressDrawable">@drawable/progress_horizontal_ramadan</item>
     </style>
 
-    <style name="ActionButton.CloseMode.Ramadan" parent="@style/Widget.AppCompat.Light.ActionButton.CloseMode">
+    <style name="ActionButton.CloseMode.ContentDisplay" parent="@style/Widget.AppCompat.Light.ActionButton.CloseMode">
         <item name="android:background">@drawable/btn_cab_done_ramadan</item>
     </style>
 
     <!-- this style is only referenced in a Light.DarkActionBar based theme -->
-    <style name="Theme.Ramadan.Widget" parent="@style/Theme.AppCompat">
-        <item name="popupMenuStyle">@style/PopupMenu.Ramadan</item>
-        <item name="dropDownListViewStyle">@style/DropDownListView.Ramadan</item>
+    <style name="Theme.ContentDisplay.Widget" parent="@style/Theme.AppCompat">
+        <item name="popupMenuStyle">@style/PopupMenu.ContentDisplay</item>
+        <item name="dropDownListViewStyle">@style/DropDownListView.ContentDisplay</item>
     </style>
 
     <style name="NotificationText">
