@@ -10,7 +10,7 @@ import android.os.Bundle;
 /**
  * Created by Sharif on 7/16/2014.
  */
-public class SyncAdapter extends AbstractThreadedSyncAdapter{
+public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     public SyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
