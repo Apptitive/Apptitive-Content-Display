@@ -3,10 +3,9 @@ package com.apptitive.content_display.helper;
 import android.content.Context;
 
 import com.apptitive.content_display.model.DbContent;
-import com.apptitive.content_display.model.Menu;
+import com.apptitive.content_display.model.ContentMenu;
 import com.apptitive.content_display.model.Region;
 import com.apptitive.content_display.model.TimeTable;
-import com.apptitive.content_display.model.DbContent;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -196,8 +195,8 @@ public class DbManager {
         }
     }
 
-    public List<Menu> getAllMenus() {
-        List<Menu> menuList = null;
+    public List<ContentMenu> getAllMenus() {
+        List<ContentMenu> menuList = null;
         try {
             menuList = getHelper().getMenuDao().queryForAll();
         } catch (SQLException e) {
@@ -207,7 +206,7 @@ public class DbManager {
     }
 
 
-    public void addMenu(Menu menu) {
+    public void addMenu(ContentMenu menu) {
         try {
             getHelper().getMenuDao().create(menu);
         } catch (SQLException e) {
@@ -215,9 +214,9 @@ public class DbManager {
         }
     }
 
-    public void addMenu(List<Menu> menus) {
+    public void addMenu(List<ContentMenu> menus) {
         try {
-            for (Menu m : menus) {
+            for (ContentMenu m : menus) {
                 getHelper().getMenuDao().create(m);
             }
         } catch (SQLException e) {
@@ -225,7 +224,7 @@ public class DbManager {
         }
     }
 
-    public void deleteMenu(Menu menu) {
+    public void deleteMenu(ContentMenu menu) {
         try {
             getHelper().getMenuDao().delete(menu);
         } catch (SQLException e) {
@@ -233,7 +232,7 @@ public class DbManager {
         }
     }
 
-    public void updateMenu(Menu menu) {
+    public void updateMenu(ContentMenu menu) {
         try {
             getHelper().getMenuDao().update(menu);
         } catch (SQLException e) {

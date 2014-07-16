@@ -14,6 +14,7 @@ import com.apptitive.content_display.helper.CSVToDbHelper;
 import com.apptitive.content_display.helper.DbManager;
 import com.apptitive.content_display.helper.DbTableName;
 import com.apptitive.content_display.interfaces.JsonArrayCompleteListener;
+import com.apptitive.content_display.model.ContentMenu;
 import com.apptitive.content_display.model.DbContent;
 import com.apptitive.content_display.model.Region;
 import com.apptitive.content_display.model.TimeTable;
@@ -190,7 +191,7 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
     public void onJsonArray(JSONArray result, int requestCode) {
         Gson gson = new Gson();
         if (requestCode == Constants.MENU_REQUEST_CODE) {
-            List<com.apptitive.content_display.model.Menu> menus = Arrays.asList(gson.fromJson(result.toString(), com.apptitive.content_display.model.Menu[].class));
+            List<ContentMenu> menus = Arrays.asList(gson.fromJson(result.toString(), ContentMenu[].class));
             DbManager.getInstance().addMenu(menus);
         } else if (requestCode == Constants.CONTENT_REQUEST_CODE) {
             DbManager.getInstance().addDbContent(getParsedDbContentResult(result));

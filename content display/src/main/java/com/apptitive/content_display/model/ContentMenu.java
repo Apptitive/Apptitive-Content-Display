@@ -7,7 +7,7 @@ import com.j256.ormlite.table.DatabaseTable;
  * Created by rayhan on 7/13/2014.
  */
 @DatabaseTable
-public class Menu {
+public class ContentMenu {
 
     @DatabaseField
     private int actionId;
@@ -27,10 +27,10 @@ public class Menu {
     @DatabaseField
     private int subPatternId;
 
-    public Menu() {
+    public ContentMenu() {
     }
 
-    public Menu(int actionId, String menuId, String title, String actionType, int patternId, int subPatternId) {
+    public ContentMenu(int actionId, String menuId, String title, String actionType, int patternId, int subPatternId) {
         this.actionId = actionId;
         this.menuId = menuId;
         this.title = title;
