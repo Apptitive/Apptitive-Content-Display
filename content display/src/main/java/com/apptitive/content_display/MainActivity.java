@@ -193,12 +193,12 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
             List<com.apptitive.content_display.model.Menu> menus = Arrays.asList(gson.fromJson(result.toString(), com.apptitive.content_display.model.Menu[].class));
             DbManager.getInstance().addMenu(menus);
         } else if (requestCode == Constants.CONTENT_REQUEST_CODE) {
-            DbManager.getInstance().addDbContent(getParseDbContentResult(result));
+            DbManager.getInstance().addDbContent(getParsedDbContentResult(result));
             LogUtil.LOGE("successful");
         }
     }
 
-    private List<DbContent> getParseDbContentResult(JSONArray result) {
+    private List<DbContent> getParsedDbContentResult(JSONArray result) {
         List<DbContent> dbContents = new ArrayList<DbContent>();
         for (int i = 0; i < result.length(); i++) {
             try {
