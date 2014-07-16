@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/AB_White_Ramadan"
+    android:background="@color/AB_White_ContentDisplay"
     android:padding="@dimen/dp_8">
 
     <com.apptitive.content_display.views.BanglaTextView

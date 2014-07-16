@@ -30,6 +30,11 @@ public final class Constants {
         public static final String EXTRA_PARCELABLE_LIST = "_parcelable";
         public static final String EXTRA_VIEWING_NOW = "_viewingNow";
         public static final String EXTRA_ICON_ID = "_iconId";
+
+        public final class view {
+            public static final String TYPE_NATIVE = "native";
+            public static final String TYPE_HTML = "html";
+        }
     }
 
     public final class detail {

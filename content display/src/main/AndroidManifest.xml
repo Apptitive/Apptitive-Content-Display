@@ -12,13 +12,13 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/Theme.Ramadan" >
+        android:theme="@style/Theme.ContentDisplay" >
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" />
         <activity
             android:name=".DetailsActivity"
-            android:parentActivityName=".TopicsActivity" >
+            android:parentActivityName=".ContentActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.apptitive.ramadan.TopicsActivity" />
@@ -27,7 +27,7 @@
             android:name=".SettingsActivity"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".TopicsActivity"
+            android:name=".ContentActivity"
             android:launchMode="singleTask"
             android:parentActivityName=".MainActivity" >
             <meta-data
