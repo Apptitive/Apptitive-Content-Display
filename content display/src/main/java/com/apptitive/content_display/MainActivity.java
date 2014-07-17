@@ -3,7 +3,6 @@ package com.apptitive.content_display;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.appwidget.AppWidgetManager;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
@@ -25,10 +24,10 @@ import com.apptitive.content_display.model.TimeTable;
 import com.apptitive.content_display.receiver.TimeTableWidgetProvider;
 import com.apptitive.content_display.utilities.Config;
 import com.apptitive.content_display.utilities.Constants;
+import com.apptitive.content_display.utilities.DateTimeUtils;
 import com.apptitive.content_display.utilities.HttpHelper;
 import com.apptitive.content_display.utilities.LogUtil;
 import com.apptitive.content_display.utilities.PreferenceHelper;
-import com.apptitive.content_display.utilities.UIUtils;
 import com.apptitive.content_display.views.BanglaTextView;
 import com.google.gson.Gson;
 
@@ -130,15 +129,15 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
         seheriTime.setText("0:00");
         iftarTime.setText("0:00");
 
-        region = UIUtils.getSelectedLocation(regions, preferenceHelper.getString(Constants.PREF_KEY_LOCATION, Constants.DEFAULT_REGION));
+        region = DateTimeUtils.getSelectedLocation(regions, preferenceHelper.getString(Constants.PREF_KEY_LOCATION, Constants.DEFAULT_REGION));
         if (region != null) {
             try {
                 if (region.isPositive()) {
-                    seheriTime.setBanglaText(UIUtils.getSehriIftarTime(region.getIntervalSehri(), timeTables, true, true));
-                    iftarTime.setBanglaText(UIUtils.getSehriIftarTime(region.getIntervalIfter(), timeTables, true, false));
+                    seheriTime.setBanglaText(DateTimeUtils.getSehriIftarTime(region.getIntervalSehri(), timeTables, true, true));
+                    iftarTime.setBanglaText(DateTimeUtils.getSehriIftarTime(region.getIntervalIfter(), timeTables, true, false));
                 } else {
-                    seheriTime.setBanglaText(UIUtils.getSehriIftarTime(-region.getIntervalSehri(), timeTables, true, true));
-                    iftarTime.setBanglaText(UIUtils.getSehriIftarTime(-region.getIntervalIfter(), timeTables, true, false));
+                    seheriTime.setBanglaText(DateTimeUtils.getSehriIftarTime(-region.getIntervalSehri(), timeTables, true, true));
+                    iftarTime.setBanglaText(DateTimeUtils.getSehriIftarTime(-region.getIntervalIfter(), timeTables, true, false));
                 }
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -171,9 +170,9 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
         switch (view.getId()) {
             case R.id.tab_saom:
                 i = new Intent(this, ContentActivity.class);
-                i.putExtra(Constants.content.EXTRA_MENU_ID, "1");
-                i.putExtra(Constants.content.EXTRA_MENU_TITLE, getString(R.string.saom));
-                i.putExtra(Constants.content.EXTRA_ICON_ID, R.drawable.ic_saom);
+                i.putExtra(Constants.menu.EXTRA_MENU_ID, "1");
+                i.putExtra(Constants.menu.EXTRA_MENU_TITLE, getString(R.string.saom));
+                i.putExtra(Constants.menu.EXTRA_ICON_ID, R.drawable.ic_saom);
                 startActivity(i);
                 break;
             case R.id.tab_iftar_time:
@@ -181,26 +180,30 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
                 break;
             case R.id.tab_nioat:
                 i = new Intent(this, ContentActivity.class);
-                i.putExtra(Constants.content.EXTRA_MENU_TITLE, getString(R.string.niyat_o_doa));
-                i.putExtra(Constants.content.EXTRA_ICON_ID, R.drawable.ic_niyat);
+                i.putExtra(Constants.menu.EXTRA_MENU_ID, "1");
+                i.putExtra(Constants.menu.EXTRA_MENU_TITLE, getString(R.string.niyat_o_doa));
+                i.putExtra(Constants.menu.EXTRA_ICON_ID, R.drawable.ic_niyat);
                 startActivity(i);
                 break;
             case R.id.tab_ramadan:
                 i = new Intent(this, ContentActivity.class);
-                i.putExtra(Constants.content.EXTRA_MENU_TITLE, getString(R.string.ramadan));
-                i.putExtra(Constants.content.EXTRA_ICON_ID, R.drawable.ic_romzan);
+                i.putExtra(Constants.menu.EXTRA_MENU_ID, "1");
+                i.putExtra(Constants.menu.EXTRA_MENU_TITLE, getString(R.string.ramadan));
+                i.putExtra(Constants.menu.EXTRA_ICON_ID, R.drawable.ic_romzan);
                 startActivity(i);
                 break;
             case R.id.tab_saom_vonger_karon:
                 i = new Intent(this, SaomVongerKaronActivity.class);
-                i.putExtra(Constants.content.EXTRA_MENU_TITLE, getString(R.string.saom_vongo));
-                i.putExtra(Constants.content.EXTRA_ICON_ID, R.drawable.ic_saom_vongo);
+                i.putExtra(Constants.menu.EXTRA_MENU_ID, "1");
+                i.putExtra(Constants.menu.EXTRA_MENU_TITLE, getString(R.string.saom_vongo));
+                i.putExtra(Constants.menu.EXTRA_ICON_ID, R.drawable.ic_saom_vongo);
                 startActivity(i);
                 break;
             case R.id.tab_tarabih:
                 i = new Intent(this, ContentActivity.class);
-                i.putExtra(Constants.content.EXTRA_MENU_TITLE, getString(R.string.tarabih));
-                i.putExtra(Constants.content.EXTRA_ICON_ID, R.drawable.ic_tarabih);
+                i.putExtra(Constants.menu.EXTRA_MENU_ID, "1");
+                i.putExtra(Constants.menu.EXTRA_MENU_TITLE, getString(R.string.tarabih));
+                i.putExtra(Constants.menu.EXTRA_ICON_ID, R.drawable.ic_tarabih);
                 startActivity(i);
                 break;
             default:
@@ -239,7 +242,6 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
                 e.printStackTrace();
             }
         }
-
         return dbContents;
     }
 }

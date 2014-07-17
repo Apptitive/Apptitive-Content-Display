@@ -19,8 +19,8 @@ import com.apptitive.content_display.model.Region;
 import com.apptitive.content_display.model.TimeTable;
 import com.apptitive.content_display.receiver.AlarmReceiver;
 import com.apptitive.content_display.utilities.Constants;
+import com.apptitive.content_display.utilities.DateTimeUtils;
 import com.apptitive.content_display.utilities.PreferenceHelper;
-import com.apptitive.content_display.utilities.UIUtils;
 
 import java.text.ParseException;
 import java.util.Calendar;
@@ -69,14 +69,14 @@ public class AlarmActivity extends Activity implements View.OnClickListener, Com
         timeTables = DbManager.getInstance().getAllTimeTables();
 
         try {
-            Region region = UIUtils.getSelectedLocation(DbManager.getInstance().getAllRegions(), preferenceHelper.getString(Constants.PREF_KEY_LOCATION, Constants.DEFAULT_REGION));
+            Region region = DateTimeUtils.getSelectedLocation(DbManager.getInstance().getAllRegions(), preferenceHelper.getString(Constants.PREF_KEY_LOCATION, Constants.DEFAULT_REGION));
             if (region != null) {
                 if (region.isPositive()) {
-                    calculatedSehriTime = UIUtils.getSehriIftarTime(region.getIntervalSehri(), timeTables, false, true);
-                    calculatedIftarTime = UIUtils.getSehriIftarTime(region.getIntervalIfter(), timeTables, false, false);
+                    calculatedSehriTime = DateTimeUtils.getSehriIftarTime(region.getIntervalSehri(), timeTables, false, true);
+                    calculatedIftarTime = DateTimeUtils.getSehriIftarTime(region.getIntervalIfter(), timeTables, false, false);
                 } else {
-                    calculatedSehriTime = UIUtils.getSehriIftarTime(-region.getIntervalSehri(), timeTables, false, true);
-                    calculatedIftarTime = UIUtils.getSehriIftarTime(-region.getIntervalIfter(), timeTables, false, false);
+                    calculatedSehriTime = DateTimeUtils.getSehriIftarTime(-region.getIntervalSehri(), timeTables, false, true);
+                    calculatedIftarTime = DateTimeUtils.getSehriIftarTime(-region.getIntervalIfter(), timeTables, false, false);
                 }
             }
         } catch (Exception e) {
@@ -172,7 +172,7 @@ public class AlarmActivity extends Activity implements View.OnClickListener, Com
     public void setAlarm(String calculatedIftarTime, int hourOfDay, int hourOfMinute, int requestCode) throws ParseException {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(UIUtils.simpleDateTimeFormat.parse(calculatedIftarTime));
+        calendar.setTime(DateTimeUtils.simpleDateTimeFormat.parse(calculatedIftarTime));
         calendar.add(Calendar.HOUR_OF_DAY, -hourOfDay);
         calendar.add(Calendar.MINUTE, -hourOfMinute);
         alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), setUpAlarmType(PendingIntent.FLAG_ONE_SHOT, requestCode));

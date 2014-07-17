@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Created by Sharif on 5/28/2014.
  */
-public class UIUtils {
+public class DateTimeUtils {
 
     public static final SimpleDateFormat simpleDateTimeFormat = new SimpleDateFormat(
             "dd/MM/yyyy HH:mm");

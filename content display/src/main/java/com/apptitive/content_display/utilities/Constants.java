@@ -29,12 +29,14 @@ public final class Constants {
     // The account name
     public static final String ACCOUNT = "dummyaccount";
 
-    public final class content {
+    public final class menu {
         public static final String EXTRA_MENU_ID = "_menuId";
         public static final String EXTRA_MENU_TITLE = "_menuTitle";
-        public static final String EXTRA_PARCELABLE_LIST = "_parcelable";
-        public static final String EXTRA_VIEWING_NOW = "_viewingNow";
         public static final String EXTRA_ICON_ID = "_iconId";
+    }
+
+    public final class content {
+        public static final String EXTRA_CONTENT = "_content";
 
         public final class view {
             public static final String TYPE_NATIVE = "native";
