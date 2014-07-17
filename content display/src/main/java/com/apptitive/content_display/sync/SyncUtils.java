@@ -2,10 +2,8 @@ package com.apptitive.content_display.sync;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
-import android.annotation.TargetApi;
 import android.content.ContentResolver;
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 
 import com.apptitive.content_display.utilities.Constants;
