@@ -23,6 +23,7 @@ import com.apptitive.content_display.model.DbContent;
 import com.apptitive.content_display.model.Region;
 import com.apptitive.content_display.model.TimeTable;
 import com.apptitive.content_display.receiver.TimeTableWidgetProvider;
+import com.apptitive.content_display.sync.SyncUtils;
 import com.apptitive.content_display.utilities.Config;
 import com.apptitive.content_display.utilities.Constants;
 import com.apptitive.content_display.utilities.HttpHelper;
@@ -58,6 +59,7 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener 
         DbManager.init(this);
         supportRequestWindowFeature(WindowCompat.FEATURE_ACTION_BAR_OVERLAY);
         setContentView(R.layout.activity_main);
+        SyncUtils.triggerInitialSync(this);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             mAppWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);

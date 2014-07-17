@@ -7,7 +7,6 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 
 import com.apptitive.content_display.utilities.Constants;
 
@@ -15,11 +14,7 @@ import com.apptitive.content_display.utilities.Constants;
  * Created by Sharif on 7/17/2014.
  */
 public class SyncUtils {
-    private static final long SYNC_FREQUENCY = 60 * 60;  // 1 hour (in seconds)
-    //Create an entry for this application in the system account list, if it isn't already there.
-
-
-    public static void initialSync(Context context) {
+    public static void triggerInitialSync(Context context) {
         Account account = AuthenticatorService.GetAccount(Constants.ACCOUNT_TYPE);
         AccountManager accountManager =
                 (AccountManager) context.getSystemService(Context.ACCOUNT_SERVICE);

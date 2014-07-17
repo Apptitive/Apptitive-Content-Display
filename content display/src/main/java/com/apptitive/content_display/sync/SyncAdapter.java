@@ -37,6 +37,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter implements JsonArra
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
         LogUtil.LOGE("inside Syncadapter");
+        DbManager.init(getContext());
         HttpHelper httpHelper = HttpHelper.getInstance(getContext(), this);
         httpHelper.getJsonArray(Config.getMenuUrl(), Constants.MENU_REQUEST_CODE);
         httpHelper.getJsonArray(Config.getTopicUrl(), Constants.CONTENT_REQUEST_CODE);
