@@ -42,7 +42,7 @@ import java.util.Arrays;
 import java.util.List;
 
 
-public class MainActivity extends BaseActionBar implements View.OnClickListener, JsonArrayCompleteListener<JSONArray> {
+public class MainActivity extends BaseActionBar implements View.OnClickListener {
     private int mAppWidgetId;
     private ActionBar actionBar;
     private PreferenceHelper preferenceHelper;
@@ -51,9 +51,6 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
     private List<TimeTable> timeTables;
     private List<Region> regions;
     private Region region;
-    private final static String DUMMY_ACCOUNT_NAME = "some_name";
-    private final static String DUMMY_ACCOUNT_PASS = "some_pass";
-    private Account mAccount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,24 +58,6 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
         DbManager.init(this);
         supportRequestWindowFeature(WindowCompat.FEATURE_ACTION_BAR_OVERLAY);
         setContentView(R.layout.activity_main);
-    /*    mAccount= CreateSyncAccount(this);
-        if (mAccount!=null){
-            LogUtil.LOGE("calling the sync");
-            ContentResolver.requestSync(mAccount, Constants.AUTHORITY, new Bundle());
-        }*/
-
-        Account account = new Account(DUMMY_ACCOUNT_NAME, Constants.ACCOUNT_TYPE);
-        AccountManager am = AccountManager.get(this);
-        if (am.addAccountExplicitly(account, DUMMY_ACCOUNT_PASS, null)) {
-            LogUtil.LOGE("account is created");
-            Bundle result = new Bundle();
-            result.putString(AccountManager.KEY_ACCOUNT_NAME, account.name);
-            result.putString(AccountManager.KEY_ACCOUNT_TYPE, account.type);
-
-            ContentResolver.setSyncAutomatically(account, Constants.AUTHORITY, true);
-        }
-
-
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             mAppWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
@@ -107,40 +86,12 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
 
         timeTables = DbManager.getInstance().getAllTimeTables();
         regions = DbManager.getInstance().getAllRegions();
-
-        HttpHelper httpHelper = HttpHelper.getInstance(this, this);
-        httpHelper.getJsonArray(Config.getMenuUrl(), Constants.MENU_REQUEST_CODE);
-        httpHelper.getJsonArray(Config.getTopicUrl(), Constants.CONTENT_REQUEST_CODE);
 /*      ImageLoader imageLoader = HttpHelper.getInstance(this).getImageLoader();
         NetworkImageView imgNetWorkView=(NetworkImageView)findViewById(R.id.imgDemo);
         imgNetWorkView.setImageUrl(Config.getImageUrl(this)+"1.9.png", imageLoader);*/
     }
 
-/*    public static Account createSyncAccount(Context context) {
-        Account newAccount = new Account( Constants.ACCOUNT_NAME, Constants.ACCOUNT_TYPE);
-        AccountManager accountManager = (AccountManager) context.getSystemService(
-                       context.ACCOUNT_SERVICE);
-        if (accountManager.addAccountExplicitly(newAccount, null, null)) {
-            LogUtil.LOGE("account is created");
-         return newAccount;
-        }
-        else {
-            LogUtil.LOGE("account is not created");
-        }
 
-        return null;
-    }*/
-    public static Account CreateSyncAccount(Context context) {
-        Account newAccount = new Account(
-                Constants.ACCOUNT_NAME,Constants.ACCOUNT_TYPE);
-        AccountManager accountManager =
-                (AccountManager) context.getSystemService(  ACCOUNT_SERVICE);
-        if (accountManager.addAccountExplicitly(newAccount, null, null)) {
-            LogUtil.LOGE("account is created");
-         return newAccount;
-        }
-        return null;
-    }
     @Override
     protected void onStop() {
         super.onStop();
@@ -236,38 +187,7 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
         }
     }
 
-    @Override
-    public void onJsonArray(JSONArray result, int requestCode) {
-        Gson gson = new Gson();
-        if (requestCode == Constants.MENU_REQUEST_CODE) {
-            List<ContentMenu> menus = Arrays.asList(gson.fromJson(result.toString(), ContentMenu[].class));
-            DbManager.getInstance().addMenu(menus);
-        } else if (requestCode == Constants.CONTENT_REQUEST_CODE) {
-            DbManager.getInstance().addDbContent(getParsedDbContentResult(result));
-            LogUtil.LOGE("successful");
-        }
-    }
 
-    private List<DbContent> getParsedDbContentResult(JSONArray result) {
-        List<DbContent> dbContents = new ArrayList<DbContent>();
-        for (int i = 0; i < result.length(); i++) {
-            try {
-                JSONObject jsonObject = (JSONObject) result.get(i);
-                DbContent dbContent = new DbContent();
-                dbContent.setActionId((Integer) jsonObject.get("actionId"));
-                dbContent.setContentId(jsonObject.get("contentId").toString());
-                dbContent.setMenuId(jsonObject.get("menuId").toString());
-                dbContent.setHeader(jsonObject.get("header").toString());
-                dbContent.setShortDescription(jsonObject.get("shortDescription").toString());
-                dbContent.setDetails(jsonObject.get("details").toString());
-                dbContent.setViewType(jsonObject.get("viewType").toString());
-                dbContent.setActionType(jsonObject.get("actionType").toString());
-                dbContents.add(dbContent);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
 
-        return dbContents;
-    }
+
 }
