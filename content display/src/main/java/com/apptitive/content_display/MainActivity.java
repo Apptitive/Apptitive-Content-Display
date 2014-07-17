@@ -51,7 +51,8 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
     private List<TimeTable> timeTables;
     private List<Region> regions;
     private Region region;
-
+    private final static String DUMMY_ACCOUNT_NAME = "some_name";
+    private final static String DUMMY_ACCOUNT_PASS = "some_pass";
     private Account mAccount;
 
     @Override
@@ -60,7 +61,24 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
         DbManager.init(this);
         supportRequestWindowFeature(WindowCompat.FEATURE_ACTION_BAR_OVERLAY);
         setContentView(R.layout.activity_main);
-        mAccount = createSyncAccount(this);
+    /*    mAccount= CreateSyncAccount(this);
+        if (mAccount!=null){
+            LogUtil.LOGE("calling the sync");
+            ContentResolver.requestSync(mAccount, Constants.AUTHORITY, new Bundle());
+        }*/
+
+        Account account = new Account(DUMMY_ACCOUNT_NAME, Constants.ACCOUNT_TYPE);
+        AccountManager am = AccountManager.get(this);
+        if (am.addAccountExplicitly(account, DUMMY_ACCOUNT_PASS, null)) {
+            LogUtil.LOGE("account is created");
+            Bundle result = new Bundle();
+            result.putString(AccountManager.KEY_ACCOUNT_NAME, account.name);
+            result.putString(AccountManager.KEY_ACCOUNT_TYPE, account.type);
+
+            ContentResolver.setSyncAutomatically(account, Constants.AUTHORITY, true);
+        }
+
+
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             mAppWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
@@ -98,21 +116,31 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
         imgNetWorkView.setImageUrl(Config.getImageUrl(this)+"1.9.png", imageLoader);*/
     }
 
-    public static Account createSyncAccount(Context context) {
-        Account newAccount = new Account(
-                Constants.ACCOUNT, Constants.ACCOUNT_TYPE);
-        AccountManager accountManager =
-                (AccountManager) context.getSystemService(
-                        ACCOUNT_SERVICE);
-
-        if (accountManager.addAccountExplicitly(newAccount, null, null)){
-
-        } else {
-
+/*    public static Account createSyncAccount(Context context) {
+        Account newAccount = new Account( Constants.ACCOUNT_NAME, Constants.ACCOUNT_TYPE);
+        AccountManager accountManager = (AccountManager) context.getSystemService(
+                       context.ACCOUNT_SERVICE);
+        if (accountManager.addAccountExplicitly(newAccount, null, null)) {
+            LogUtil.LOGE("account is created");
+         return newAccount;
         }
-        return newAccount;
-    }
+        else {
+            LogUtil.LOGE("account is not created");
+        }
 
+        return null;
+    }*/
+    public static Account CreateSyncAccount(Context context) {
+        Account newAccount = new Account(
+                Constants.ACCOUNT_NAME,Constants.ACCOUNT_TYPE);
+        AccountManager accountManager =
+                (AccountManager) context.getSystemService(  ACCOUNT_SERVICE);
+        if (accountManager.addAccountExplicitly(newAccount, null, null)) {
+            LogUtil.LOGE("account is created");
+         return newAccount;
+        }
+        return null;
+    }
     @Override
     protected void onStop() {
         super.onStop();

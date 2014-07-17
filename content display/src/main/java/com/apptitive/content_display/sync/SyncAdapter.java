@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.SyncResult;
 import android.os.Bundle;
 
+import com.apptitive.content_display.utilities.LogUtil;
+
 /**
  * Created by Sharif on 7/16/2014.
  */
@@ -18,6 +20,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
-
+        LogUtil.LOGE("hi I am in Sync adapter");
     }
 }
