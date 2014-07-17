@@ -117,12 +117,6 @@
                 android:name="android.accounts.AccountAuthenticator"
                 android:resource="@xml/authenticator" />
         </service>
-
-<!--        <provider
-            android:name="com.apptitive.content_display.sync.StubProvider"
-            android:authorities="com.apptitive.content_display.sync"
-            android:export="false"
-            android:syncable="true"/>-->
     </application>
 
 </manifest>
