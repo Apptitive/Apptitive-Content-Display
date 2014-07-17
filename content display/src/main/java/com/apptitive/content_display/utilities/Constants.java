@@ -23,6 +23,11 @@ public final class Constants {
     public static final int MENU_REQUEST_CODE=1;
     public static final int CONTENT_REQUEST_CODE =2;
 
+    public static final String AUTHORITY = "com.apptitive.content_display.sync.StubProvider";
+    // An account type, in the form of a domain name
+    public static final String ACCOUNT_TYPE = "apptitive.com";
+    // The account name
+    public static final String ACCOUNT = "dummyaccount";
 
     public final class content {
         public static final String EXTRA_MENU_ID = "_menuId";

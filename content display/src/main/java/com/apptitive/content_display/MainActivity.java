@@ -1,6 +1,10 @@
 package com.apptitive.content_display;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.appwidget.AppWidgetManager;
+import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -48,13 +52,15 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
     private List<Region> regions;
     private Region region;
 
+    private Account mAccount;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         DbManager.init(this);
         supportRequestWindowFeature(WindowCompat.FEATURE_ACTION_BAR_OVERLAY);
         setContentView(R.layout.activity_main);
-
+        mAccount = createSyncAccount(this);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             mAppWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
@@ -90,6 +96,21 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
 /*      ImageLoader imageLoader = HttpHelper.getInstance(this).getImageLoader();
         NetworkImageView imgNetWorkView=(NetworkImageView)findViewById(R.id.imgDemo);
         imgNetWorkView.setImageUrl(Config.getImageUrl(this)+"1.9.png", imageLoader);*/
+    }
+
+    public static Account createSyncAccount(Context context) {
+        Account newAccount = new Account(
+                Constants.ACCOUNT, Constants.ACCOUNT_TYPE);
+        AccountManager accountManager =
+                (AccountManager) context.getSystemService(
+                        ACCOUNT_SERVICE);
+
+        if (accountManager.addAccountExplicitly(newAccount, null, null)){
+
+        } else {
+
+        }
+        return newAccount;
     }
 
     @Override
