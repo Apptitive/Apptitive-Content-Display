@@ -22,6 +22,7 @@ import com.apptitive.content_display.model.DbContent;
 import com.apptitive.content_display.model.Region;
 import com.apptitive.content_display.model.TimeTable;
 import com.apptitive.content_display.receiver.TimeTableWidgetProvider;
+import com.apptitive.content_display.sync.SyncUtils;
 import com.apptitive.content_display.utilities.Config;
 import com.apptitive.content_display.utilities.Constants;
 import com.apptitive.content_display.utilities.DateTimeUtils;
@@ -41,7 +42,7 @@ import java.util.Arrays;
 import java.util.List;
 
 
-public class MainActivity extends BaseActionBar implements View.OnClickListener, JsonArrayCompleteListener<JSONArray> {
+public class MainActivity extends BaseActionBar implements View.OnClickListener {
     private int mAppWidgetId;
     private ActionBar actionBar;
     private PreferenceHelper preferenceHelper;
@@ -50,16 +51,17 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
     private List<TimeTable> timeTables;
     private List<Region> regions;
     private Region region;
-
-    private Account mAccount;
-
+    Account mAccount;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         DbManager.init(this);
         supportRequestWindowFeature(WindowCompat.FEATURE_ACTION_BAR_OVERLAY);
         setContentView(R.layout.activity_main);
-        mAccount = createSyncAccount(this);
+        SyncUtils.triggerInitialSync(this);
+       // SyncUtils.triggerManualSync();
+      //  mAccount = CreateSyncAccount(this);
+        ContentResolver.requestSync(mAccount, Constants.AUTHORITY, new Bundle());
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             mAppWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
@@ -88,28 +90,26 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
 
         timeTables = DbManager.getInstance().getAllTimeTables();
         regions = DbManager.getInstance().getAllRegions();
-
-        HttpHelper httpHelper = HttpHelper.getInstance(this, this);
-        httpHelper.getJsonArray(Config.getMenuUrl(), Constants.MENU_REQUEST_CODE);
-        httpHelper.getJsonArray(Config.getTopicUrl(), Constants.CONTENT_REQUEST_CODE);
 /*      ImageLoader imageLoader = HttpHelper.getInstance(this).getImageLoader();
         NetworkImageView imgNetWorkView=(NetworkImageView)findViewById(R.id.imgDemo);
         imgNetWorkView.setImageUrl(Config.getImageUrl(this)+"1.9.png", imageLoader);*/
     }
-
-    public static Account createSyncAccount(Context context) {
+    public static Account CreateSyncAccount(Context context) {
+        // Create the account type and default account
         Account newAccount = new Account(
-                Constants.ACCOUNT, Constants.ACCOUNT_TYPE);
+                Constants.ACCOUNT_NAME, Constants.ACCOUNT_TYPE);
+        // Get an instance of the Android account manager
         AccountManager accountManager =
                 (AccountManager) context.getSystemService(
                         ACCOUNT_SERVICE);
-
-        if (accountManager.addAccountExplicitly(newAccount, null, null)){
-
-        } else {
-
+        /*
+         * Add the account and account type, no password or user data
+         * If successful, return the Account object, otherwise report an error.
+         */
+        if (accountManager.addAccountExplicitly(newAccount, null, null)) {
+          return newAccount;
         }
-        return newAccount;
+        return null;
     }
 
     @Override
@@ -211,37 +211,6 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
         }
     }
 
-    @Override
-    public void onJsonArray(JSONArray result, int requestCode) {
-        Gson gson = new Gson();
-        if (requestCode == Constants.MENU_REQUEST_CODE) {
-            List<ContentMenu> menus = Arrays.asList(gson.fromJson(result.toString(), ContentMenu[].class));
-            DbManager.getInstance().addMenu(menus);
-        } else if (requestCode == Constants.CONTENT_REQUEST_CODE) {
-            DbManager.getInstance().addDbContent(getParsedDbContentResult(result));
-            LogUtil.LOGE("successful");
-        }
-    }
 
-    private List<DbContent> getParsedDbContentResult(JSONArray result) {
-        List<DbContent> dbContents = new ArrayList<DbContent>();
-        for (int i = 0; i < result.length(); i++) {
-            try {
-                JSONObject jsonObject = (JSONObject) result.get(i);
-                DbContent dbContent = new DbContent();
-                dbContent.setActionId((Integer) jsonObject.get("actionId"));
-                dbContent.setContentId(jsonObject.get("contentId").toString());
-                dbContent.setMenuId(jsonObject.get("menuId").toString());
-                dbContent.setHeader(jsonObject.get("header").toString());
-                dbContent.setShortDescription(jsonObject.get("shortDescription").toString());
-                dbContent.setDetails(jsonObject.get("details").toString());
-                dbContent.setViewType(jsonObject.get("viewType").toString());
-                dbContent.setActionType(jsonObject.get("actionType").toString());
-                dbContents.add(dbContent);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        return dbContents;
-    }
+
 }

@@ -13,7 +13,6 @@ import com.apptitive.content_display.model.Content;
 import com.apptitive.content_display.model.Detail;
 import com.apptitive.content_display.model.JsonDetail;
 import com.apptitive.content_display.utilities.Constants;
-import com.google.analytics.tracking.android.EasyTracker;
 import com.google.gson.Gson;
 
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -37,13 +36,13 @@ public class DetailsFragment extends ListFragment {
     @Override
     public void onStart() {
         super.onStart();
-        EasyTracker.getInstance(getActivity()).activityStart(getActivity());
+       // EasyTracker.getInstance(getActivity()).activityStart(getActivity());
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        EasyTracker.getInstance(getActivity()).activityStop(getActivity());
+      //  EasyTracker.getInstance(getActivity()).activityStop(getActivity());
     }
 
     @Override
