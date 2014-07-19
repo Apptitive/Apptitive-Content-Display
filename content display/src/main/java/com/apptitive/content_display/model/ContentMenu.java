@@ -1,13 +1,17 @@
 package com.apptitive.content_display.model;
 
+import com.apptitive.content_display.helper.DbManager;
+import com.apptitive.content_display.utilities.Constants;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+
+import java.util.List;
 
 /**
  * Created by rayhan on 7/13/2014.
  */
 @DatabaseTable
-public class ContentMenu {
+public class ContentMenu{
 
     @DatabaseField
     private int actionId;
@@ -61,5 +65,18 @@ public class ContentMenu {
 
     public int getSubPatternId() {
         return subPatternId;
+    }
+
+
+    public static void updateDb(DbManager dbManager, List<ContentMenu> contentMenus) {
+        for (ContentMenu contentMenu : contentMenus) {
+            if (contentMenu.getActionType().equals(Constants.ContentType.ADD)) {
+                dbManager.addMenu(contentMenu);
+            } else if (contentMenu.getActionType().equals(Constants.ContentType.DELETE)) {
+                dbManager.deleteMenu(contentMenu);
+            } else if (contentMenu.getActionType().equals(Constants.ContentType.UPDATE)) {
+                dbManager.updateMenu(contentMenu);
+            }
+        }
     }
 }

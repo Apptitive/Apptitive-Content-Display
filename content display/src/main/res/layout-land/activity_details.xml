@@ -17,8 +17,8 @@
             android:layout_height="match_parent"
             android:visibility="gone" />
 
-        <RelativeLayout
-            android:id="@+id/relativeLayout_container"
+        <FrameLayout
+            android:id="@+id/frameLayout_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/ContentDetailFragmentBg"
@@ -30,7 +30,7 @@
                 android:name="com.apptitive.content_display.DetailsFragment"
                 android:id="@+id/fragment_details"
                 tools:layout="@layout/fragment_details" />
-        </RelativeLayout>
+        </FrameLayout>
     </RelativeLayout>
 
     <!-- Drawer ListView -->

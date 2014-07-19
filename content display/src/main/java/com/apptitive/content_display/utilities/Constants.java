@@ -52,4 +52,10 @@ public final class Constants {
         public static final int VIEW_TYPE_ARABIC = 4;
         public static final int VIEW_TYPE_ARABIC_BULLET_ALIGN = 5;
     }
+
+    public final class ContentType{
+        public static final String ADD = "add";
+        public static final String DELETE = "delete";
+        public static final String UPDATE = "update";
+    }
 }

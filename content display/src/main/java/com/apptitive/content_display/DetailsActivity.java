@@ -127,7 +127,7 @@ public class DetailsActivity extends BaseActionBar implements DetailsFragment.De
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         if (add) {
             if (!fragment.isVisible()) {
-                ft.add(R.id.relativeLayout_container, fragment);
+                ft.add(R.id.frameLayout_container, fragment);
             }
         } else {
             if (fragment.isVisible()) {
