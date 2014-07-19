@@ -1,13 +1,17 @@
 package com.apptitive.content_display.model;
 
+import com.apptitive.content_display.helper.DbManager;
+import com.apptitive.content_display.utilities.Constants;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+
+import java.util.List;
 
 /**
  * Created by rayhan on 7/13/2014.
  */
 @DatabaseTable
-public class DbContent {
+public class DbContent{
     @DatabaseField
     private int actionId;
 
@@ -109,5 +113,17 @@ public class DbContent {
 
     public void setContentId(String contentId) {
         this.contentId = contentId;
+    }
+
+    public static void updateDb(DbManager dbManager, List<DbContent> dbContents) {
+        for (DbContent dbContent:dbContents){
+            if (dbContent.getActionType().equals(Constants.ContentType.ADD)) {
+                dbManager.addDbContent(dbContent);
+            } else if (dbContent.getActionType().equals(Constants.ContentType.DELETE)) {
+                dbManager.deleteDbContent(dbContent);
+            } else if (dbContent.getActionType().equals(Constants.ContentType.UPDATE)) {
+                dbManager.updateDbContent(dbContent);
+            }
+        }
     }
 }

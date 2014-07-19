@@ -21,18 +21,22 @@ public class SyncUtils {
         AccountManager accountManager =
                 (AccountManager) context.getSystemService(Context.ACCOUNT_SERVICE);
         if (accountManager.addAccountExplicitly(account, null, null)) {
-            ContentResolver.requestSync(account, Constants.AUTHORITY, new Bundle());
+            LogUtil.LOGE("first time call sync");
+            triggerManualSync();
         }
     }
 
 
     public static void triggerManualSync() {
         LogUtil.LOGE("manual sync");
-        Bundle b = new Bundle();
+        Bundle settingsBundle = new Bundle();
+        settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
+        settingsBundle.putBoolean(
+                ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
         ContentResolver.requestSync(
                 AuthenticatorService.GetAccount(Constants.ACCOUNT_TYPE),
                 Constants.AUTHORITY,
-                b);
+                settingsBundle);
     }
 
     public static void triggerPeriodicSync(long syncFrequency) {
