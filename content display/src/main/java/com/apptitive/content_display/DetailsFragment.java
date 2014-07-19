@@ -12,7 +12,6 @@ import com.apptitive.content_display.adapter.DetailsListAdapter;
 import com.apptitive.content_display.model.Content;
 import com.apptitive.content_display.model.Detail;
 import com.apptitive.content_display.model.JsonDetail;
-import com.apptitive.content_display.utilities.Constants;
 import com.google.gson.Gson;
 
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -36,13 +35,13 @@ public class DetailsFragment extends ListFragment {
     @Override
     public void onStart() {
         super.onStart();
-       // EasyTracker.getInstance(getActivity()).activityStart(getActivity());
+        // EasyTracker.getInstance(getActivity()).activityStart(getActivity());
     }
 
     @Override
     public void onStop() {
         super.onStop();
-      //  EasyTracker.getInstance(getActivity()).activityStop(getActivity());
+        //  EasyTracker.getInstance(getActivity()).activityStop(getActivity());
     }
 
     @Override
@@ -59,14 +58,7 @@ public class DetailsFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         gson = new Gson();
-        List<JsonDetail> jsonDetails = Arrays.asList(gson.fromJson(detailProvider.getContent().getDetails(), JsonDetail[].class));
-        details = new ArrayList<Detail>();
-        for (JsonDetail jsonDetail : jsonDetails) {
-            Detail detail1 = new Detail();
-            detail1.populateFrom(jsonDetail);
-            details.add(detail1);
-        }
-        detailsListAdapter = new DetailsListAdapter(getActivity(), details);
+        detailsListAdapter = new DetailsListAdapter(getActivity(), jsonToDetail(Arrays.asList(gson.fromJson(detailProvider.getContent().getDetails(), JsonDetail[].class))));
     }
 
     @Override
@@ -76,15 +68,21 @@ public class DetailsFragment extends ListFragment {
         return inflater.inflate(R.layout.fragment_details, container, false);
     }
 
-    public void changeTopic(Content content) {
-        details.clear();
-        List<JsonDetail> jsonDetails = Arrays.asList(gson.fromJson(content.getDetails(), JsonDetail[].class));
-        details = new ArrayList<Detail>();
+    private List<Detail> jsonToDetail(List<JsonDetail> jsonDetails) {
+        if (details == null)
+            details = new ArrayList<Detail>();
+        else details.clear();
+
         for (JsonDetail jsonDetail : jsonDetails) {
             Detail detail1 = new Detail();
             detail1.populateFrom(jsonDetail);
             details.add(detail1);
         }
+        return details;
+    }
+
+    public void changeTopic(Content content) {
+        jsonToDetail(Arrays.asList(gson.fromJson(content.getDetails(), JsonDetail[].class)));
         getListView().setAdapter(detailsListAdapter);
     }
 

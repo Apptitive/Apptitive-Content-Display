@@ -2,6 +2,8 @@ package com.apptitive.content_display;
 
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.WindowCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -9,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -17,6 +20,7 @@ import android.widget.TextView;
 import com.apptitive.content_display.helper.DbManager;
 import com.apptitive.content_display.model.Content;
 import com.apptitive.content_display.model.DbContent;
+import com.apptitive.content_display.model.DetailType;
 import com.apptitive.content_display.utilities.Constants;
 import com.apptitive.content_display.utilities.Utilities;
 import com.dibosh.experiments.android.support.customfonthelper.AndroidCustomFontSupport;
@@ -28,12 +32,15 @@ import java.util.List;
 public class DetailsActivity extends BaseActionBar implements DetailsFragment.DetailProvider {
 
     private int iconDrawableId;
-    private Content contentInView;
-    private ActionBar actionBar;
-    private DrawerLayout drawerLayout;
+    private String menuId;
+    private Content content;
     private List<Content> contents;
     private ArrayAdapter<Content> drawerListAdapter;
+    private ActionBar actionBar;
+    private DrawerLayout drawerLayout;
     private ListView listViewDrawer;
+    private WebView webViewDetails;
+    private DetailsFragment detailsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,13 +50,14 @@ public class DetailsActivity extends BaseActionBar implements DetailsFragment.De
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            contentInView = extras.getParcelable(Constants.content.EXTRA_CONTENT);
+            menuId = extras.getString(Constants.menu.EXTRA_MENU_ID);
+            content = extras.getParcelable(Constants.content.EXTRA_CONTENT);
             iconDrawableId = extras.getInt(Constants.menu.EXTRA_ICON_ID);
         }
 
         actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.ActionBarInnerBg)));
-        actionBar.setTitle(Utilities.getBanglaSpannableString(contentInView.getHeader(), this));
+        actionBar.setTitle(Utilities.getBanglaSpannableString(content.getHeader(), this));
         actionBar.setIcon(getResources().getDrawable(iconDrawableId));
         actionBar.setDisplayShowHomeEnabled(true);
 
@@ -57,8 +65,15 @@ public class DetailsActivity extends BaseActionBar implements DetailsFragment.De
 
         drawerLayout = (DrawerLayout) findViewById(R.id.layout_drawer);
         listViewDrawer = (ListView) findViewById(R.id.listView_drawer);
+        webViewDetails = (WebView) findViewById(R.id.webView_details);
+        detailsFragment = (DetailsFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_details);
 
-        contents = dbResultToContent(DbManager.getInstance().getDbContentForMenu(contentInView.getContentId()));
+        if (content.getDetailType().equals(DetailType.HTML)) {
+            addRemoveFragment(detailsFragment, false);
+            webViewDetails.loadData(content.getDetails(), "text/html", "utf-8");
+        }
+
+        contents = dbResultToContent(DbManager.getInstance().getDbContentForMenu(menuId));
 
         drawerListAdapter = new ArrayAdapter<Content>(this, R.layout.list_item_nav_drawer,
                 contents) {
@@ -83,7 +98,7 @@ public class DetailsActivity extends BaseActionBar implements DetailsFragment.De
                 }
                 tvHeader = (TextView) convertView.findViewById(R.id.btv_nav);
                 tvHeader.setText(getItem(position).getHeader());
-                if (content.getContentId().equals(contentInView.getContentId()))
+                if (content.getContentId().equals(DetailsActivity.this.content.getContentId()))
                     convertView.setBackgroundColor(getResources().getColor(R.color.NavDrawerListItemSelected));
                 return convertView;
             }
@@ -93,14 +108,33 @@ public class DetailsActivity extends BaseActionBar implements DetailsFragment.De
         listViewDrawer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View item, int position, long id) {
-                contentInView = contents.get(position);
-                actionBar.setTitle(Utilities.getBanglaSpannableString(contentInView.getHeader(), DetailsActivity.this));
-                DetailsFragment detailsFragment = (DetailsFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_details);
-                detailsFragment.changeTopic(contentInView);
+                content = contents.get(position);
+                actionBar.setTitle(Utilities.getBanglaSpannableString(content.getHeader(), DetailsActivity.this));
+                if (content.getDetailType().equals(DetailType.HTML)) {
+                    addRemoveFragment(detailsFragment, false);
+                    webViewDetails.loadData(content.getDetails(), "text/html", "utf-8");
+                } else {
+                    addRemoveFragment(detailsFragment, true);
+                    detailsFragment.changeTopic(content);
+                }
                 listViewDrawer.setAdapter(drawerListAdapter);
                 drawerLayout.closeDrawer(listViewDrawer);
             }
         });
+    }
+
+    private void addRemoveFragment(Fragment fragment, boolean add) {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        if (add) {
+            if (!fragment.isVisible()) {
+                ft.add(R.id.relativeLayout_container, fragment);
+            }
+        } else {
+            if (fragment.isVisible()) {
+                ft.remove(fragment);
+            }
+        }
+        ft.commit();
     }
 
     private List<Content> dbResultToContent(List<DbContent> dbContents) {
@@ -145,6 +179,6 @@ public class DetailsActivity extends BaseActionBar implements DetailsFragment.De
     }
 
     public Content getContent() {
-        return contentInView;
+        return content;
     }
 }

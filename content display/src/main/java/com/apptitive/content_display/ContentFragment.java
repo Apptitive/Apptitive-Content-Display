@@ -25,6 +25,7 @@ import uk.co.chrisjenx.paralloid.Parallaxor;
 
 public class ContentFragment extends ListFragment implements ContentListAdapter.ContentCallback {
 
+    private String menuId;
     private ContentProvider contentProvider;
     private ContentListAdapter contentListAdapter;
 
@@ -58,8 +59,8 @@ public class ContentFragment extends ListFragment implements ContentListAdapter.
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String menu_id = contentProvider.getMenuId();
-        contentListAdapter = new ContentListAdapter(getActivity(), R.layout.list_item_content, dbResultToContent(DbManager.getInstance().getDbContentForMenu(menu_id)), this);
+        menuId = contentProvider.getMenuId();
+        contentListAdapter = new ContentListAdapter(getActivity(), R.layout.list_item_content, dbResultToContent(DbManager.getInstance().getDbContentForMenu(menuId)), this);
     }
 
     private List<Content> dbResultToContent(List<DbContent> dbContents) {
@@ -116,6 +117,7 @@ public class ContentFragment extends ListFragment implements ContentListAdapter.
     @Override
     public void onContentClick(Content content) {
         Intent i = new Intent(getActivity(), DetailsActivity.class);
+        i.putExtra(Constants.menu.EXTRA_MENU_ID, menuId);
         i.putExtra(Constants.content.EXTRA_CONTENT, content);
         i.putExtra(Constants.menu.EXTRA_ICON_ID, contentProvider.getIconDrawableId());
         startActivity(i);
