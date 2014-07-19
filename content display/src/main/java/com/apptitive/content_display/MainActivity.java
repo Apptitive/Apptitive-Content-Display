@@ -59,7 +59,6 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener 
         supportRequestWindowFeature(WindowCompat.FEATURE_ACTION_BAR_OVERLAY);
         setContentView(R.layout.activity_main);
         SyncUtils.triggerInitialSync(this);
-        SyncUtils.triggerManualSync();
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             mAppWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);

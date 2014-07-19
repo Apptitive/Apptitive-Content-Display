@@ -21,7 +21,8 @@ public class SyncUtils {
         AccountManager accountManager =
                 (AccountManager) context.getSystemService(Context.ACCOUNT_SERVICE);
         if (accountManager.addAccountExplicitly(account, null, null)) {
-            ContentResolver.requestSync(account, Constants.AUTHORITY, new Bundle());
+            LogUtil.LOGE("first time call sync");
+            triggerManualSync();
         }
     }
 
