@@ -28,11 +28,14 @@ public class SyncUtils {
 
     public static void triggerManualSync() {
         LogUtil.LOGE("manual sync");
-        Bundle b = new Bundle();
+        Bundle settingsBundle = new Bundle();
+        settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
+        settingsBundle.putBoolean(
+                ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
         ContentResolver.requestSync(
                 AuthenticatorService.GetAccount(Constants.ACCOUNT_TYPE),
                 Constants.AUTHORITY,
-                b);
+                settingsBundle);
     }
 
     public static void triggerPeriodicSync(long syncFrequency) {

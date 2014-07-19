@@ -27,7 +27,7 @@ public final class Constants {
     // An account type, in the form of a domain name
     public static final String ACCOUNT_TYPE = "apptitive.com";
     // The account name
-    public static final String ACCOUNT_NAME = "dummyaccount";
+    public static final String ACCOUNT_NAME = "mydummyaccount";
 
     public final class content {
         public static final String EXTRA_MENU_ID = "_menuId";
