@@ -7,7 +7,7 @@ import android.content.Context;
  */
 public class Config {
     private static final String MENU_URL = "http://apptitive.com/content_display/json/menu.json";
-    private static final String TOPIC_URL = "http://apptitive.com/content_display/json/topicjson.json";
+    private static final String TOPIC_URL = "http://apptitive.com/content_display/json/content.json";
     private static final String BASE_IMAGE_URL="http://apptitive.com/content_display/media/images/";
 
     public static String getMenuUrl() {

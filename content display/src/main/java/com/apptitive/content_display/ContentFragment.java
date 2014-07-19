@@ -1,39 +1,36 @@
 package com.apptitive.content_display;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.content.res.Configuration;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.apptitive.content_display.adapter.TopicListAdapter;
+import com.apptitive.content_display.adapter.ContentListAdapter;
+import com.apptitive.content_display.helper.DbManager;
 import com.apptitive.content_display.model.Content;
-import com.apptitive.content_display.utilities.Constants;
+import com.apptitive.content_display.model.DbContent;
 import com.apptitive.content_display.views.ParallaxListView;
 import com.google.analytics.tracking.android.EasyTracker;
 
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import uk.co.chrisjenx.paralloid.Parallaxor;
 
-public class TopicsFragment extends ListFragment implements TopicListAdapter.TopicClickListener {
+public class ContentFragment extends ListFragment implements ContentListAdapter.ContentCallback {
 
     private XmlPullParserFactory parserFactory;
-    private TopicsActivity parentActivity;
-    private TopicListAdapter topicListAdapter;
-    private ArrayList<Content> contents;
+    private ContentProvider contentProvider;
+    private ContentListAdapter contentListAdapter;
 
-    public TopicsFragment() {
+    public ContentFragment() {
 
     }
 
@@ -52,57 +49,30 @@ public class TopicsFragment extends ListFragment implements TopicListAdapter.Top
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        parentActivity = (TopicsActivity) activity;
+        try {
+            contentProvider = (ContentProvider) activity;
+        } catch (ClassCastException cce) {
+            Log.e(this.getTag(), "Parent activity must implement ContentProvider");
+        }
+        DbManager.init(getActivity());
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        contents = new ArrayList<Content>();
-        topicListAdapter = new TopicListAdapter(parentActivity, R.layout.list_item_topics, contents, this);
-        /*try {
-            populateList(topicFileResId);
-        } catch (XmlPullParserException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
+        String menu_id = contentProvider.getMenuId();
+        contentListAdapter = new ContentListAdapter(getActivity(), R.layout.list_item_content, dbResultToContent(DbManager.getInstance().getDbContentForMenu(menu_id)) , this);
     }
 
-    /*private void populateList(int topicResId) throws XmlPullParserException, IOException {
-        parserFactory = XmlPullParserFactory.newInstance();
-        parserFactory.setNamespaceAware(false);
-        XmlPullParser xpp = parserFactory.newPullParser();
-        xpp.setInput(getResources().openRawResource(topicResId), "utf-8");
-
-        Content content = null;
-
-        for (int eventType = xpp.getEventType(); eventType != XmlPullParser.END_DOCUMENT; eventType = xpp.nextToken()) {
-            String name = xpp.getName();
-            if (eventType == XmlPullParser.START_TAG) {
-                if (name.equalsIgnoreCase("subtopic")) {
-                    content = new Content();
-                    content.setHeader(xpp.getAttributeValue(null, "name"));
-                    content.setHasFullText(Boolean.parseBoolean(xpp.getAttributeValue(null, "show_all")));
-                }
-                if (name.equalsIgnoreCase("details")) {
-                    content.setDetailId(Integer.parseInt(xpp.getAttributeValue(null, "id")));
-                }
-                if (name.equalsIgnoreCase("brief")) {
-                    content.setShortDescription(xpp.getAttributeValue(null, "text"));
-                }
-                if(name.equalsIgnoreCase("url")) {
-                    content.setDetailUri(Uri.parse(xpp.getAttributeValue(null, "link")));
-                }
-            }
-            if (eventType == XmlPullParser.END_TAG) {
-                if (name.equalsIgnoreCase("subtopic")) {
-                    contents.add(content);
-                }
-            }
+    private List<Content> dbResultToContent(List<DbContent> dbContents) {
+        List<Content> contents = new ArrayList<Content>();
+        for (DbContent dbContent : dbContents) {
+            Content content = new Content();
+            content.populateFrom(dbContent);
+            contents.add(content);
         }
-        xpp.setInput(null);
-    }*/
+        return contents;
+    }
 
     private void parallaxListViewBackground(int drawable) {
         final ListView listView = getListView();
@@ -123,8 +93,8 @@ public class TopicsFragment extends ListFragment implements TopicListAdapter.Top
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        setListAdapter(topicListAdapter);
-        return inflater.inflate(R.layout.fragment_topics, container, false);
+        setListAdapter(contentListAdapter);
+        return inflater.inflate(R.layout.fragment_content, container, false);
     }
 
     @Override
@@ -146,7 +116,7 @@ public class TopicsFragment extends ListFragment implements TopicListAdapter.Top
     }
 
     @Override
-    public void onTopicClick(Content content, int position) {
+    public void onContentClick(Content content, int position) {
         /*if (!content.hasFullText()) {
             if(content.getDetailUri() == null && content.getDetailId() > 0) {
                 Intent i = new Intent(parentActivity, DetailsActivity.class);
@@ -162,5 +132,9 @@ public class TopicsFragment extends ListFragment implements TopicListAdapter.Top
                 startActivity(intent);
             }
         }*/
+    }
+
+    public interface ContentProvider {
+        String getMenuId();
     }
 }

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import com.apptitive.content_display.R;
-import com.apptitive.content_display.model.Menu;
+import com.apptitive.content_display.model.ContentMenu;
 import com.apptitive.content_display.model.Region;
 import com.apptitive.content_display.model.TimeTable;
 import com.apptitive.content_display.model.DbContent;
@@ -27,7 +27,7 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
 
     private Dao<Region, String> regionDao = null;
     private Dao<TimeTable, String> timeTableDao = null;
-    private Dao<Menu, String> menuDao = null;
+    private Dao<ContentMenu, String> menuDao = null;
     private Dao<DbContent, String> topicsDao = null;
 
     public DbHelper(Context context) {
@@ -40,7 +40,7 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
         try {
             TableUtils.createTable(connectionSource, Region.class);
             TableUtils.createTable(connectionSource, TimeTable.class);
-            TableUtils.createTable(connectionSource, Menu.class);
+            TableUtils.createTable(connectionSource, ContentMenu.class);
             TableUtils.createTable(connectionSource, DbContent.class);
         } catch (SQLException e) {
             Log.e(DbHelper.class.getName(), "Can't create database", e);
@@ -56,7 +56,7 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
         try {
             TableUtils.clearTable(connectionSource, Region.class);
             TableUtils.clearTable(connectionSource, TimeTable.class);
-            TableUtils.clearTable(connectionSource, Menu.class);
+            TableUtils.clearTable(connectionSource, ContentMenu.class);
             TableUtils.clearTable(connectionSource, DbContent.class);
             CSVToDbHelper.readCSVAndInserIntoDb(context, R.raw.region, DbTableName.Region);
             CSVToDbHelper.readCSVAndInserIntoDb(context, R.raw.timetable, DbTableName.TimeTable);
@@ -91,10 +91,10 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
         return timeTableDao;
     }
 
-    public Dao<Menu, String> getMenuDao() {
+    public Dao<ContentMenu, String> getMenuDao() {
         if (null == menuDao) {
             try {
-                menuDao = getDao(Menu.class);
+                menuDao = getDao(ContentMenu.class);
             } catch (java.sql.SQLException e) {
                 e.printStackTrace();
             }

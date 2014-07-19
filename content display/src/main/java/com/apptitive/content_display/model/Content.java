@@ -4,6 +4,8 @@ import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.apptitive.content_display.utilities.Constants;
+
 /**
  * Created by Iftekhar on 6/4/2014.
  */
@@ -93,4 +95,12 @@ public class Content implements Parcelable {
             return new Content[size];
         }
     };
+
+    public void populateFrom(DbContent dbContent) {
+        setContentId(dbContent.getContentId());
+        setHeader(dbContent.getHeader());
+        setShortDescription(dbContent.getShortDescription());
+        setDetailType(dbContent.getViewType().equalsIgnoreCase(Constants.content.view.TYPE_NATIVE) ? DetailType.NATIVE : DetailType.HTML);
+        setDetails(dbContent.getDetails());
+    }
 }

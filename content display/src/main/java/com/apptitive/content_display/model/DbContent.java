@@ -77,4 +77,37 @@ public class DbContent {
     public String getActionType() {
         return actionType;
     }
+
+
+    public void setActionId(int actionId) {
+        this.actionId = actionId;
+    }
+
+    public void setViewType(String viewType) {
+        this.viewType = viewType;
+    }
+
+    public void setActionType(String actionType) {
+        this.actionType = actionType;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
+    }
+
+    public void setShortDescription(String shortDescription) {
+        this.shortDescription = shortDescription;
+    }
+
+    public void setHeader(String header) {
+        this.header = header;
+    }
+
+    public void setMenuId(String menuId) {
+        this.menuId = menuId;
+    }
+
+    public void setContentId(String contentId) {
+        this.contentId = contentId;
+    }
 }

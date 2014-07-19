@@ -21,14 +21,25 @@ public final class Constants {
     public static final String SEHRI_ROW_POSITION="sehri_row_position";
 
     public static final int MENU_REQUEST_CODE=1;
-    public static final int TOPIC_REQUEST_CODE=2;
+    public static final int CONTENT_REQUEST_CODE =2;
 
+    public static final String AUTHORITY = "com.apptitive.content_display.sync.StubProvider";
+    // An account type, in the form of a domain name
+    public static final String ACCOUNT_TYPE = "apptitive.com";
+    // The account name
+    public static final String ACCOUNT_NAME = "dummyaccount";
 
     public final class content {
-        public static final String EXTRA_MENU_TITLE = "_title";
+        public static final String EXTRA_MENU_ID = "_menuId";
+        public static final String EXTRA_MENU_TITLE = "_menuTitle";
         public static final String EXTRA_PARCELABLE_LIST = "_parcelable";
         public static final String EXTRA_VIEWING_NOW = "_viewingNow";
         public static final String EXTRA_ICON_ID = "_iconId";
+
+        public final class view {
+            public static final String TYPE_NATIVE = "native";
+            public static final String TYPE_HTML = "html";
+        }
     }
 
     public final class detail {

@@ -1,6 +1,10 @@
 package com.apptitive.content_display;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.appwidget.AppWidgetManager;
+import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -9,28 +13,37 @@ import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
 import com.apptitive.content_display.helper.CSVToDbHelper;
 import com.apptitive.content_display.helper.DbManager;
 import com.apptitive.content_display.helper.DbTableName;
 import com.apptitive.content_display.interfaces.JsonArrayCompleteListener;
+import com.apptitive.content_display.model.ContentMenu;
+import com.apptitive.content_display.model.DbContent;
 import com.apptitive.content_display.model.Region;
 import com.apptitive.content_display.model.TimeTable;
-import com.apptitive.content_display.model.DbContent;
 import com.apptitive.content_display.receiver.TimeTableWidgetProvider;
+import com.apptitive.content_display.sync.SyncUtils;
 import com.apptitive.content_display.utilities.Config;
 import com.apptitive.content_display.utilities.Constants;
 import com.apptitive.content_display.utilities.HttpHelper;
+import com.apptitive.content_display.utilities.LogUtil;
 import com.apptitive.content_display.utilities.PreferenceHelper;
 import com.apptitive.content_display.utilities.UIUtils;
 import com.apptitive.content_display.views.BanglaTextView;
 import com.google.gson.Gson;
+
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 
-public class MainActivity extends BaseActionBar implements View.OnClickListener, JsonArrayCompleteListener<JSONArray> {
+public class MainActivity extends BaseActionBar implements View.OnClickListener {
     private int mAppWidgetId;
     private ActionBar actionBar;
     private PreferenceHelper preferenceHelper;
@@ -46,7 +59,7 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
         DbManager.init(this);
         supportRequestWindowFeature(WindowCompat.FEATURE_ACTION_BAR_OVERLAY);
         setContentView(R.layout.activity_main);
-
+        SyncUtils.triggerInitialSync(this);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             mAppWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
@@ -75,14 +88,11 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
 
         timeTables = DbManager.getInstance().getAllTimeTables();
         regions = DbManager.getInstance().getAllRegions();
-
-        HttpHelper httpHelper = HttpHelper.getInstance(this, this);
-        httpHelper.getJsonArray(Config.getMenuUrl(),Constants.MENU_REQUEST_CODE);
-        httpHelper.getJsonArray(Config.getTopicUrl(),Constants.TOPIC_REQUEST_CODE);
 /*      ImageLoader imageLoader = HttpHelper.getInstance(this).getImageLoader();
         NetworkImageView imgNetWorkView=(NetworkImageView)findViewById(R.id.imgDemo);
         imgNetWorkView.setImageUrl(Config.getImageUrl(this)+"1.9.png", imageLoader);*/
     }
+
 
     @Override
     protected void onStop() {
@@ -141,7 +151,8 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
         Intent i;
         switch (view.getId()) {
             case R.id.tab_saom:
-                i = new Intent(this, TopicsActivity.class);
+                i = new Intent(this, ContentActivity.class);
+                i.putExtra(Constants.content.EXTRA_MENU_ID, "1");
                 i.putExtra(Constants.content.EXTRA_MENU_TITLE, getString(R.string.saom));
                 i.putExtra(Constants.content.EXTRA_ICON_ID, R.drawable.ic_saom);
                 startActivity(i);
@@ -150,13 +161,13 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
                 this.startActivity(new Intent(MainActivity.this, SehriIfterActivity.class));
                 break;
             case R.id.tab_nioat:
-                i = new Intent(this, TopicsActivity.class);
+                i = new Intent(this, ContentActivity.class);
                 i.putExtra(Constants.content.EXTRA_MENU_TITLE, getString(R.string.niyat_o_doa));
                 i.putExtra(Constants.content.EXTRA_ICON_ID, R.drawable.ic_niyat);
                 startActivity(i);
                 break;
             case R.id.tab_ramadan:
-                i = new Intent(this, TopicsActivity.class);
+                i = new Intent(this, ContentActivity.class);
                 i.putExtra(Constants.content.EXTRA_MENU_TITLE, getString(R.string.ramadan));
                 i.putExtra(Constants.content.EXTRA_ICON_ID, R.drawable.ic_romzan);
                 startActivity(i);
@@ -168,7 +179,7 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
                 startActivity(i);
                 break;
             case R.id.tab_tarabih:
-                i = new Intent(this, TopicsActivity.class);
+                i = new Intent(this, ContentActivity.class);
                 i.putExtra(Constants.content.EXTRA_MENU_TITLE, getString(R.string.tarabih));
                 i.putExtra(Constants.content.EXTRA_ICON_ID, R.drawable.ic_tarabih);
                 startActivity(i);
@@ -178,14 +189,7 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
         }
     }
 
-    @Override
-    public void onJsonArray(JSONArray result,int requestCode) {
-        Gson gson = new Gson();
-        if (requestCode==Constants.MENU_REQUEST_CODE){
-            List<com.apptitive.content_display.model.Menu> menus = Arrays.asList(gson.fromJson(result.toString(), com.apptitive.content_display.model.Menu[].class));
-            DbManager.getInstance().addMenu(menus);
-        }else if(requestCode==Constants.TOPIC_REQUEST_CODE){
-            List<DbContent> dbContents = Arrays.asList(gson.fromJson(result.toString(), DbContent[].class));
-        }
-    }
+
+
+
 }
