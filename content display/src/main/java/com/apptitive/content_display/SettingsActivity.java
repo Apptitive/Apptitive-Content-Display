@@ -20,7 +20,6 @@ import android.widget.LinearLayout;
 import com.apptitive.content_display.helper.DbManager;
 import com.apptitive.content_display.utilities.AboutUsDialog;
 import com.apptitive.content_display.utilities.Utilities;
-import com.google.analytics.tracking.android.EasyTracker;
 
 import static android.preference.Preference.OnPreferenceChangeListener;
 
@@ -39,13 +38,13 @@ public class SettingsActivity extends PreferenceActivity {
     @Override
     public void onStart() {
         super.onStart();
-        EasyTracker.getInstance(this).activityStart(this);
+       // EasyTracker.getInstance(this).activityStart(this);
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        EasyTracker.getInstance(this).activityStop(this);
+       // EasyTracker.getInstance(this).activityStop(this);
     }
 
     @Override

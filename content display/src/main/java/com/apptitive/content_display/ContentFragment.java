@@ -15,7 +15,6 @@ import com.apptitive.content_display.helper.DbManager;
 import com.apptitive.content_display.model.Content;
 import com.apptitive.content_display.model.DbContent;
 import com.apptitive.content_display.views.ParallaxListView;
-import com.google.analytics.tracking.android.EasyTracker;
 
 import org.xmlpull.v1.XmlPullParserFactory;
 
@@ -37,13 +36,13 @@ public class ContentFragment extends ListFragment implements ContentListAdapter.
     @Override
     public void onStart() {
         super.onStart();
-        EasyTracker.getInstance(getActivity()).activityStart(getActivity());
+      //  EasyTracker.getInstance(getActivity()).activityStart(getActivity());
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        EasyTracker.getInstance(getActivity()).activityStop(getActivity());
+       // EasyTracker.getInstance(getActivity()).activityStop(getActivity());
     }
 
     @Override

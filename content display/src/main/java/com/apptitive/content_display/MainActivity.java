@@ -52,7 +52,7 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener 
     private List<TimeTable> timeTables;
     private List<Region> regions;
     private Region region;
-
+    Account mAccount;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +60,9 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener 
         supportRequestWindowFeature(WindowCompat.FEATURE_ACTION_BAR_OVERLAY);
         setContentView(R.layout.activity_main);
         SyncUtils.triggerInitialSync(this);
+       // SyncUtils.triggerManualSync();
+      //  mAccount = CreateSyncAccount(this);
+        ContentResolver.requestSync(mAccount, Constants.AUTHORITY, new Bundle());
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             mAppWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
@@ -92,7 +95,23 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener 
         NetworkImageView imgNetWorkView=(NetworkImageView)findViewById(R.id.imgDemo);
         imgNetWorkView.setImageUrl(Config.getImageUrl(this)+"1.9.png", imageLoader);*/
     }
-
+    public static Account CreateSyncAccount(Context context) {
+        // Create the account type and default account
+        Account newAccount = new Account(
+                Constants.ACCOUNT_NAME, Constants.ACCOUNT_TYPE);
+        // Get an instance of the Android account manager
+        AccountManager accountManager =
+                (AccountManager) context.getSystemService(
+                        ACCOUNT_SERVICE);
+        /*
+         * Add the account and account type, no password or user data
+         * If successful, return the Account object, otherwise report an error.
+         */
+        if (accountManager.addAccountExplicitly(newAccount, null, null)) {
+          return newAccount;
+        }
+        return null;
+    }
 
     @Override
     protected void onStop() {
