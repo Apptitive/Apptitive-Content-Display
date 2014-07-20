@@ -3,48 +3,38 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="horizontal">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="@dimen/dp_8"
-        android:layout_weight=".42"
-        android:orientation="horizontal"
-        android:paddingBottom="@dimen/dp_2"
-        android:text="1">
+        android:layout_width="0dp"
+        android:layout_height="fill_parent"
+        android:layout_weight="3"
+        android:orientation="vertical"
+        android:paddingRight="@dimen/dp_4">
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="3"
-            android:orientation="vertical"
-            android:paddingRight="@dimen/dp_4">
+        <ViewStub
+            android:id="@+id/sub_pattern_left_top"
+            android:inflatedId="@+id/inflated_sub_pattern_left_top"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/dp_4"
+            android:layout_weight="1" />
 
-            <include
-                android:id="@+id/sub_pattern_left_top"
-                layout="@layout/partial_view_left_right"
-                android:layout_width="fill_parent"
-                android:layout_height="0dp"
-                android:layout_marginBottom="@dimen/dp_4"
-                android:layout_weight="1" />
+        <ViewStub
+            android:id="@+id/sub_pattern_left_bottom"
+            android:inflatedId="@+id/inflated_sub_pattern_left_bottom"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/dp_4"
+            android:layout_weight="1" />
 
-            <include
-                android:id="@+id/sub_pattern_left_bottom"
-                layout="@layout/partial_view_left_right"
-                android:layout_width="fill_parent"
-                android:layout_height="0dp"
-                android:layout_marginTop="@dimen/dp_4"
-                android:layout_weight="1" />
-
-        </LinearLayout>
-
-        <include
-            android:id="@+id/sub_pattern_right"
-            layout="@layout/partial_view_top_to_bottom"
-            android:layout_width="0dp"
-            android:layout_weight="2"
-            android:layout_height="fill_parent"
-            android:layout_marginLeft="@dimen/dp_4" />
     </LinearLayout>
+
+    <ViewStub
+        android:id="@+id/sub_pattern_right"
+        android:inflatedId="@+id/inflated_sub_pattern_right"
+        android:layout_width="0dp"
+        android:layout_weight="2"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="@dimen/dp_4" />
 </LinearLayout>

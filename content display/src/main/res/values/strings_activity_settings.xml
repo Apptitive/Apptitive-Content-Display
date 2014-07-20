@@ -2,14 +2,14 @@
     <string name="title_activity_settings">সেটিংস</string>
     <string name="title_alarm">অ্যালার্ম</string>
     <string name="title_alarm_setting">অ্যালার্ম সেট করুন</string>
-    <string name="title_location">এলাকা</string>
-    <string name="title_location_setting">এলাকা পছন্দ করুন</string>
+    <string name="sync_title">Sync</string>
+    <string name="sync_options">Sync Options</string>
     <string name="title_about_us">আমাদের সম্পর্কে</string>
 
     <string name="pref_key_alarm_settings">pref_key_alarm_settings</string>
     <string name="alarm_switch">alarm_switch</string>
     <string name="pref_key_alarm_ringtone">pref_key_alarm_rington</string>
-    <string name="pref_key_alarm_vibrate">pref_key_alarm_vibrat</string>
+    <string name="pref_key_sync_settings">pref_key_sync_settings</string>
     <string name="pref_key_location_settings">pref_key_location_settings</string>
     <string name="pref_key_location">prep_key_location</string>
     <string name="pref_key_about_us">pref_ey_about_us</string>
@@ -18,6 +18,6 @@
     <!--<string name="pref_title_new_message_notifications">সাওমের গুরুত্ব</string>-->
     <string name="pref_title_ringtone">রিংটোন</string>
     <string name="pref_ringtone_silent">Silent</string>
-    <string name="pref_title_vibrate">ভাইব্রেট</string>
+    <string name="pref_title_sync_settings">Sync Settings</string>
 
 </resources>
