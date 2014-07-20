@@ -23,7 +23,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         }*/
 
 
-        boolean isVibrate = preferenceHelper.getBoolean(context.getString(R.string.pref_key_alarm_vibrate));
+        boolean isVibrate = preferenceHelper.getBoolean(context.getString(R.string.pref_key_sync_settings));
         if (isVibrate) {
             setAlarmVibration(context);
         }
