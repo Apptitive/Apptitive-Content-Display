@@ -14,8 +14,8 @@ import com.apptitive.content_display.helper.DbManager;
 import com.apptitive.content_display.model.Region;
 import com.apptitive.content_display.model.TimeTable;
 import com.apptitive.content_display.utilities.Constants;
+import com.apptitive.content_display.utilities.DateTimeUtils;
 import com.apptitive.content_display.utilities.PreferenceHelper;
-import com.apptitive.content_display.utilities.UIUtils;
 import com.apptitive.content_display.utilities.Utilities;
 
 import java.text.ParseException;
@@ -49,17 +49,17 @@ public class TimeTableWidgetProvider extends AppWidgetProvider {
             preferenceHelper = new PreferenceHelper(context);
             timeTables = DbManager.getInstance().getAllTimeTables();
             regions = DbManager.getInstance().getAllRegions();
-            region = UIUtils.getSelectedLocation(regions, preferenceHelper.getString(Constants.PREF_KEY_LOCATION, "Dhaka"));
+            region = DateTimeUtils.getSelectedLocation(regions, preferenceHelper.getString(Constants.PREF_KEY_LOCATION, "Dhaka"));
 
-            region = UIUtils.getSelectedLocation(regions, preferenceHelper.getString(Constants.PREF_KEY_LOCATION, "Dhaka"));
+            region = DateTimeUtils.getSelectedLocation(regions, preferenceHelper.getString(Constants.PREF_KEY_LOCATION, "Dhaka"));
             if (region != null) {
                 try {
                     if (region.isPositive()) {
-                        remoteViews.setImageViewBitmap(R.id.imageView_seheri_time, Utilities.getTypefaceBitmap(context, UIUtils.getSehriIftarTime(region.getIntervalSehri(), timeTables, true, true), 35, true));
-                        remoteViews.setImageViewBitmap(R.id.imageView_iftar_time, Utilities.getTypefaceBitmap(context, UIUtils.getSehriIftarTime(region.getIntervalIfter(), timeTables, true, false), 35, true));
+                        remoteViews.setImageViewBitmap(R.id.imageView_seheri_time, Utilities.getTypefaceBitmap(context, DateTimeUtils.getSehriIftarTime(region.getIntervalSehri(), timeTables, true, true), 35, true));
+                        remoteViews.setImageViewBitmap(R.id.imageView_iftar_time, Utilities.getTypefaceBitmap(context, DateTimeUtils.getSehriIftarTime(region.getIntervalIfter(), timeTables, true, false), 35, true));
                     } else {
-                        remoteViews.setImageViewBitmap(R.id.imageView_seheri_time, Utilities.getTypefaceBitmap(context, UIUtils.getSehriIftarTime(-region.getIntervalSehri(), timeTables, true, true), 35, true));
-                        remoteViews.setImageViewBitmap(R.id.imageView_iftar_time, Utilities.getTypefaceBitmap(context, UIUtils.getSehriIftarTime(-region.getIntervalIfter(), timeTables, true, false), 35, true));
+                        remoteViews.setImageViewBitmap(R.id.imageView_seheri_time, Utilities.getTypefaceBitmap(context, DateTimeUtils.getSehriIftarTime(-region.getIntervalSehri(), timeTables, true, true), 35, true));
+                        remoteViews.setImageViewBitmap(R.id.imageView_iftar_time, Utilities.getTypefaceBitmap(context, DateTimeUtils.getSehriIftarTime(-region.getIntervalIfter(), timeTables, true, false), 35, true));
                     }
                 } catch (ParseException e) {
                     e.printStackTrace();

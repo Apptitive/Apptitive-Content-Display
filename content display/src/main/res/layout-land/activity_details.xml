@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <!-- Main content view -->
-    <RelativeLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/bg_home_land"
@@ -17,20 +17,14 @@
             android:layout_height="match_parent"
             android:visibility="gone" />
 
-        <RelativeLayout
+        <FrameLayout
+            android:id="@+id/fragment_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:visibility="gone"
             android:background="@color/ContentDetailFragmentBg"
-            android:layout_margin="@dimen/dp_8">
-
-            <fragment
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:name="com.apptitive.content_display.DetailsFragment"
-                android:id="@+id/fragment_details"
-                tools:layout="@layout/fragment_parallax_list" />
-        </RelativeLayout>
-    </RelativeLayout>
+            android:layout_margin="@dimen/dp_8"></FrameLayout>
+    </FrameLayout>
 
     <!-- Drawer ListView -->
     <ListView

@@ -5,7 +5,7 @@ package com.apptitive.content_display.utilities;
  */
 public final class Constants {
     public static final String DEFAULT_REGION = "Dhaka";
-    public static final String KEY_RINGTONE_NAME = "pref_key_alarm_ringtone";
+    public static final String PREF_KEY_SYNC_SETTINGS= "pref_key_sync_settings";
     public static final String PREF_KEY_LOCATION = "prep_key_location";
     public static final String DATE_FORMAT = "dd/MM/yyyy";
     public static final String DATE_FORMAT_HOUR_MINUTE_SECOND = "dd/MM/yyyy HH:mm:ss aa";
@@ -29,12 +29,14 @@ public final class Constants {
     // The account name
     public static final String ACCOUNT_NAME = "dummyaccount";
 
-    public final class content {
+    public final class menu {
         public static final String EXTRA_MENU_ID = "_menuId";
         public static final String EXTRA_MENU_TITLE = "_menuTitle";
-        public static final String EXTRA_PARCELABLE_LIST = "_parcelable";
-        public static final String EXTRA_VIEWING_NOW = "_viewingNow";
         public static final String EXTRA_ICON_ID = "_iconId";
+    }
+
+    public final class content {
+        public static final String EXTRA_CONTENT = "_content";
 
         public final class view {
             public static final String TYPE_NATIVE = "native";

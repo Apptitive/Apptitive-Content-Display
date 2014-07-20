@@ -65,7 +65,7 @@ public class ContentListAdapter extends ArrayAdapter<Content> {
         finalViewHolder.selectableView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                contentCallback.onContentClick(content, position);
+                contentCallback.onContentClick(content);
             }
         });
 
@@ -73,6 +73,6 @@ public class ContentListAdapter extends ArrayAdapter<Content> {
     }
 
     public interface ContentCallback {
-        void onContentClick(Content content, int position);
+        void onContentClick(Content content);
     }
 }

@@ -36,7 +36,7 @@ private PreferenceHelper preferenceHelper;
         if (intent==null){
             ringTonName=preferenceHelper.getString("RINGTON_NAME", RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM).toString());
         }else {
-            ringTonName  = intent.getStringExtra(Constants.KEY_RINGTONE_NAME);
+           // ringTonName  = intent.getStringExtra(Constants.KEY_RINGTONE_NAME);
         }
         playSound(ringTonName);
         Utilities.customNotification(getBaseContext());

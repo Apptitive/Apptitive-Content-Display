@@ -9,16 +9,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.apptitive.content_display.adapter.DetailsListAdapter;
-import com.apptitive.content_display.model.Detail;
 import com.apptitive.content_display.model.Content;
-import com.apptitive.content_display.utilities.Constants;
+import com.apptitive.content_display.model.Detail;
+import com.apptitive.content_display.model.JsonDetail;
+import com.google.gson.Gson;
 
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class DetailsFragment extends ListFragment {
@@ -27,6 +26,7 @@ public class DetailsFragment extends ListFragment {
     private DetailProvider detailProvider;
     private DetailsListAdapter detailsListAdapter;
     private List<Detail> details;
+    private Gson gson;
 
     public DetailsFragment() {
 
@@ -35,13 +35,13 @@ public class DetailsFragment extends ListFragment {
     @Override
     public void onStart() {
         super.onStart();
-       // EasyTracker.getInstance(getActivity()).activityStart(getActivity());
+        // EasyTracker.getInstance(getActivity()).activityStart(getActivity());
     }
 
     @Override
     public void onStop() {
         super.onStop();
-      //  EasyTracker.getInstance(getActivity()).activityStop(getActivity());
+        //  EasyTracker.getInstance(getActivity()).activityStop(getActivity());
     }
 
     @Override
@@ -57,15 +57,8 @@ public class DetailsFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        details = new ArrayList<Detail>();
-        detailsListAdapter = new DetailsListAdapter(getActivity(), details);
-        /*try {
-            populateList(detailProvider.getFileResId(), detailProvider.getContent().getDetailId());
-        } catch (XmlPullParserException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
+        gson = new Gson();
+        detailsListAdapter = new DetailsListAdapter(getActivity(), jsonToDetail(Arrays.asList(gson.fromJson(detailProvider.getContent().getDetails(), JsonDetail[].class))));
     }
 
     @Override
@@ -75,63 +68,17 @@ public class DetailsFragment extends ListFragment {
         return inflater.inflate(R.layout.fragment_details, container, false);
     }
 
-    private void populateList(int fileResId, int detailId) throws XmlPullParserException, IOException {
-        parserFactory = XmlPullParserFactory.newInstance();
-        parserFactory.setNamespaceAware(false);
-        XmlPullParser xpp = parserFactory.newPullParser();
-        xpp.setInput(getResources().openRawResource(fileResId), "utf-8");
+    private List<Detail> jsonToDetail(List<JsonDetail> jsonDetails) {
+        if (details == null)
+            details = new ArrayList<Detail>();
+        else details.clear();
 
-        boolean foundDetail = false;
-
-        for (int eventType = xpp.getEventType(); eventType != XmlPullParser.END_DOCUMENT; eventType = xpp.next()) {
-            String name = xpp.getName();
-            if (eventType == XmlPullParser.START_TAG) {
-                if (name.equalsIgnoreCase("details")) {
-                    if (detailId == Integer.parseInt(xpp.getAttributeValue(null, "id"))) {
-                        foundDetail = true;
-                    } else {
-                        foundDetail = false;
-                    }
-                }
-                if (name.equalsIgnoreCase("part")) {
-                    if (foundDetail) {
-                        details.add(new Detail(xpp.getAttributeValue(null, "text"), findViewTypeValue(xpp.getAttributeValue(null, "view_type"))));
-                    }
-                }
-            }
-            if (eventType == XmlPullParser.END_TAG) {
-                continue;
-            }
+        for (JsonDetail jsonDetail : jsonDetails) {
+            Detail detail1 = new Detail();
+            detail1.populateFrom(jsonDetail);
+            details.add(detail1);
         }
-        xpp.setInput(null);
-    }
-
-    private int findViewTypeValue(String vt) {
-        if (vt.equalsIgnoreCase("t"))
-            return Constants.detail.VIEW_TYPE_TEXT_ONLY;
-        else if (vt.equalsIgnoreCase("b"))
-            return Constants.detail.VIEW_TYPE_BULLET;
-        else if (vt.equalsIgnoreCase("h"))
-            return Constants.detail.VIEW_TYPE_HEADER_ONLY;
-        else if (vt.equalsIgnoreCase("a"))
-            return Constants.detail.VIEW_TYPE_ARABIC;
-        else if (vt.equalsIgnoreCase("ab"))
-            return Constants.detail.VIEW_TYPE_ARABIC_BULLET_ALIGN;
-        else if (vt.equalsIgnoreCase("tb"))
-            return Constants.detail.VIEW_TYPE_TEXT_BULLET_ALIGN;
-        return 0;
-    }
-
-    public void changeTopic(Content content) {
-        details.clear();
-        /*try {
-            populateList(detailProvider.getFileResId(), content.getDetailId());
-        } catch (XmlPullParserException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
-        getListView().setAdapter(detailsListAdapter);
+        return details;
     }
 
     public interface DetailProvider {

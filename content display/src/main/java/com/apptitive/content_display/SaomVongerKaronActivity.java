@@ -30,8 +30,8 @@ public class SaomVongerKaronActivity extends BaseActionBar implements DetailsFra
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            topicTitle = extras.getString(Constants.content.EXTRA_MENU_TITLE);
-            iconDrawableId = extras.getInt(Constants.content.EXTRA_ICON_ID);
+            topicTitle = extras.getString(Constants.menu.EXTRA_MENU_TITLE);
+            iconDrawableId = extras.getInt(Constants.menu.EXTRA_ICON_ID);
         }
 
         actionBar = getSupportActionBar();
