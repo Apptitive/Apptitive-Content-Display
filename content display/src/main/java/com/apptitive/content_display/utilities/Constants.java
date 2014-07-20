@@ -5,7 +5,7 @@ package com.apptitive.content_display.utilities;
  */
 public final class Constants {
     public static final String DEFAULT_REGION = "Dhaka";
-    public static final String KEY_RINGTONE_NAME = "pref_key_alarm_ringtone";
+    public static final String PREF_KEY_SYNC_SETTINGS= "pref_key_sync_settings";
     public static final String PREF_KEY_LOCATION = "prep_key_location";
     public static final String DATE_FORMAT = "dd/MM/yyyy";
     public static final String DATE_FORMAT_HOUR_MINUTE_SECOND = "dd/MM/yyyy HH:mm:ss aa";

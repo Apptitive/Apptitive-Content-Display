@@ -1,5 +1,6 @@
 package com.apptitive.content_display;
 
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.ListPreference;
@@ -12,6 +13,9 @@ import android.widget.LinearLayout;
 
 import com.apptitive.content_display.helper.DbManager;
 import com.apptitive.content_display.utilities.AboutUsDialog;
+import com.apptitive.content_display.utilities.AlarmUtil;
+import com.apptitive.content_display.utilities.Constants;
+import com.apptitive.content_display.utilities.PreferenceHelper;
 import com.apptitive.content_display.utilities.Utilities;
 
 import static android.preference.Preference.OnPreferenceChangeListener;
@@ -22,8 +26,10 @@ public class SettingsActivity extends PreferenceActivity {
     private PreferenceCategory categoryAboutUs;
     private ListPreference preferenceLocation;
     private Preference preferenceAboutUs;
-
     private static String[] entries;
+    private static boolean isPreferenceSelected;
+    private static PreferenceHelper preferenceHelper;
+    private static Context settingsActivity;
 
     @Override
     public void onStart() {
@@ -44,7 +50,10 @@ public class SettingsActivity extends PreferenceActivity {
         }
         addPreferencesFromResource(R.xml.pref_general);
         setContentView(R.layout.activity_settings);
-        entries = new String[]{"Daily", "Weekly"};
+        entries = new String[]{"None","Daily", "Weekly"};
+        isPreferenceSelected = false;
+        settingsActivity = this;
+        preferenceHelper = new PreferenceHelper(this);
         setupSimplePreferencesScreen();
 
         LinearLayout settings = (LinearLayout) findViewById(R.id.settings_back);
@@ -101,10 +110,22 @@ public class SettingsActivity extends PreferenceActivity {
                 ListPreference listPreference = (ListPreference) preference;
                 int index = listPreference.findIndexOfValue(stringValue);
                 preference.setSummary(entries[index]);
+                if (isPreferenceSelected &preferenceHelper.getBoolean(Constants.PREF_KEY_SYNC_SETTINGS)) {
+                    AlarmUtil.setUpAlarm(settingsActivity,getSelectedDays(index));
+                }
+                isPreferenceSelected = true;
             } else {
                 preference.setSummary(stringValue);
             }
             return true;
+        }
+
+        private int getSelectedDays(int index) {
+            if (index == 1)
+                return 1;
+            else if (index == 2)
+                return 7;
+            return -1;
         }
     };
 
