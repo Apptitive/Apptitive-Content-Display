@@ -2,7 +2,6 @@ package com.apptitive.content_display;
 
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.WindowCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -14,6 +13,7 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -38,6 +38,7 @@ public class DetailsActivity extends BaseActionBar implements DetailsFragment.De
     private ArrayAdapter<Content> drawerListAdapter;
     private ActionBar actionBar;
     private DrawerLayout drawerLayout;
+    private FrameLayout fragmentContainer;
     private ListView listViewDrawer;
     private WebView webViewDetails;
     private DetailsFragment detailsFragment;
@@ -66,11 +67,13 @@ public class DetailsActivity extends BaseActionBar implements DetailsFragment.De
         drawerLayout = (DrawerLayout) findViewById(R.id.layout_drawer);
         listViewDrawer = (ListView) findViewById(R.id.listView_drawer);
         webViewDetails = (WebView) findViewById(R.id.webView_details);
-        detailsFragment = (DetailsFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_details);
+        fragmentContainer = (FrameLayout) findViewById(R.id.fragment_container);
 
         if (content.getDetailType().equals(DetailType.HTML)) {
-            addRemoveFragment(detailsFragment, false);
+            webViewDetails.setVisibility(View.VISIBLE);
             webViewDetails.loadData(content.getDetails(), "text/html", "utf-8");
+        } else if (content.getDetailType().equals(DetailType.NATIVE)) {
+            showHideFragment(true);
         }
 
         contents = dbResultToContent(DbManager.getInstance().getDbContentForMenu(menuId));
@@ -111,11 +114,12 @@ public class DetailsActivity extends BaseActionBar implements DetailsFragment.De
                 content = contents.get(position);
                 actionBar.setTitle(Utilities.getBanglaSpannableString(content.getHeader(), DetailsActivity.this));
                 if (content.getDetailType().equals(DetailType.HTML)) {
-                    addRemoveFragment(detailsFragment, false);
+                    showHideFragment(false);
+                    webViewDetails.setVisibility(View.VISIBLE);
                     webViewDetails.loadData(content.getDetails(), "text/html", "utf-8");
-                } else {
-                    addRemoveFragment(detailsFragment, true);
-                    detailsFragment.changeTopic(content);
+                } else if (content.getDetailType().equals(DetailType.NATIVE)) {
+                    showHideFragment(true);
+                    webViewDetails.setVisibility(View.GONE);
                 }
                 listViewDrawer.setAdapter(drawerListAdapter);
                 drawerLayout.closeDrawer(listViewDrawer);
@@ -123,15 +127,16 @@ public class DetailsActivity extends BaseActionBar implements DetailsFragment.De
         });
     }
 
-    private void addRemoveFragment(Fragment fragment, boolean add) {
+    private void showHideFragment(boolean show) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        if (add) {
-            if (!fragment.isVisible()) {
-                ft.add(R.id.frameLayout_container, fragment);
-            }
+        if (show) {
+            fragmentContainer.setVisibility(View.VISIBLE);
+            detailsFragment = new DetailsFragment();
+            ft.add(fragmentContainer.getId(), detailsFragment);
         } else {
-            if (fragment.isVisible()) {
-                ft.remove(fragment);
+            if(detailsFragment != null) {
+                ft.remove(detailsFragment);
+                fragmentContainer.setVisibility(View.GONE);
             }
         }
         ft.commit();

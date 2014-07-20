@@ -81,11 +81,6 @@ public class DetailsFragment extends ListFragment {
         return details;
     }
 
-    public void changeTopic(Content content) {
-        jsonToDetail(Arrays.asList(gson.fromJson(content.getDetails(), JsonDetail[].class)));
-        getListView().setAdapter(detailsListAdapter);
-    }
-
     public interface DetailProvider {
         Content getContent();
     }
