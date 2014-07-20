@@ -6,6 +6,7 @@ import com.apptitive.content_display.model.DbContent;
 import com.apptitive.content_display.model.ContentMenu;
 import com.apptitive.content_display.model.Region;
 import com.apptitive.content_display.model.TimeTable;
+import com.j256.ormlite.stmt.QueryBuilder;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
