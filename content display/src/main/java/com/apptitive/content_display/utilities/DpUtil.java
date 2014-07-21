@@ -2,10 +2,7 @@ package com.apptitive.content_display.utilities;
 
 import android.content.Context;
 import android.content.res.Configuration;
-import android.graphics.Point;
 import android.util.DisplayMetrics;
-import android.view.Display;
-import android.view.WindowManager;
 
 /**
  * Created by Sharif on 7/14/2014.
@@ -22,12 +19,15 @@ public class DpUtil {
 
     public static String getDeviceDensity(Context context) {
         DisplayMetrics displaymetrics = context.getResources().getDisplayMetrics();
-        Configuration config = context.getResources().getConfiguration();
 
-        if (600 <= config.smallestScreenWidthDp && config.smallestScreenWidthDp < 720) {
-            return DENSITY_SW600;
-        } else if (config.smallestScreenWidthDp >= 720) {
-            return DENSITY_SW720;
+
+        if ( android.os.Build.VERSION.SDK_INT>=13){
+            Configuration config = context.getResources().getConfiguration();
+            if (600 <= config.smallestScreenWidthDp && config.smallestScreenWidthDp < 720) {
+                return DENSITY_SW600;
+            } else if (config.smallestScreenWidthDp >= 720) {
+                return DENSITY_SW720;
+            }
         }
 
         switch (displaymetrics.densityDpi) {

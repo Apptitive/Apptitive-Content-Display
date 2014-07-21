@@ -1,11 +1,16 @@
 package com.apptitive.content_display;
 
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.view.WindowCompat;
 import android.support.v7.app.ActionBar;
 
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
+import com.apptitive.content_display.utilities.Config;
 import com.apptitive.content_display.utilities.Constants;
+import com.apptitive.content_display.utilities.HttpHelper;
 import com.apptitive.content_display.utilities.Utilities;
 
 
@@ -30,7 +35,22 @@ public class ContentActivity extends BaseActionBar implements ContentFragment.Co
         actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.ActionBarHomeBg)));
         actionBar.setTitle(Utilities.getBanglaSpannableString(menuTitle, this));
-        actionBar.setIcon(getResources().getDrawable(iconDrawableId));
+
+        ImageLoader imageLoader = HttpHelper.getInstance(this).getImageLoader();
+        imageLoader.get(Config.getImageUrl(this)+"1_ab_title.png", new ImageLoader.ImageListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+            }
+
+            @Override
+            public void onResponse(ImageLoader.ImageContainer response, boolean arg1) {
+                if (response.getBitmap() != null) {
+                    actionBar.setIcon(new BitmapDrawable(getResources(), response.getBitmap()));
+                }
+            }
+        });
+      //  actionBar.setIcon(getResources().getDrawable(iconDrawableId));
         actionBar.setDisplayShowHomeEnabled(true);
 
         setContentView(R.layout.activity_content);

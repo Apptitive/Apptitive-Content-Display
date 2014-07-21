@@ -1,12 +1,11 @@
 package com.apptitive.content_display;
 
-import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.view.WindowCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,8 +14,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
 import com.apptitive.content_display.model.Content;
+import com.apptitive.content_display.utilities.Config;
 import com.apptitive.content_display.utilities.Constants;
+import com.apptitive.content_display.utilities.HttpHelper;
 import com.apptitive.content_display.utilities.Utilities;
 import com.apptitive.content_display.views.BanglaTextView;
 import com.dibosh.experiments.android.support.customfonthelper.AndroidCustomFontSupport;
@@ -50,7 +53,21 @@ public class DetailsActivity extends BaseActionBar implements DetailsFragment.De
         actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.ActionBarInnerBg)));
         actionBar.setTitle(Utilities.getBanglaSpannableString(contentInView.getHeader(), this));
-        actionBar.setIcon(getResources().getDrawable(iconDrawableId));
+        ImageLoader imageLoader = HttpHelper.getInstance(this).getImageLoader();
+        imageLoader.get(Config.getImageUrl(this)+"1_ab_title.png", new ImageLoader.ImageListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+            }
+
+            @Override
+            public void onResponse(ImageLoader.ImageContainer response, boolean arg1) {
+                if (response.getBitmap() != null) {
+                    actionBar.setIcon(new BitmapDrawable(getResources(), response.getBitmap()));
+                }
+            }
+        });
+
         actionBar.setDisplayShowHomeEnabled(true);
 
         setContentView(R.layout.activity_details);

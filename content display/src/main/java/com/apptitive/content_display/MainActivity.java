@@ -1,10 +1,6 @@
 package com.apptitive.content_display;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.appwidget.AppWidgetManager;
-import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -17,29 +13,16 @@ import android.view.View;
 import com.apptitive.content_display.helper.CSVToDbHelper;
 import com.apptitive.content_display.helper.DbManager;
 import com.apptitive.content_display.helper.DbTableName;
-import com.apptitive.content_display.interfaces.JsonArrayCompleteListener;
-import com.apptitive.content_display.model.ContentMenu;
-import com.apptitive.content_display.model.DbContent;
 import com.apptitive.content_display.model.Region;
 import com.apptitive.content_display.model.TimeTable;
 import com.apptitive.content_display.receiver.TimeTableWidgetProvider;
 import com.apptitive.content_display.sync.SyncUtils;
-import com.apptitive.content_display.utilities.Config;
 import com.apptitive.content_display.utilities.Constants;
-import com.apptitive.content_display.utilities.HttpHelper;
-import com.apptitive.content_display.utilities.LogUtil;
 import com.apptitive.content_display.utilities.PreferenceHelper;
 import com.apptitive.content_display.utilities.UIUtils;
 import com.apptitive.content_display.views.BanglaTextView;
-import com.google.gson.Gson;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -89,7 +72,9 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener 
         regions = DbManager.getInstance().getAllRegions();
 /*      ImageLoader imageLoader = HttpHelper.getInstance(this).getImageLoader();
         NetworkImageView imgNetWorkView=(NetworkImageView)findViewById(R.id.imgDemo);
-        imgNetWorkView.setImageUrl(Config.getImageUrl(this)+"1.9.png", imageLoader);*/
+        LogUtil.LOGE(Config.getImageUrl(this));
+        imgNetWorkView.setImageUrl(Config.getImageUrl(this)+"ic_saom.png", imageLoader);*/
+
     }
 
     @Override
