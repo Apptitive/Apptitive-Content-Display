@@ -1,26 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/menu_selector">
 
-    <ImageView
-        android:id="@+id/iv_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_gravity="center"
-        android:src="@drawable/sehri_iftar_time" />
+    <ViewStub
+        android:id="@+id/sub_pattern_whole"
+        android:inflatedId="@+id/inflated_sub_pattern_whole"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/dp_4" />
 
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_gravity="center"
-        android:text="Test Sehri Time"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_size_15"
-        android:textStyle="bold"/>
-</LinearLayout>
+</RelativeLayout>
