@@ -70,11 +70,11 @@ public class ContentMenu{
 
     public static void updateDb(DbManager dbManager, List<ContentMenu> contentMenus) {
         for (ContentMenu contentMenu : contentMenus) {
-            if (contentMenu.getActionType().equals(Constants.ContentType.ADD)) {
+            if (contentMenu.getActionType().equals(Constants.db_action.ADD)) {
                 dbManager.addMenu(contentMenu);
-            } else if (contentMenu.getActionType().equals(Constants.ContentType.DELETE)) {
+            } else if (contentMenu.getActionType().equals(Constants.db_action.DELETE)) {
                 dbManager.deleteMenu(contentMenu);
-            } else if (contentMenu.getActionType().equals(Constants.ContentType.UPDATE)) {
+            } else if (contentMenu.getActionType().equals(Constants.db_action.UPDATE)) {
                 dbManager.updateMenu(contentMenu);
             }
         }
