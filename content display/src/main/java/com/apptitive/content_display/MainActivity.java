@@ -139,7 +139,6 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener 
                 i = new Intent(this, ContentActivity.class);
                 i.putExtra(Constants.menu.EXTRA_MENU_ID, "1");
                 i.putExtra(Constants.menu.EXTRA_MENU_TITLE, getString(R.string.saom));
-                i.putExtra(Constants.menu.EXTRA_ICON_ID, R.drawable.ic_saom);
                 startActivity(i);
                 break;
             case R.id.tab_iftar_time:
@@ -149,28 +148,24 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener 
                 i = new Intent(this, ContentActivity.class);
                 i.putExtra(Constants.menu.EXTRA_MENU_ID, "1");
                 i.putExtra(Constants.menu.EXTRA_MENU_TITLE, getString(R.string.niyat_o_doa));
-                i.putExtra(Constants.menu.EXTRA_ICON_ID, R.drawable.ic_niyat);
                 startActivity(i);
                 break;
             case R.id.tab_ramadan:
                 i = new Intent(this, ContentActivity.class);
                 i.putExtra(Constants.menu.EXTRA_MENU_ID, "1");
                 i.putExtra(Constants.menu.EXTRA_MENU_TITLE, getString(R.string.ramadan));
-                i.putExtra(Constants.menu.EXTRA_ICON_ID, R.drawable.ic_romzan);
                 startActivity(i);
                 break;
             case R.id.tab_saom_vonger_karon:
                 i = new Intent(this, SaomVongerKaronActivity.class);
                 i.putExtra(Constants.menu.EXTRA_MENU_ID, "1");
                 i.putExtra(Constants.menu.EXTRA_MENU_TITLE, getString(R.string.saom_vongo));
-                i.putExtra(Constants.menu.EXTRA_ICON_ID, R.drawable.ic_saom_vongo);
                 startActivity(i);
                 break;
             case R.id.tab_tarabih:
                 i = new Intent(this, ContentActivity.class);
                 i.putExtra(Constants.menu.EXTRA_MENU_ID, "1");
                 i.putExtra(Constants.menu.EXTRA_MENU_TITLE, getString(R.string.tarabih));
-                i.putExtra(Constants.menu.EXTRA_ICON_ID, R.drawable.ic_tarabih);
                 startActivity(i);
                 break;
             default:

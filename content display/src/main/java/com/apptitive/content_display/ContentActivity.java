@@ -16,7 +16,6 @@ import com.apptitive.content_display.utilities.Utilities;
 
 public class ContentActivity extends BaseActionBar implements ContentFragment.ContentProvider {
 
-    private int iconDrawableId;
     private String menuId, menuTitle;
     private ActionBar actionBar;
 
@@ -29,7 +28,6 @@ public class ContentActivity extends BaseActionBar implements ContentFragment.Co
         if (extras != null) {
             menuId = extras.getString(Constants.menu.EXTRA_MENU_ID);
             menuTitle = extras.getString(Constants.menu.EXTRA_MENU_TITLE);
-            iconDrawableId = extras.getInt(Constants.menu.EXTRA_ICON_ID);
         }
 
         actionBar = getSupportActionBar();
@@ -50,7 +48,6 @@ public class ContentActivity extends BaseActionBar implements ContentFragment.Co
                 }
             }
         });
-      //  actionBar.setIcon(getResources().getDrawable(iconDrawableId));
         actionBar.setDisplayShowHomeEnabled(true);
 
         setContentView(R.layout.activity_content);
@@ -59,10 +56,5 @@ public class ContentActivity extends BaseActionBar implements ContentFragment.Co
     @Override
     public String getMenuId() {
         return menuId;
-    }
-
-    @Override
-    public int getIconDrawableId() {
-        return iconDrawableId;
     }
 }

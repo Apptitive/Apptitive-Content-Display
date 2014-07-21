@@ -32,7 +32,6 @@ public final class Constants {
     public final class menu {
         public static final String EXTRA_MENU_ID = "_menuId";
         public static final String EXTRA_MENU_TITLE = "_menuTitle";
-        public static final String EXTRA_ICON_ID = "_iconId";
     }
 
     public final class content {
