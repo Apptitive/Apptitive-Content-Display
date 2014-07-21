@@ -27,15 +27,15 @@ import java.util.Map;
 
 public class SehriIfterActivity extends BaseActionBar {
 
+    private static int currentDateIndex;
+    ListView lvTimeTable;
     private List<TimeTable> timeTables;
     private TimeTableAdapter timeTableAdapter;
-    ListView lvTimeTable;
     private ActionBar actionBar;
     private Map<String, String> regionMap;
     private String[] items;
     private List<Region> regions;
     private PreferenceHelper preferenceHelper;
-    private static int currentDateIndex;
     private Region usersRegion;
 
     @Override

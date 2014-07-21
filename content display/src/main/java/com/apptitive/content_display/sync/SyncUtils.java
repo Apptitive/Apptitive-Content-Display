@@ -9,8 +9,6 @@ import android.os.Bundle;
 import com.apptitive.content_display.utilities.Constants;
 import com.apptitive.content_display.utilities.LogUtil;
 
-import org.json.JSONArray;
-
 /**
  * Created by Sharif on 7/17/2014.
  */
@@ -37,9 +35,5 @@ public class SyncUtils {
                 AuthenticatorService.GetAccount(Constants.ACCOUNT_TYPE),
                 Constants.AUTHORITY,
                 settingsBundle);
-    }
-
-    public static void triggerPeriodicSync(long syncFrequency) {
-       // ContentResolver.addPeriodicSync(AuthenticatorService.GetAccount(Constants.ACCOUNT_TYPE), Constants.AUTHORITY, new Bundle(), syncFrequency);
     }
 }

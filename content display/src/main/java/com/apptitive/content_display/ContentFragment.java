@@ -36,13 +36,13 @@ public class ContentFragment extends ListFragment implements ContentListAdapter.
     @Override
     public void onStart() {
         super.onStart();
-      //  EasyTracker.getInstance(getActivity()).activityStart(getActivity());
+        //  EasyTracker.getInstance(getActivity()).activityStart(getActivity());
     }
 
     @Override
     public void onStop() {
         super.onStop();
-       // EasyTracker.getInstance(getActivity()).activityStop(getActivity());
+        // EasyTracker.getInstance(getActivity()).activityStop(getActivity());
     }
 
     @Override
@@ -119,13 +119,10 @@ public class ContentFragment extends ListFragment implements ContentListAdapter.
         Intent i = new Intent(getActivity(), DetailsActivity.class);
         i.putExtra(Constants.menu.EXTRA_MENU_ID, menuId);
         i.putExtra(Constants.content.EXTRA_CONTENT, content);
-        i.putExtra(Constants.menu.EXTRA_ICON_ID, contentProvider.getIconDrawableId());
         startActivity(i);
     }
 
     public interface ContentProvider {
         String getMenuId();
-
-        int getIconDrawableId();
     }
 }

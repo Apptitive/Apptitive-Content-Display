@@ -56,10 +56,6 @@ public class DetailsListAdapter extends BaseAdapter {
         return position;
     }
 
-    private class ViewHolder {
-        TextView tvDetail;
-    }
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Detail detail = getItem(position);
@@ -102,5 +98,9 @@ public class DetailsListAdapter extends BaseAdapter {
         holder.tvDetail.setText(detail.getText());
 
         return convertView;
+    }
+
+    private class ViewHolder {
+        TextView tvDetail;
     }
 }

@@ -37,12 +37,6 @@ public class ContentListAdapter extends ArrayAdapter<Content> {
         return position;
     }
 
-    private class ViewHolder {
-        View selectableView;
-        TextView tvHeader;
-        TextView tvBrief;
-    }
-
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         final Content content = getItem(position);
@@ -74,5 +68,11 @@ public class ContentListAdapter extends ArrayAdapter<Content> {
 
     public interface ContentCallback {
         void onContentClick(Content content);
+    }
+
+    private class ViewHolder {
+        View selectableView;
+        TextView tvHeader;
+        TextView tvBrief;
     }
 }
