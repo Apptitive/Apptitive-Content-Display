@@ -39,18 +39,14 @@ public class Detail {
     }
 
     private int findTagFor(String key) {
-        if (key.equalsIgnoreCase("p"))
-            return Constants.detail.VIEW_TYPE_TEXT_ONLY;
-        else if (key.equalsIgnoreCase("b"))
-            return Constants.detail.VIEW_TYPE_BULLET;
-        else if (key.equalsIgnoreCase("h"))
-            return Constants.detail.VIEW_TYPE_HEADER_ONLY;
-        else if (key.equalsIgnoreCase("a"))
-            return Constants.detail.VIEW_TYPE_ARABIC;
-        else if (key.equalsIgnoreCase("ab"))
-            return Constants.detail.VIEW_TYPE_ARABIC_BULLET_ALIGN;
-        else if (key.equalsIgnoreCase("tb"))
-            return Constants.detail.VIEW_TYPE_TEXT_BULLET_ALIGN;
+        if (key.equalsIgnoreCase(Constants.detail.tag.PARAGRAPH))
+            return Constants.detail.VIEW_TYPE_P;
+        else if (key.equalsIgnoreCase(Constants.detail.tag.BOLD))
+            return Constants.detail.VIEW_TYPE_B;
+        else if (key.equalsIgnoreCase(Constants.detail.tag.UNORDERED_LIST_ITEM))
+            return Constants.detail.VIEW_TYPE_UL;
+        else if (key.equalsIgnoreCase(Constants.detail.tag.HEADER_1))
+            return Constants.detail.VIEW_TYPE_H1;
         return 0;
     }
 }
