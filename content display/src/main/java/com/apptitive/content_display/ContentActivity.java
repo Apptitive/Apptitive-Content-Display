@@ -37,7 +37,7 @@ public class ContentActivity extends BaseActionBar implements ContentFragment.Co
         actionBar.setTitle(Utilities.getBanglaSpannableString(menuTitle, this));
 
         ImageLoader imageLoader = HttpHelper.getInstance(this).getImageLoader();
-        imageLoader.get(Config.getImageUrl(this)+"1_ab_title.png", new ImageLoader.ImageListener() {
+        imageLoader.get(Config.getImageUrl(this) + menuId + "_ab_title.png", new ImageLoader.ImageListener() {
 
             @Override
             public void onErrorResponse(VolleyError error) {
