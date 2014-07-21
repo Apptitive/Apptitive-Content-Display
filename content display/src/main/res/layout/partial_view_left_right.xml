@@ -5,20 +5,20 @@
     android:layout_height="fill_parent"
     android:background="@drawable/menu_selector">
 
-    <ImageView
-        android:id="@+id/iv_icon"
+    <com.android.volley.toolbox.NetworkImageView
+        android:id="@+id/niv_icon"
         android:layout_centerVertical="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dp_30"
         android:layout_marginRight="@dimen/dp_20"
-        android:src="@drawable/saom" />
+        android:src="@drawable/saom"/>
 
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/iv_icon"
+        android:layout_toRightOf="@id/niv_icon"
         android:layout_centerVertical="true"
         android:textColor="@color/white"
         android:textStyle="bold"

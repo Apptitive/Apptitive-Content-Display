@@ -9,7 +9,6 @@ import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-
 import com.apptitive.content_display.helper.CSVToDbHelper;
 import com.apptitive.content_display.helper.DbManager;
 import com.apptitive.content_display.helper.DbTableName;
@@ -21,7 +20,6 @@ import com.apptitive.content_display.utilities.Constants;
 import com.apptitive.content_display.utilities.DateTimeUtils;
 import com.apptitive.content_display.utilities.PreferenceHelper;
 import com.apptitive.content_display.views.BanglaTextView;
-
 import java.text.ParseException;
 import java.util.List;
 
