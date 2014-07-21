@@ -36,7 +36,6 @@ import java.util.List;
 
 public class DetailsActivity extends BaseActionBar implements DetailsFragment.DetailProvider {
 
-    private int iconDrawableId;
     private String menuId;
     private Content content;
     private List<Content> contents;
@@ -58,14 +57,13 @@ public class DetailsActivity extends BaseActionBar implements DetailsFragment.De
         if (extras != null) {
             menuId = extras.getString(Constants.menu.EXTRA_MENU_ID);
             content = extras.getParcelable(Constants.content.EXTRA_CONTENT);
-            iconDrawableId = extras.getInt(Constants.menu.EXTRA_ICON_ID);
         }
 
         actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.ActionBarInnerBg)));
         actionBar.setTitle(Utilities.getBanglaSpannableString(content.getHeader(), this));
         ImageLoader imageLoader = HttpHelper.getInstance(this).getImageLoader();
-        imageLoader.get(Config.getImageUrl(this)+"1_ab_title.png", new ImageLoader.ImageListener() {
+        imageLoader.get(Config.getImageUrl(this) + menuId + "_ab_title.png", new ImageLoader.ImageListener() {
 
             @Override
             public void onErrorResponse(VolleyError error) {
