@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Created by Sharif on 5/28/2014.
  */
-public class UIUtils {
+public class DateTimeUtils {
 
     public static final SimpleDateFormat simpleDateTimeFormat = new SimpleDateFormat(
             "dd/MM/yyyy HH:mm");
@@ -77,16 +77,16 @@ public class UIUtils {
                 return region;
             }
         }
-        return new Region("1", "Dhaka", "", true,0, 0);
+        return new Region("1", "Dhaka", "", true, 0, 0);
     }
 
 
-    public static String getSehriIftarTime(int interval,TimeTable timeTable, Context context, boolean isSeheri) {
-        if (timeTable==null){
+    public static String getSehriIftarTime(int interval, TimeTable timeTable, Context context, boolean isSeheri) {
+        if (timeTable == null) {
             return "0:00";
         }
         try {
-            Date sehriIftarTime = simpleDateTimeFormat.parse(getSehriIftarTime(isSeheri, timeTable,true));
+            Date sehriIftarTime = simpleDateTimeFormat.parse(getSehriIftarTime(isSeheri, timeTable, true));
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.YEAR, sehriIftarTime.getYear());
             calendar.set(Calendar.MONTH, sehriIftarTime.getMonth());
@@ -101,24 +101,24 @@ public class UIUtils {
     }
 
 
-    public static String getSehriIftarTime(int interval,List<TimeTable>timeTables, boolean isBangla, boolean isSeheri) throws ParseException {
+    public static String getSehriIftarTime(int interval, List<TimeTable> timeTables, boolean isBangla, boolean isSeheri) throws ParseException {
 
-        TimeTable timeTable=  getCalculatedTimeTable(timeTables,isSeheri);
-        if (timeTable==null){
+        TimeTable timeTable = getCalculatedTimeTable(timeTables, isSeheri);
+        if (timeTable == null) {
             return "0:00";
         }
 
         try {
-         //   Date sehriIftarTime = simpleDateTimeFormat.parse(getSehriIftarTime(isSeheri, timeTable));
+            //   Date sehriIftarTime = simpleDateTimeFormat.parse(getSehriIftarTime(isSeheri, timeTable));
             Calendar sehriIftarTime = Calendar.getInstance();
-            sehriIftarTime.setTime(simpleDateTimeFormat.parse(getSehriIftarTime(isSeheri, timeTable,isBangla)));
+            sehriIftarTime.setTime(simpleDateTimeFormat.parse(getSehriIftarTime(isSeheri, timeTable, isBangla)));
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.YEAR, sehriIftarTime.get(Calendar.YEAR));
             calendar.set(Calendar.MONTH, sehriIftarTime.get(Calendar.MONTH));
             calendar.set(Calendar.DAY_OF_MONTH, sehriIftarTime.get(Calendar.DAY_OF_MONTH));
             calendar.set(Calendar.HOUR_OF_DAY, sehriIftarTime.get(Calendar.HOUR_OF_DAY));
             calendar.set(Calendar.MINUTE, sehriIftarTime.get(Calendar.MINUTE) + interval);
-            if (!isBangla){
+            if (!isBangla) {
                 return simpleDateTimeFormat.format(calendar.getTime());
             }
             return getReplacedString(calendar);
@@ -136,10 +136,10 @@ public class UIUtils {
         if (isSehri)
             return timeTable.getDate() + " " + timeTable.getSehriTime();
 
-        if(!isBangla){
-            return timeTable.getDate()+" "+timeTable.getIfterTime();
+        if (!isBangla) {
+            return timeTable.getDate() + " " + timeTable.getIfterTime();
         }
-        String iftarTime= (Integer.parseInt(timeTable.getIfterTime().substring(0,2))-12)+ timeTable.getIfterTime().substring(2);
+        String iftarTime = (Integer.parseInt(timeTable.getIfterTime().substring(0, 2)) - 12) + timeTable.getIfterTime().substring(2);
         return timeTable.getDate() + " " + iftarTime;
     }
 

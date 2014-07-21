@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
+
 import com.apptitive.content_display.R;
 import com.apptitive.content_display.model.Detail;
 import com.apptitive.content_display.utilities.Constants;
@@ -54,11 +56,6 @@ public class DetailsListAdapter extends BaseAdapter {
         return position;
     }
 
-    private class ViewHolder {
-        BanglaTextView btvDetail;
-        ArabicTextView atvDetail;
-    }
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Detail detail = getItem(position);
@@ -70,38 +67,40 @@ public class DetailsListAdapter extends BaseAdapter {
             switch (viewType) {
                 case Constants.detail.VIEW_TYPE_TEXT_ONLY:
                     convertView = LayoutInflater.from(context).inflate(R.layout.list_item_detail_textonly, parent, false);
-                    holder.btvDetail = (BanglaTextView) convertView.findViewById(R.id.btv_plainText);
+                    holder.tvDetail = (BanglaTextView) convertView.findViewById(R.id.btv_plainText);
                     break;
-                case Constants.detail.VIEW_TYPE_BULLET:
+                case Constants.detail.VIEW_TYPE_ARABIC:
                     convertView = LayoutInflater.from(context).inflate(R.layout.list_item_detail_bullet, parent, false);
-                    holder.btvDetail = (BanglaTextView) convertView.findViewById(R.id.btv_bulletText);
+                    holder.tvDetail = (BanglaTextView) convertView.findViewById(R.id.btv_bulletText);
                     break;
                 case Constants.detail.VIEW_TYPE_HEADER_ONLY:
                     convertView = LayoutInflater.from(context).inflate(R.layout.list_item_detail_headeronly, parent, false);
-                    holder.btvDetail = (BanglaTextView) convertView.findViewById(R.id.btv_headerText);
+                    holder.tvDetail = (BanglaTextView) convertView.findViewById(R.id.btv_headerText);
                     break;
                 case Constants.detail.VIEW_TYPE_TEXT_BULLET_ALIGN:
                     convertView = LayoutInflater.from(context).inflate(R.layout.list_item_detail_text_bullet_align, parent, false);
-                    holder.btvDetail = (BanglaTextView) convertView.findViewById(R.id.btv_plainText_bullet_align);
+                    holder.tvDetail = (BanglaTextView) convertView.findViewById(R.id.btv_plainText_bullet_align);
                     break;
-                case Constants.detail.VIEW_TYPE_ARABIC:
-                    convertView = LayoutInflater.from(context).inflate(R.layout.list_item_detail_arabic, parent, false);
-                    holder.atvDetail = (ArabicTextView) convertView.findViewById(R.id.btv_plainText_arabic);
+                case Constants.detail.VIEW_TYPE_BULLET:
+                    convertView = LayoutInflater.from(context).inflate(R.layout.list_item_detail_bold_text, parent, false);
+                    holder.tvDetail = (TextView) convertView.findViewById(R.id.textView_bold);
                     break;
                 case Constants.detail.VIEW_TYPE_ARABIC_BULLET_ALIGN:
                     convertView = LayoutInflater.from(context).inflate(R.layout.list_item_detail_arabic_bullet_align, parent, false);
-                    holder.atvDetail = (ArabicTextView) convertView.findViewById(R.id.btv_plainText_arabic_bullet_align);
+                    holder.tvDetail = (ArabicTextView) convertView.findViewById(R.id.btv_plainText_arabic_bullet_align);
                     break;
             }
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        if (holder.btvDetail != null)
-            holder.btvDetail.setBanglaText(detail.getText());
-        if (holder.atvDetail != null)
-            holder.atvDetail.setArabicText(detail.getText());
+
+        holder.tvDetail.setText(detail.getText());
 
         return convertView;
+    }
+
+    private class ViewHolder {
+        TextView tvDetail;
     }
 }

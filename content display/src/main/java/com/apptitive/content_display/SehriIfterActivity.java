@@ -17,8 +17,8 @@ import com.apptitive.content_display.helper.Helper;
 import com.apptitive.content_display.model.Region;
 import com.apptitive.content_display.model.TimeTable;
 import com.apptitive.content_display.utilities.Constants;
+import com.apptitive.content_display.utilities.DateTimeUtils;
 import com.apptitive.content_display.utilities.PreferenceHelper;
-import com.apptitive.content_display.utilities.UIUtils;
 import com.apptitive.content_display.utilities.Utilities;
 
 import java.util.HashMap;
@@ -27,15 +27,15 @@ import java.util.Map;
 
 public class SehriIfterActivity extends BaseActionBar {
 
+    private static int currentDateIndex;
+    ListView lvTimeTable;
     private List<TimeTable> timeTables;
     private TimeTableAdapter timeTableAdapter;
-    ListView lvTimeTable;
     private ActionBar actionBar;
     private Map<String, String> regionMap;
     private String[] items;
     private List<Region> regions;
     private PreferenceHelper preferenceHelper;
-    private static int currentDateIndex;
     private Region usersRegion;
 
     @Override
@@ -49,7 +49,7 @@ public class SehriIfterActivity extends BaseActionBar {
         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.ActionBarInnerBg)));
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setIcon(getResources().getDrawable(R.drawable.ic_sehri_iftar));
-        currentDateIndex = UIUtils.getCurrentDateIndex();
+        currentDateIndex = DateTimeUtils.getCurrentDateIndex();
         setContentView(R.layout.activity_sehri_ifter);
 
         timeTables = DbManager.getInstance().getAllTimeTables();
@@ -57,11 +57,11 @@ public class SehriIfterActivity extends BaseActionBar {
 
         for (TimeTable timeTable : timeTables) {
             if (usersRegion.isPositive()) {
-                timeTable.setSehriTime(UIUtils.getSehriIftarTime(usersRegion.getIntervalSehri(), timeTable, getBaseContext(), true));
-                timeTable.setIfterTime(UIUtils.getSehriIftarTime(usersRegion.getIntervalIfter(), timeTable, getBaseContext(), false));
+                timeTable.setSehriTime(DateTimeUtils.getSehriIftarTime(usersRegion.getIntervalSehri(), timeTable, getBaseContext(), true));
+                timeTable.setIfterTime(DateTimeUtils.getSehriIftarTime(usersRegion.getIntervalIfter(), timeTable, getBaseContext(), false));
             } else {
-                timeTable.setSehriTime(UIUtils.getSehriIftarTime(-usersRegion.getIntervalSehri(), timeTable, getBaseContext(), true));
-                timeTable.setIfterTime(UIUtils.getSehriIftarTime(-usersRegion.getIntervalIfter(), timeTable, getBaseContext(), false));
+                timeTable.setSehriTime(DateTimeUtils.getSehriIftarTime(-usersRegion.getIntervalSehri(), timeTable, getBaseContext(), true));
+                timeTable.setIfterTime(DateTimeUtils.getSehriIftarTime(-usersRegion.getIntervalIfter(), timeTable, getBaseContext(), false));
             }
         }
         lvTimeTable = (ListView) findViewById(R.id.lv_time_table);
@@ -129,19 +129,19 @@ public class SehriIfterActivity extends BaseActionBar {
             public boolean onNavigationItemSelected(int position, long id) {
 
                 timeTables.clear();
-                Region region = UIUtils.getSelectedLocation(regions, dropDownItems[position]);
+                Region region = DateTimeUtils.getSelectedLocation(regions, dropDownItems[position]);
                 List<TimeTable> tempTimeTableList = DbManager.getInstance().getAllTimeTables();
                 if (region.isPositive()) {
                     for (TimeTable timeTable : tempTimeTableList) {
-                        timeTable.setSehriTime(UIUtils.getSehriIftarTime(region.getIntervalSehri(), timeTable, getBaseContext(), true));
-                        timeTable.setIfterTime(UIUtils.getSehriIftarTime(region.getIntervalIfter(), timeTable, getBaseContext(), false));
+                        timeTable.setSehriTime(DateTimeUtils.getSehriIftarTime(region.getIntervalSehri(), timeTable, getBaseContext(), true));
+                        timeTable.setIfterTime(DateTimeUtils.getSehriIftarTime(region.getIntervalIfter(), timeTable, getBaseContext(), false));
                         timeTables.add(timeTable);
                     }
 
                 } else {
                     for (TimeTable timeTable : tempTimeTableList) {
-                        timeTable.setSehriTime(UIUtils.getSehriIftarTime(-region.getIntervalSehri(), timeTable, getBaseContext(), true));
-                        timeTable.setIfterTime(UIUtils.getSehriIftarTime(-region.getIntervalIfter(), timeTable, getBaseContext(), false));
+                        timeTable.setSehriTime(DateTimeUtils.getSehriIftarTime(-region.getIntervalSehri(), timeTable, getBaseContext(), true));
+                        timeTable.setIfterTime(DateTimeUtils.getSehriIftarTime(-region.getIntervalIfter(), timeTable, getBaseContext(), false));
                         timeTables.add(timeTable);
                     }
                 }

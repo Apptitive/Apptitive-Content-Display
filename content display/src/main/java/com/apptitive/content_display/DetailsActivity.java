@@ -3,6 +3,7 @@ package com.apptitive.content_display;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.WindowCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -10,49 +11,59 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
+import com.apptitive.content_display.helper.DbManager;
 import com.apptitive.content_display.model.Content;
+import com.apptitive.content_display.model.DbContent;
+import com.apptitive.content_display.model.DetailType;
 import com.apptitive.content_display.utilities.Config;
 import com.apptitive.content_display.utilities.Constants;
 import com.apptitive.content_display.utilities.HttpHelper;
 import com.apptitive.content_display.utilities.Utilities;
-import com.apptitive.content_display.views.BanglaTextView;
 import com.dibosh.experiments.android.support.customfonthelper.AndroidCustomFontSupport;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class DetailsActivity extends BaseActionBar implements DetailsFragment.DetailProvider {
 
-    private int iconDrawableId, topicPosition;
-    private Content contentInView;
+    private int iconDrawableId;
+    private String menuId;
+    private Content content;
+    private List<Content> contents;
+    private ArrayAdapter<Content> drawerListAdapter;
     private ActionBar actionBar;
     private DrawerLayout drawerLayout;
-    private ArrayList<Content> contents;
-    private ArrayAdapter<Content> drawerListAdapter;
+    private FrameLayout fragmentContainer;
     private ListView listViewDrawer;
+    private WebView webViewDetails;
+    private DetailsFragment detailsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        DbManager.init(this);
         supportRequestWindowFeature(WindowCompat.FEATURE_ACTION_BAR_OVERLAY);
 
-        contents = getIntent().getParcelableArrayListExtra(Constants.content.EXTRA_PARCELABLE_LIST);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            topicPosition = extras.getInt(Constants.content.EXTRA_VIEWING_NOW);
-            iconDrawableId = extras.getInt(Constants.content.EXTRA_ICON_ID);
+            menuId = extras.getString(Constants.menu.EXTRA_MENU_ID);
+            content = extras.getParcelable(Constants.content.EXTRA_CONTENT);
+            iconDrawableId = extras.getInt(Constants.menu.EXTRA_ICON_ID);
         }
-        contentInView = contents.get(topicPosition);
 
         actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.ActionBarInnerBg)));
-        actionBar.setTitle(Utilities.getBanglaSpannableString(contentInView.getHeader(), this));
+        actionBar.setTitle(Utilities.getBanglaSpannableString(content.getHeader(), this));
         ImageLoader imageLoader = HttpHelper.getInstance(this).getImageLoader();
         imageLoader.get(Config.getImageUrl(this)+"1_ab_title.png", new ImageLoader.ImageListener() {
 
@@ -74,6 +85,17 @@ public class DetailsActivity extends BaseActionBar implements DetailsFragment.De
 
         drawerLayout = (DrawerLayout) findViewById(R.id.layout_drawer);
         listViewDrawer = (ListView) findViewById(R.id.listView_drawer);
+        webViewDetails = (WebView) findViewById(R.id.webView_details);
+        fragmentContainer = (FrameLayout) findViewById(R.id.fragment_container);
+
+        if (content.getDetailType().equals(DetailType.HTML)) {
+            webViewDetails.setVisibility(View.VISIBLE);
+            webViewDetails.loadData(content.getDetails(), "text/html", "utf-8");
+        } else if (content.getDetailType().equals(DetailType.NATIVE)) {
+            showHideFragment(true);
+        }
+
+        contents = dbResultToContent(DbManager.getInstance().getDbContentForMenu(menuId));
 
         drawerListAdapter = new ArrayAdapter<Content>(this, R.layout.list_item_nav_drawer,
                 contents) {
@@ -91,13 +113,14 @@ public class DetailsActivity extends BaseActionBar implements DetailsFragment.De
 
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
-                BanglaTextView btv;
+                TextView tvHeader;
+                Content content = getItem(position);
                 if (convertView == null) {
                     convertView = getLayoutInflater().inflate(R.layout.list_item_nav_drawer, parent, false);
                 }
-                btv = (BanglaTextView) convertView.findViewById(R.id.btv_nav);
-                btv.setBanglaText(getItem(position).getHeader());
-                if (position == contents.indexOf(contentInView))
+                tvHeader = (TextView) convertView.findViewById(R.id.btv_nav);
+                tvHeader.setText(getItem(position).getHeader());
+                if (content.getContentId().equals(DetailsActivity.this.content.getContentId()))
                     convertView.setBackgroundColor(getResources().getColor(R.color.NavDrawerListItemSelected));
                 return convertView;
             }
@@ -107,20 +130,45 @@ public class DetailsActivity extends BaseActionBar implements DetailsFragment.De
         listViewDrawer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View item, int position, long id) {
-                contentInView = contents.get(position);
-                /*if (TextUtils.isEmpty(contentInView.getDetailUri().toString())) {
-                    actionBar.setTitle(Utilities.getBanglaSpannableString(contentInView.getHeader(), DetailsActivity.this));
-                    DetailsFragment detailsFragment = (DetailsFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_details);
-                    detailsFragment.changeTopic(contentInView);
-                    listViewDrawer.setAdapter(drawerListAdapter);
-                    drawerLayout.closeDrawer(listViewDrawer);
-                } else {
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(contentInView.getDetailUri());
-                    startActivity(intent);
-                }*/
+                content = contents.get(position);
+                actionBar.setTitle(Utilities.getBanglaSpannableString(content.getHeader(), DetailsActivity.this));
+                if (content.getDetailType().equals(DetailType.HTML)) {
+                    showHideFragment(false);
+                    webViewDetails.setVisibility(View.VISIBLE);
+                    webViewDetails.loadData(content.getDetails(), "text/html", "utf-8");
+                } else if (content.getDetailType().equals(DetailType.NATIVE)) {
+                    showHideFragment(true);
+                    webViewDetails.setVisibility(View.GONE);
+                }
+                listViewDrawer.setAdapter(drawerListAdapter);
+                drawerLayout.closeDrawer(listViewDrawer);
             }
         });
+    }
+
+    private void showHideFragment(boolean show) {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        if (show) {
+            fragmentContainer.setVisibility(View.VISIBLE);
+            detailsFragment = new DetailsFragment();
+            ft.add(fragmentContainer.getId(), detailsFragment);
+        } else {
+            if (detailsFragment != null) {
+                ft.remove(detailsFragment);
+                fragmentContainer.setVisibility(View.GONE);
+            }
+        }
+        ft.commit();
+    }
+
+    private List<Content> dbResultToContent(List<DbContent> dbContents) {
+        List<Content> contents = new ArrayList<Content>();
+        for (DbContent dbContent : dbContents) {
+            Content content = new Content();
+            content.populateFrom(dbContent);
+            contents.add(content);
+        }
+        return contents;
     }
 
     @Override
@@ -155,6 +203,6 @@ public class DetailsActivity extends BaseActionBar implements DetailsFragment.De
     }
 
     public Content getContent() {
-        return contentInView;
+        return content;
     }
 }

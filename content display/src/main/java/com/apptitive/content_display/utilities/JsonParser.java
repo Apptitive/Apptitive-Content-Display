@@ -39,6 +39,7 @@ public class JsonParser {
                 dbContent.setActionType(jsonObject.get("actionType").toString());
                 dbContents.add(dbContent);
             } catch (JSONException e) {
+                LogUtil.LOGE(e.getMessage());
                 e.printStackTrace();
             }
         }

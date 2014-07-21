@@ -9,11 +9,7 @@ import com.apptitive.content_display.model.Content;
 import com.apptitive.content_display.utilities.Constants;
 import com.apptitive.content_display.utilities.Utilities;
 
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
-
-import java.io.IOException;
 
 
 public class SaomVongerKaronActivity extends BaseActionBar implements DetailsFragment.DetailProvider {
@@ -30,8 +26,8 @@ public class SaomVongerKaronActivity extends BaseActionBar implements DetailsFra
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            topicTitle = extras.getString(Constants.content.EXTRA_MENU_TITLE);
-            iconDrawableId = extras.getInt(Constants.content.EXTRA_ICON_ID);
+            topicTitle = extras.getString(Constants.menu.EXTRA_MENU_TITLE);
+            iconDrawableId = extras.getInt(Constants.menu.EXTRA_ICON_ID);
         }
 
         actionBar = getSupportActionBar();

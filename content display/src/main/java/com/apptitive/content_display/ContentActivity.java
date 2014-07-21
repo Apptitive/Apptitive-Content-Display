@@ -27,9 +27,9 @@ public class ContentActivity extends BaseActionBar implements ContentFragment.Co
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            menuId = extras.getString(Constants.content.EXTRA_MENU_ID);
-            menuTitle = extras.getString(Constants.content.EXTRA_MENU_TITLE);
-            iconDrawableId = extras.getInt(Constants.content.EXTRA_ICON_ID);
+            menuId = extras.getString(Constants.menu.EXTRA_MENU_ID);
+            menuTitle = extras.getString(Constants.menu.EXTRA_MENU_TITLE);
+            iconDrawableId = extras.getInt(Constants.menu.EXTRA_ICON_ID);
         }
 
         actionBar = getSupportActionBar();
@@ -59,5 +59,10 @@ public class ContentActivity extends BaseActionBar implements ContentFragment.Co
     @Override
     public String getMenuId() {
         return menuId;
+    }
+
+    @Override
+    public int getIconDrawableId() {
+        return iconDrawableId;
     }
 }
