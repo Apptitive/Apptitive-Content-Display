@@ -34,19 +34,7 @@ public class Detail {
     }
 
     public void populateFrom(JsonDetail jsonDetail) {
-        setTag(findTagFor(jsonDetail.key));
+        setTag(Constants.detail.findTagFor(jsonDetail.key));
         setText(jsonDetail.value);
-    }
-
-    private int findTagFor(String key) {
-        if (key.equalsIgnoreCase(Constants.detail.tag.PARAGRAPH))
-            return Constants.detail.VIEW_TYPE_P;
-        else if (key.equalsIgnoreCase(Constants.detail.tag.BOLD))
-            return Constants.detail.VIEW_TYPE_B;
-        else if (key.equalsIgnoreCase(Constants.detail.tag.UNORDERED_LIST_ITEM))
-            return Constants.detail.VIEW_TYPE_UL;
-        else if (key.equalsIgnoreCase(Constants.detail.tag.HEADER_1))
-            return Constants.detail.VIEW_TYPE_H1;
-        return 0;
     }
 }
