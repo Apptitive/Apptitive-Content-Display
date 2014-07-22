@@ -16,7 +16,6 @@ import com.apptitive.content_display.utilities.Constants;
 import com.apptitive.content_display.utilities.HttpHelper;
 import com.apptitive.content_display.utilities.JsonParser;
 import com.apptitive.content_display.utilities.LogUtil;
-import com.google.gson.Gson;
 
 import org.json.JSONArray;
 
@@ -36,7 +35,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter implements JsonArra
         LogUtil.LOGE("inside Syncadapter");
         DbManager.init(getContext());
         dbManager = DbManager.getInstance();
-        HttpHelper httpHelper = HttpHelper.getInstance(getContext(), this);
+        HttpHelper httpHelper = HttpHelper.getInstance(getContext(),this);
         httpHelper.getJsonArray(Config.getMenuUrl(), Constants.MENU_REQUEST_CODE);
         httpHelper.getJsonArray(Config.getTopicUrl(), Constants.CONTENT_REQUEST_CODE);
 

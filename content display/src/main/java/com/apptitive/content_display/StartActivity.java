@@ -7,10 +7,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.apptitive.content_display.helper.DbManager;
@@ -20,7 +18,6 @@ import com.apptitive.content_display.sync.SyncUtils;
 import com.apptitive.content_display.utilities.Config;
 import com.apptitive.content_display.utilities.Constants;
 import com.apptitive.content_display.utilities.HttpHelper;
-
 import java.util.List;
 
 public class StartActivity extends ActionBarActivity {
@@ -28,6 +25,7 @@ public class StartActivity extends ActionBarActivity {
     private List<ContentMenu> contentMenuList;
     private LinearLayout llMain;
     private int currentMenu;
+    private int patternLayoutMarginBottom = 12;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,52 +66,40 @@ public class StartActivity extends ActionBarActivity {
             int patternId = contentMenuList.get(currentMenu).getPatternId();
 
             if (patternId == 1) {
-                ViewStub viewStub = new ViewStub(this, R.layout.menu_pattern_1);
-                llMain.addView(viewStub);
-                View view = viewStub.inflate();
-                ViewGroup.LayoutParams lp = view.getLayoutParams();
-                ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
-                mlp.bottomMargin = 12;
-                lp.height = 400;
-
-                view.setLayoutParams(lp);
-                view.setLayoutParams(mlp);
-
+                View view = getViewForContentMenuPattern(R.layout.menu_pattern_1, 400);
                 populateContentMenuItem(view, R.id.sub_pattern_left_top, contentMenuList.get(currentMenu++), DisplayPattern.LeftToRight);
                 populateContentMenuItem(view, R.id.sub_pattern_left_bottom, contentMenuList.get(currentMenu++), DisplayPattern.LeftToRight);
                 populateContentMenuItem(view, R.id.sub_pattern_right, contentMenuList.get(currentMenu++), DisplayPattern.ToptoBottom);
             } else if (patternId == 2) {
-                ViewStub viewStub = new ViewStub(this, R.layout.menu_pattern_2);
-                llMain.addView(viewStub);
-                View view = viewStub.inflate();
-                ViewGroup.LayoutParams lp = view.getLayoutParams();
-                ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
-                mlp.bottomMargin = 12;
-                lp.height = 400;
-
-                view.setLayoutParams(lp);
-                view.setLayoutParams(mlp);
-
+                View view = getViewForContentMenuPattern(R.layout.menu_pattern_2, 400);
                 populateContentMenuItem(view, R.id.sub_pattern_left, contentMenuList.get(currentMenu++), DisplayPattern.ToptoBottom);
                 populateContentMenuItem(view, R.id.sub_pattern_right_top, contentMenuList.get(currentMenu++), DisplayPattern.LeftToRight);
                 populateContentMenuItem(view, R.id.sub_pattern_right_bottom, contentMenuList.get(currentMenu++), DisplayPattern.LeftToRight);
             } else if (patternId == 3) {
-                ViewStub viewStub = new ViewStub(this, R.layout.menu_pattern_3);
-                llMain.addView(viewStub);
-                View view = viewStub.inflate();
-                ViewGroup.LayoutParams lp = view.getLayoutParams();
-                ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
-                mlp.bottomMargin = 12;
-                lp.height = 200;
-
-                view.setLayoutParams(lp);
-                view.setLayoutParams(mlp);
-
+                View view = getViewForContentMenuPattern(R.layout.menu_pattern_3, 200);
                 populateContentMenuItem(view, R.id.sub_pattern_whole, contentMenuList.get(currentMenu++), DisplayPattern.Whole);
             }
         }
 
     }
+
+    private View getViewForContentMenuPattern(int layoutId, int layoutHeight){
+
+        ViewStub viewStub = new ViewStub(this, layoutId);
+        llMain.addView(viewStub);
+        View view = viewStub.inflate();
+        ViewGroup.LayoutParams lp = view.getLayoutParams();
+        ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
+        mlp.bottomMargin = patternLayoutMarginBottom;
+        lp.height = layoutHeight;
+
+        view.setLayoutParams(lp);
+        view.setLayoutParams(mlp);
+
+        return view;
+    }
+
+
 
     private void populateContentMenuItem(View view, int subPatternId, final ContentMenu menu, Enum displayPattern) {
         ViewStub stub = (ViewStub) view.findViewById(subPatternId);
