@@ -14,15 +14,12 @@ import com.apptitive.content_display.model.Detail;
 import com.apptitive.content_display.model.JsonDetail;
 import com.google.gson.Gson;
 
-import org.xmlpull.v1.XmlPullParserFactory;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class DetailsFragment extends ListFragment {
 
-    private XmlPullParserFactory parserFactory;
     private DetailProvider detailProvider;
     private DetailsListAdapter detailsListAdapter;
     private List<Detail> details;
@@ -71,7 +68,7 @@ public class DetailsFragment extends ListFragment {
     private List<Detail> jsonToDetail(List<JsonDetail> jsonDetails) {
         if (details == null)
             details = new ArrayList<Detail>();
-        else details.clear();
+        details.clear();
 
         for (JsonDetail jsonDetail : jsonDetails) {
             Detail detail1 = new Detail();
