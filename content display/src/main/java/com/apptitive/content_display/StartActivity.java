@@ -25,7 +25,6 @@ public class StartActivity extends ActionBarActivity {
     private List<ContentMenu> contentMenuList;
     private LinearLayout llMain;
     private int currentMenu;
-    private int patternLayoutMarginBottom = 12;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,22 +81,17 @@ public class StartActivity extends ActionBarActivity {
 
     }
 
-    private View getViewForContentMenuPattern(int layoutId, int layoutHeight){
+    private View getViewForContentMenuPattern(int layoutId, int layoutHeight) {
 
         ViewStub viewStub = new ViewStub(this, layoutId);
         llMain.addView(viewStub);
         View view = viewStub.inflate();
         ViewGroup.LayoutParams lp = view.getLayoutParams();
-        ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
-        mlp.bottomMargin = patternLayoutMarginBottom;
-        lp.height = layoutHeight;
-
+        lp.height = ViewGroup.LayoutParams.MATCH_PARENT;
         view.setLayoutParams(lp);
-        view.setLayoutParams(mlp);
 
         return view;
     }
-
 
 
     private void populateContentMenuItem(View view, int subPatternId, final ContentMenu menu, Enum displayPattern) {
@@ -113,8 +107,8 @@ public class StartActivity extends ActionBarActivity {
         TextView textView = (TextView) v.findViewById(R.id.tv_title);
         textView.setText(menu.getTitle());
         ImageLoader imageLoader = HttpHelper.getInstance(this).getImageLoader();
-        NetworkImageView imgNetWorkView =(NetworkImageView)v.findViewById(R.id.niv_icon);
-        imgNetWorkView.setImageUrl(Config.getImageUrl(this)+menu.getMenuId()+".9.png", imageLoader);
+        NetworkImageView imgNetWorkView = (NetworkImageView) v.findViewById(R.id.niv_icon);
+        imgNetWorkView.setImageUrl(Config.getImageUrl(this) + menu.getMenuId() + ".9.png", imageLoader);
 
         v.setOnClickListener(new View.OnClickListener() {
             @Override

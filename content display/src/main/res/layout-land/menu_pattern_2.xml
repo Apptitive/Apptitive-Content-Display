@@ -3,34 +3,41 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingRight="@dimen/dp_8"
     android:orientation="vertical">
 
-    <include
-        android:id="@+id/sub_pattern_right"
-        layout="@layout/partial_view_top_to_bottom"
-        android:layout_width="match_parent"
-        android:layout_weight="1"
+    <LinearLayout
+        android:layout_width="@dimen/dp_300"
         android:layout_height="0dp"
-        android:layout_marginBottom="@dimen/dp_4" />
+        android:layout_weight="1">
+
+        <ViewStub
+            android:id="@+id/sub_pattern_left"
+            android:inflatedId="@+id/inflated_sub_pattern_left"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/dp_4" />
+    </LinearLayout>
+
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/dp_300"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="horizontal">
 
-        <include
-            android:id="@+id/sub_pattern_left_top"
-            layout="@layout/partial_view_top_to_bottom"
+        <ViewStub
+            android:id="@+id/sub_pattern_right_top"
+            android:inflatedId="@+id/inflated_sub_pattern_right_top"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/dp_4"
             android:layout_marginRight="@dimen/dp_4"
             android:layout_weight="1" />
 
-        <include
-            android:id="@+id/sub_pattern_left_bottom"
-            layout="@layout/partial_view_top_to_bottom"
+        <ViewStub
+            android:id="@+id/sub_pattern_right_bottom"
+            android:inflatedId="@+id/inflated_sub_pattern_right_bottom"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/dp_4"

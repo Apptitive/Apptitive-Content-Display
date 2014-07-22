@@ -23,6 +23,8 @@
 
     <dimen name="dp_294">220.50dp</dimen>
     <dimen name="dp_240">180dp</dimen>
+    <dimen name="dp_300">225dp</dimen>
+    <dimen name="dp_150">112.50dp</dimen>
     <dimen name="dp_120">90dp</dimen>
     <dimen name="dp_110">82.50dp</dimen>
     <dimen name="dp_105">78.75dp</dimen>

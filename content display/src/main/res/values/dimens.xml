@@ -21,6 +21,8 @@
     <dimen name="dp_ng_3">-3dp</dimen>
     <dimen name="dp_294">294dp</dimen>
     <dimen name="dp_240">240dp</dimen>
+    <dimen name="dp_300">300dp</dimen>
+    <dimen name="dp_150">150dp</dimen>
     <dimen name="dp_120">120dp</dimen>
     <dimen name="dp_110">110dp</dimen>
     <dimen name="dp_105">105dp</dimen>
