@@ -9,8 +9,6 @@ import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-
-import com.android.volley.toolbox.NetworkImageView;
 import com.apptitive.content_display.helper.CSVToDbHelper;
 import com.apptitive.content_display.helper.DbManager;
 import com.apptitive.content_display.helper.DbTableName;
@@ -25,7 +23,6 @@ import com.apptitive.content_display.utilities.HttpHelper;
 import com.apptitive.content_display.utilities.LogUtil;
 import com.apptitive.content_display.utilities.PreferenceHelper;
 import com.apptitive.content_display.views.BanglaTextView;
-
 import java.text.ParseException;
 import java.util.List;
 
@@ -76,11 +73,7 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener 
 
         timeTables = DbManager.getInstance().getAllTimeTables();
         regions = DbManager.getInstance().getAllRegions();
-
-        NetworkImageView imgNetWorkView = (NetworkImageView) findViewById(R.id.imgDemo);
         LogUtil.LOGE(Config.getImageUrl(this));
-        imgNetWorkView.setImageUrl(Config.getImageUrl(this) + "1_ab_title.png", HttpHelper.getInstance(this).getImageLoader());
-       // imgNetWorkView.setImageUrl("http://apptitive.com/content_display/media/images/hdpi/3.9.png", HttpHelper.getInstance(this).getImageLoader());
     }
 
     @Override

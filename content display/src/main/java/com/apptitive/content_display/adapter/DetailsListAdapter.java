@@ -10,8 +10,6 @@ import android.widget.TextView;
 import com.apptitive.content_display.R;
 import com.apptitive.content_display.model.Detail;
 import com.apptitive.content_display.utilities.Constants;
-import com.apptitive.content_display.views.ArabicTextView;
-import com.apptitive.content_display.views.BanglaTextView;
 
 import java.util.List;
 
@@ -21,7 +19,7 @@ import java.util.List;
  */
 public class DetailsListAdapter extends BaseAdapter {
 
-    private static final int VIEW_TYPE_COUNT = 6;
+    private static final int VIEW_TYPE_COUNT = 4;
 
     private List<Detail> details;
     private Context context;
@@ -65,29 +63,21 @@ public class DetailsListAdapter extends BaseAdapter {
         if (convertView == null) {
             holder = new ViewHolder();
             switch (viewType) {
-                case Constants.detail.VIEW_TYPE_TEXT_ONLY:
-                    convertView = LayoutInflater.from(context).inflate(R.layout.list_item_detail_textonly, parent, false);
-                    holder.tvDetail = (BanglaTextView) convertView.findViewById(R.id.btv_plainText);
+                case Constants.detail.VIEW_TYPE_P:
+                    convertView = LayoutInflater.from(context).inflate(R.layout.list_item_detail_p, parent, false);
+                    holder.tvDetail = (TextView) convertView.findViewById(R.id.btv_plainText);
                     break;
-                case Constants.detail.VIEW_TYPE_ARABIC:
-                    convertView = LayoutInflater.from(context).inflate(R.layout.list_item_detail_bullet, parent, false);
-                    holder.tvDetail = (BanglaTextView) convertView.findViewById(R.id.btv_bulletText);
+                case Constants.detail.VIEW_TYPE_UL:
+                    convertView = LayoutInflater.from(context).inflate(R.layout.list_item_detail_ul, parent, false);
+                    holder.tvDetail = (TextView) convertView.findViewById(R.id.btv_bulletText);
                     break;
-                case Constants.detail.VIEW_TYPE_HEADER_ONLY:
-                    convertView = LayoutInflater.from(context).inflate(R.layout.list_item_detail_headeronly, parent, false);
-                    holder.tvDetail = (BanglaTextView) convertView.findViewById(R.id.btv_headerText);
+                case Constants.detail.VIEW_TYPE_H1:
+                    convertView = LayoutInflater.from(context).inflate(R.layout.list_item_detail_h1, parent, false);
+                    holder.tvDetail = (TextView) convertView.findViewById(R.id.btv_headerText);
                     break;
-                case Constants.detail.VIEW_TYPE_TEXT_BULLET_ALIGN:
-                    convertView = LayoutInflater.from(context).inflate(R.layout.list_item_detail_text_bullet_align, parent, false);
-                    holder.tvDetail = (BanglaTextView) convertView.findViewById(R.id.btv_plainText_bullet_align);
-                    break;
-                case Constants.detail.VIEW_TYPE_BULLET:
-                    convertView = LayoutInflater.from(context).inflate(R.layout.list_item_detail_bold_text, parent, false);
+                case Constants.detail.VIEW_TYPE_B:
+                    convertView = LayoutInflater.from(context).inflate(R.layout.list_item_detail_b, parent, false);
                     holder.tvDetail = (TextView) convertView.findViewById(R.id.textView_bold);
-                    break;
-                case Constants.detail.VIEW_TYPE_ARABIC_BULLET_ALIGN:
-                    convertView = LayoutInflater.from(context).inflate(R.layout.list_item_detail_arabic_bullet_align, parent, false);
-                    holder.tvDetail = (ArabicTextView) convertView.findViewById(R.id.btv_plainText_arabic_bullet_align);
                     break;
             }
             convertView.setTag(holder);

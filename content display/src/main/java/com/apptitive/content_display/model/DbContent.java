@@ -117,11 +117,11 @@ public class DbContent{
 
     public static void updateDb(DbManager dbManager, List<DbContent> dbContents) {
         for (DbContent dbContent:dbContents){
-            if (dbContent.getActionType().equals(Constants.ContentType.ADD)) {
+            if (dbContent.getActionType().equals(Constants.db_action.ADD)) {
                 dbManager.addDbContent(dbContent);
-            } else if (dbContent.getActionType().equals(Constants.ContentType.DELETE)) {
+            } else if (dbContent.getActionType().equals(Constants.db_action.DELETE)) {
                 dbManager.deleteDbContent(dbContent);
-            } else if (dbContent.getActionType().equals(Constants.ContentType.UPDATE)) {
+            } else if (dbContent.getActionType().equals(Constants.db_action.UPDATE)) {
                 dbManager.updateDbContent(dbContent);
             }
         }

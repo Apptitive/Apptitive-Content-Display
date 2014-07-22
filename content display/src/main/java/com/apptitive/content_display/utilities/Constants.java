@@ -44,15 +44,20 @@ public final class Constants {
     }
 
     public final class detail {
-        public static final int VIEW_TYPE_TEXT_ONLY = 0;
-        public static final int VIEW_TYPE_BULLET = 1;
-        public static final int VIEW_TYPE_HEADER_ONLY = 2;
-        public static final int VIEW_TYPE_TEXT_BULLET_ALIGN = 3;
-        public static final int VIEW_TYPE_ARABIC = 4;
-        public static final int VIEW_TYPE_ARABIC_BULLET_ALIGN = 5;
+        public static final int VIEW_TYPE_P = 0;
+        public static final int VIEW_TYPE_UL = 1;
+        public static final int VIEW_TYPE_H1 = 2;
+        public static final int VIEW_TYPE_B = 3;
+
+        public final class tag {
+            public static final String PARAGRAPH = "p";
+            public static final String BOLD = "b";
+            public static final String UNORDERED_LIST_ITEM = "li";
+            public static final String HEADER_1 = "h1";
+        }
     }
 
-    public final class ContentType {
+    public final class db_action {
         public static final String ADD = "add";
         public static final String DELETE = "delete";
         public static final String UPDATE = "update";
