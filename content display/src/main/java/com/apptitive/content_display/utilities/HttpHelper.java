@@ -1,7 +1,9 @@
 package com.apptitive.content_display.utilities;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.text.TextUtils;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -29,15 +31,21 @@ public class HttpHelper {
     public static final String TAG = "VolleyTag";
     private ImageLoader mImageLoader;
 
-    public static HttpHelper getInstance(Context context,JsonArrayCompleteListener<JSONArray> jsonCallBack) {
+    private static int DISK_IMAGECACHE_SIZE = 1024 * 1024 * 10;
+    private static Bitmap.CompressFormat DISK_IMAGECACHE_COMPRESS_FORMAT = Bitmap.CompressFormat.PNG;
+    private static int DISK_IMAGECACHE_QUALITY = 100;
+
+    public static HttpHelper getInstance(Context context, JsonArrayCompleteListener<JSONArray> jsonCallBack) {
         HttpHelper.context = context;
         HttpHelper.jsonCallBack = jsonCallBack;
         return uniqueInstance;
     }
+
     public static HttpHelper getInstance(Context context) {
         HttpHelper.context = context;
         return uniqueInstance;
     }
+
     public RequestQueue getRequestQueue() {
         if (mRequestQueue == null) {
             mRequestQueue = Volley.newRequestQueue(context);
@@ -49,7 +57,11 @@ public class HttpHelper {
         getRequestQueue();
         if (mImageLoader == null) {
             mImageLoader = new ImageLoader(this.mRequestQueue,
-                    new LruBitmapCache());
+                    new DiskLruImageCache(context, context.getPackageCodePath(),
+                            DISK_IMAGECACHE_SIZE,
+                            DISK_IMAGECACHE_COMPRESS_FORMAT,
+                            DISK_IMAGECACHE_QUALITY)
+            );
         }
         return this.mImageLoader;
     }
@@ -80,7 +92,7 @@ public class HttpHelper {
                     public void onResponse(JSONArray response) {
                         try {
                             VolleyLog.v("Response:%n %s", response.toString(4));
-                            jsonCallBack.onJsonArray(response,requestCode);
+                            jsonCallBack.onJsonArray(response, requestCode);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -91,16 +103,17 @@ public class HttpHelper {
             public void onErrorResponse(VolleyError arg0) {
                 LogUtil.LOGE("response error");
             }
-        });
+        }
+        );
         addToRequestQueue(req);
     }
 
 
-    public  void getJsonObject(String url){
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url,null, new Response.Listener<JSONObject>() {
+    public void getJsonObject(String url) {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject jsonObject) {
-              LogUtil.LOGE(jsonObject.toString());
+                LogUtil.LOGE(jsonObject.toString());
             }
         }, new Response.ErrorListener() {
             @Override
