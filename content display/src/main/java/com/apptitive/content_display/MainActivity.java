@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
 import com.apptitive.content_display.helper.CSVToDbHelper;
 import com.apptitive.content_display.helper.DbManager;
 import com.apptitive.content_display.helper.DbTableName;
@@ -16,10 +17,13 @@ import com.apptitive.content_display.model.Region;
 import com.apptitive.content_display.model.TimeTable;
 import com.apptitive.content_display.receiver.TimeTableWidgetProvider;
 import com.apptitive.content_display.sync.SyncUtils;
+import com.apptitive.content_display.utilities.Config;
 import com.apptitive.content_display.utilities.Constants;
 import com.apptitive.content_display.utilities.DateTimeUtils;
+import com.apptitive.content_display.utilities.LogUtil;
 import com.apptitive.content_display.utilities.PreferenceHelper;
 import com.apptitive.content_display.views.BanglaTextView;
+
 import java.text.ParseException;
 import java.util.List;
 
@@ -70,11 +74,7 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener 
 
         timeTables = DbManager.getInstance().getAllTimeTables();
         regions = DbManager.getInstance().getAllRegions();
-/*      ImageLoader imageLoader = HttpHelper.getInstance(this).getImageLoader();
-        NetworkImageView imgNetWorkView=(NetworkImageView)findViewById(R.id.imgDemo);
         LogUtil.LOGE(Config.getImageUrl(this));
-        imgNetWorkView.setImageUrl(Config.getImageUrl(this)+"ic_saom.png", imageLoader);*/
-
     }
 
     @Override

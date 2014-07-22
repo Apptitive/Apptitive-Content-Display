@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.apptitive.content_display.helper.DbManager;
@@ -18,6 +19,7 @@ import com.apptitive.content_display.sync.SyncUtils;
 import com.apptitive.content_display.utilities.Config;
 import com.apptitive.content_display.utilities.Constants;
 import com.apptitive.content_display.utilities.HttpHelper;
+
 import java.util.List;
 
 public class StartActivity extends ActionBarActivity {
@@ -32,6 +34,7 @@ public class StartActivity extends ActionBarActivity {
         setContentView(R.layout.activity_start);
         DbManager.init(this);
         SyncUtils.triggerInitialSync(this);
+        SyncUtils.triggerManualSync();
 
       /*ContentMenu contentMenu1 = new ContentMenu(1, "1", "Title 1", "add", 1, 1);
         ContentMenu contentMenu2 = new ContentMenu(2, "2", "Title 2", "add", 1, 2);

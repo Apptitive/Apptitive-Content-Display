@@ -11,7 +11,7 @@ import java.util.List;
  * Created by rayhan on 7/13/2014.
  */
 @DatabaseTable
-public class ContentMenu{
+public class ContentMenu {
 
     @DatabaseField
     private int actionId;
@@ -43,6 +43,18 @@ public class ContentMenu{
         this.subPatternId = subPatternId;
     }
 
+    public static void updateDb(DbManager dbManager, List<ContentMenu> contentMenus) {
+        for (ContentMenu contentMenu : contentMenus) {
+            if (contentMenu.getActionType().equals(Constants.db_action.ADD)) {
+                dbManager.addMenu(contentMenu);
+            } else if (contentMenu.getActionType().equals(Constants.db_action.DELETE)) {
+                dbManager.deleteMenu(contentMenu);
+            } else if (contentMenu.getActionType().equals(Constants.db_action.UPDATE)) {
+                dbManager.updateMenu(contentMenu);
+            }
+        }
+    }
+
     public int getActionId() {
         return actionId;
     }
@@ -65,18 +77,5 @@ public class ContentMenu{
 
     public int getSubPatternId() {
         return subPatternId;
-    }
-
-
-    public static void updateDb(DbManager dbManager, List<ContentMenu> contentMenus) {
-        for (ContentMenu contentMenu : contentMenus) {
-            if (contentMenu.getActionType().equals(Constants.db_action.ADD)) {
-                dbManager.addMenu(contentMenu);
-            } else if (contentMenu.getActionType().equals(Constants.db_action.DELETE)) {
-                dbManager.deleteMenu(contentMenu);
-            } else if (contentMenu.getActionType().equals(Constants.db_action.UPDATE)) {
-                dbManager.updateMenu(contentMenu);
-            }
-        }
     }
 }

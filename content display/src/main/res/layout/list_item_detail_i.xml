@@ -4,16 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/dp_5"
     android:paddingLeft="@dimen/dp_10"
     android:paddingRight="@dimen/dp_10"
-    android:paddingTop="@dimen/dp_5">
+    android:paddingTop="@dimen/dp_5"
+    android:paddingBottom="@dimen/dp_5">
 
     <TextView
-        android:id="@+id/textView_bold"
+        android:id="@+id/textView_italic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/white_dark"
         android:textSize="@dimen/text_size_15"
-        android:textStyle="bold" />
+        android:textStyle="italic" />
 </LinearLayout>
