@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class DetailsListAdapter extends BaseAdapter {
 
-    private static final int VIEW_TYPE_COUNT = 4;
+    private static final int VIEW_TYPE_COUNT = Constants.detail.VIEW_TYPE_COUNT;
 
     private List<Detail> details;
     private Context context;
@@ -78,6 +78,10 @@ public class DetailsListAdapter extends BaseAdapter {
                 case Constants.detail.VIEW_TYPE_B:
                     convertView = LayoutInflater.from(context).inflate(R.layout.list_item_detail_b, parent, false);
                     holder.tvDetail = (TextView) convertView.findViewById(R.id.textView_bold);
+                    break;
+                case Constants.detail.VIEW_TYPE_I:
+                    convertView = LayoutInflater.from(context).inflate(R.layout.list_item_detail_i, parent, false);
+                    holder.tvDetail = (TextView) convertView.findViewById(R.id.textView_italic);
                     break;
             }
             convertView.setTag(holder);

@@ -43,17 +43,34 @@ public final class Constants {
         }
     }
 
-    public final class detail {
+    public static final class detail {
         public static final int VIEW_TYPE_P = 0;
         public static final int VIEW_TYPE_UL = 1;
         public static final int VIEW_TYPE_H1 = 2;
         public static final int VIEW_TYPE_B = 3;
+        public static final int VIEW_TYPE_I = 4;
+        public static final int VIEW_TYPE_COUNT = VIEW_TYPE_I + 1;
 
         public final class tag {
             public static final String PARAGRAPH = "p";
             public static final String BOLD = "b";
             public static final String UNORDERED_LIST_ITEM = "li";
             public static final String HEADER_1 = "h1";
+            public static final String ITALIC = "i";
+        }
+
+        public static int findTagFor(String key) {
+            if (key.equalsIgnoreCase(tag.PARAGRAPH))
+                return VIEW_TYPE_P;
+            else if (key.equalsIgnoreCase(tag.BOLD))
+                return VIEW_TYPE_B;
+            else if (key.equalsIgnoreCase(tag.UNORDERED_LIST_ITEM))
+                return VIEW_TYPE_UL;
+            else if (key.equalsIgnoreCase(tag.HEADER_1))
+                return VIEW_TYPE_H1;
+            else if (key.equalsIgnoreCase(tag.ITALIC))
+                return VIEW_TYPE_I;
+            return 0;
         }
     }
 

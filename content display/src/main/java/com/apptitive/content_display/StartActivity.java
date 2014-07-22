@@ -35,6 +35,7 @@ public class StartActivity extends ActionBarActivity {
         setContentView(R.layout.activity_start);
         DbManager.init(this);
         SyncUtils.triggerInitialSync(this);
+        SyncUtils.triggerManualSync();
 
       /*ContentMenu contentMenu1 = new ContentMenu(1, "1", "Title 1", "add", 1, 1);
         ContentMenu contentMenu2 = new ContentMenu(2, "2", "Title 2", "add", 1, 2);
