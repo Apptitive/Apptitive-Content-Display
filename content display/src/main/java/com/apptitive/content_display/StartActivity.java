@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.apptitive.content_display.helper.DbManager;
@@ -18,6 +19,7 @@ import com.apptitive.content_display.sync.SyncUtils;
 import com.apptitive.content_display.utilities.Config;
 import com.apptitive.content_display.utilities.Constants;
 import com.apptitive.content_display.utilities.HttpHelper;
+
 import java.util.List;
 
 public class StartActivity extends ActionBarActivity {
@@ -82,7 +84,7 @@ public class StartActivity extends ActionBarActivity {
 
     }
 
-    private View getViewForContentMenuPattern(int layoutId, int layoutHeight){
+    private View getViewForContentMenuPattern(int layoutId, int layoutHeight) {
 
         ViewStub viewStub = new ViewStub(this, layoutId);
         llMain.addView(viewStub);
@@ -99,7 +101,6 @@ public class StartActivity extends ActionBarActivity {
     }
 
 
-
     private void populateContentMenuItem(View view, int subPatternId, final ContentMenu menu, Enum displayPattern) {
         ViewStub stub = (ViewStub) view.findViewById(subPatternId);
         if (displayPattern.equals(DisplayPattern.LeftToRight)) {
@@ -113,8 +114,8 @@ public class StartActivity extends ActionBarActivity {
         TextView textView = (TextView) v.findViewById(R.id.tv_title);
         textView.setText(menu.getTitle());
         ImageLoader imageLoader = HttpHelper.getInstance(this).getImageLoader();
-        NetworkImageView imgNetWorkView =(NetworkImageView)v.findViewById(R.id.niv_icon);
-        imgNetWorkView.setImageUrl(Config.getImageUrl(this)+menu.getMenuId()+".9.png", imageLoader);
+        NetworkImageView imgNetWorkView = (NetworkImageView) v.findViewById(R.id.niv_icon);
+        imgNetWorkView.setImageUrl(Config.getImageUrl(this) + menu.getMenuId() + ".9.png", imageLoader);
 
         v.setOnClickListener(new View.OnClickListener() {
             @Override
