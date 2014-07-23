@@ -22,6 +22,8 @@
 
     <dimen name="dp_294">588dp</dimen>
     <dimen name="dp_240">480dp</dimen>
+    <dimen name="dp_300">600dp</dimen>
+    <dimen name="dp_150">300dp</dimen>
     <dimen name="dp_120">240dp</dimen>
     <dimen name="dp_110">220dp</dimen>
     <dimen name="dp_105">210dp</dimen>

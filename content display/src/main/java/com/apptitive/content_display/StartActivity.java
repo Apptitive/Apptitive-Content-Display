@@ -27,7 +27,6 @@ public class StartActivity extends ActionBarActivity {
     private List<ContentMenu> contentMenuList;
     private LinearLayout llMain;
     private int currentMenu;
-    private int patternLayoutMarginBottom = 12;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,12 +90,8 @@ public class StartActivity extends ActionBarActivity {
         llMain.addView(viewStub);
         View view = viewStub.inflate();
         ViewGroup.LayoutParams lp = view.getLayoutParams();
-        ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
-        mlp.bottomMargin = patternLayoutMarginBottom;
-        lp.height = layoutHeight;
-
+        lp.height = ViewGroup.LayoutParams.MATCH_PARENT;
         view.setLayoutParams(lp);
-        view.setLayoutParams(mlp);
 
         return view;
     }

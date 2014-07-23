@@ -3,13 +3,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:paddingBottom="@dimen/dp_8">
 
     <ViewStub
         android:id="@+id/sub_pattern_whole"
+        android:inflatedId="@+id/inflated_sub_pattern_whole"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/dp_4"
-        android:inflatedId="@+id/inflated_sub_pattern_whole" />
+        android:layout_height="match_parent" />
 
 </RelativeLayout>

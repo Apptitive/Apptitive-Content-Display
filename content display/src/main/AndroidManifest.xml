@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.apptitive.content_display"
     android:versionCode="1"
-    android:versionName="first release">
+    android:versionName="first release" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -15,13 +15,13 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/Theme.ContentDisplay">
+        android:theme="@style/Theme.ContentDisplay" >
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" />
         <activity
             android:name=".DetailsActivity"
-            android:parentActivityName=".ContentActivity">
+            android:parentActivityName=".ContentActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.apptitive.ramadan.TopicsActivity" />
@@ -32,21 +32,21 @@
         <activity
             android:name=".ContentActivity"
             android:launchMode="singleTask"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.apptitive.ramadan.MainActivity" />
         </activity>
         <activity
             android:name=".SehriIfterActivity"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.apptitive.ramadan.MainActivity" />
         </activity>
         <activity
             android:name=".SaomVongerKaronActivity"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.apptitive.ramadan.MainActivity" />
@@ -55,10 +55,9 @@
             android:name=".SplashScreen"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -79,7 +78,7 @@
         <receiver
             android:name=".receiver.NotificationCancelReceiver"
             android:enabled="true"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="notification_cancelled" />
             </intent-filter>
@@ -87,7 +86,7 @@
         <receiver
             android:name=".receiver.TimeTableWidgetProvider"
             android:icon="@drawable/widget_timetable"
-            android:label="@string/widget_label">
+            android:label="@string/widget_label" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -97,34 +96,45 @@
                 android:resource="@xml/widget_info" />
         </receiver>
 
-
         <activity
             android:name=".StartActivity"
-            android:label="@string/title_activity_start"></activity>
+            android:label="@string/title_activity_start" />
 
-        <service android:name="com.apptitive.content_display.sync.AuthenticatorService">
+        <service android:name=".sync.AuthenticatorService" >
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>
+
             <meta-data
                 android:name="android.accounts.AccountAuthenticator"
                 android:resource="@xml/authenticator" />
         </service>
         <service
-            android:name="com.apptitive.content_display.sync.SyncService"
+            android:name=".sync.SyncService"
             android:exported="true"
-            android:process=":sync">
+            android:process=":sync" >
             <intent-filter>
-                <action android:name="android.content.SyncAdapter"/>
+                <action android:name="android.content.SyncAdapter" />
             </intent-filter>
-            <meta-data android:name="android.content.SyncAdapter"
+
+            <meta-data
+                android:name="android.content.SyncAdapter"
                 android:resource="@xml/syncadapter" />
         </service>
+
         <provider
-            android:authorities="com.apptitive.content_display.sync.StubProvider"
             android:name=".sync.StubProvider"
+            android:authorities="com.apptitive.content_display.sync.StubProvider"
             android:exported="false"
-            android:syncable="true"></provider>
+            android:syncable="true" />
+
+        <activity
+            android:name=".TestActivity"
+            android:label="@string/title_activity_test" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
