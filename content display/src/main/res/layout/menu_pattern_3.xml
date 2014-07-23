@@ -9,6 +9,6 @@
         android:id="@+id/sub_pattern_whole"
         android:inflatedId="@+id/inflated_sub_pattern_whole"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="@dimen/dp_150" />
 
 </RelativeLayout>

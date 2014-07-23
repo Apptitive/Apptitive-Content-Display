@@ -9,17 +9,16 @@ import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.apptitive.content_display.helper.DbManager;
 import com.apptitive.content_display.helper.DisplayPattern;
+import com.apptitive.content_display.helper.Helper;
 import com.apptitive.content_display.model.ContentMenu;
 import com.apptitive.content_display.sync.SyncUtils;
 import com.apptitive.content_display.utilities.Config;
 import com.apptitive.content_display.utilities.Constants;
 import com.apptitive.content_display.utilities.HttpHelper;
-
 import java.util.List;
 
 public class StartActivity extends ActionBarActivity {
@@ -67,24 +66,24 @@ public class StartActivity extends ActionBarActivity {
             int patternId = contentMenuList.get(currentMenu).getPatternId();
 
             if (patternId == 1) {
-                View view = getViewForContentMenuPattern(R.layout.menu_pattern_1, 400);
+                View view = getViewForContentMenuPattern(R.layout.menu_pattern_1);
                 populateContentMenuItem(view, R.id.sub_pattern_left_top, contentMenuList.get(currentMenu++), DisplayPattern.LeftToRight);
                 populateContentMenuItem(view, R.id.sub_pattern_left_bottom, contentMenuList.get(currentMenu++), DisplayPattern.LeftToRight);
                 populateContentMenuItem(view, R.id.sub_pattern_right, contentMenuList.get(currentMenu++), DisplayPattern.ToptoBottom);
             } else if (patternId == 2) {
-                View view = getViewForContentMenuPattern(R.layout.menu_pattern_2, 400);
+                View view = getViewForContentMenuPattern(R.layout.menu_pattern_2);
                 populateContentMenuItem(view, R.id.sub_pattern_left, contentMenuList.get(currentMenu++), DisplayPattern.ToptoBottom);
                 populateContentMenuItem(view, R.id.sub_pattern_right_top, contentMenuList.get(currentMenu++), DisplayPattern.LeftToRight);
                 populateContentMenuItem(view, R.id.sub_pattern_right_bottom, contentMenuList.get(currentMenu++), DisplayPattern.LeftToRight);
             } else if (patternId == 3) {
-                View view = getViewForContentMenuPattern(R.layout.menu_pattern_3, 200);
+                View view = getViewForContentMenuPattern(R.layout.menu_pattern_3);
                 populateContentMenuItem(view, R.id.sub_pattern_whole, contentMenuList.get(currentMenu++), DisplayPattern.Whole);
             }
         }
 
     }
 
-    private View getViewForContentMenuPattern(int layoutId, int layoutHeight) {
+    private View getViewForContentMenuPattern(int layoutId) {
 
         ViewStub viewStub = new ViewStub(this, layoutId);
         llMain.addView(viewStub);
@@ -100,7 +99,10 @@ public class StartActivity extends ActionBarActivity {
     private void populateContentMenuItem(View view, int subPatternId, final ContentMenu menu, Enum displayPattern) {
         ViewStub stub = (ViewStub) view.findViewById(subPatternId);
         if (displayPattern.equals(DisplayPattern.LeftToRight)) {
-            stub.setLayoutResource(R.layout.partial_view_left_right);
+            if (Helper.isPortraitMode(this.getWindowManager()))
+                stub.setLayoutResource(R.layout.partial_view_left_right);
+            else
+                stub.setLayoutResource(R.layout.partial_view_top_to_bottom);
         } else if (displayPattern.equals(DisplayPattern.ToptoBottom)) {
             stub.setLayoutResource(R.layout.partial_view_top_to_bottom);
         } else if (displayPattern.equals(DisplayPattern.Whole)) {
@@ -124,5 +126,6 @@ public class StartActivity extends ActionBarActivity {
             }
         });
     }
+
 
 }
