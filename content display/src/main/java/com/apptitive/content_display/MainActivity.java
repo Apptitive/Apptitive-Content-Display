@@ -1,7 +1,9 @@
 package com.apptitive.content_display;
 
+import android.app.ProgressDialog;
 import android.appwidget.AppWidgetManager;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.view.WindowCompat;
@@ -13,8 +15,10 @@ import android.view.View;
 import com.apptitive.content_display.helper.CSVToDbHelper;
 import com.apptitive.content_display.helper.DbManager;
 import com.apptitive.content_display.helper.DbTableName;
+import com.apptitive.content_display.interfaces.LoaderListener;
 import com.apptitive.content_display.model.Region;
 import com.apptitive.content_display.model.TimeTable;
+import com.apptitive.content_display.receiver.SyncResponseReceiver;
 import com.apptitive.content_display.receiver.TimeTableWidgetProvider;
 import com.apptitive.content_display.sync.SyncUtils;
 import com.apptitive.content_display.utilities.Config;
@@ -28,7 +32,7 @@ import java.text.ParseException;
 import java.util.List;
 
 
-public class MainActivity extends BaseActionBar implements View.OnClickListener {
+public class MainActivity extends BaseActionBar implements View.OnClickListener, LoaderListener {
     private int mAppWidgetId;
     private ActionBar actionBar;
     private PreferenceHelper preferenceHelper;
@@ -37,6 +41,8 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener 
     private List<TimeTable> timeTables;
     private List<Region> regions;
     private Region region;
+    private SyncResponseReceiver syncResponseReceiver;
+    private ProgressDialog ringProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +50,14 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener 
         DbManager.init(this);
         supportRequestWindowFeature(WindowCompat.FEATURE_ACTION_BAR_OVERLAY);
         setContentView(R.layout.activity_main);
+
+        IntentFilter intentFilter = new IntentFilter(Constants.ACTION_RESPONSE);
+        intentFilter.addCategory(Intent.CATEGORY_DEFAULT);
+        syncResponseReceiver = new SyncResponseReceiver(this);
+        registerReceiver(syncResponseReceiver, intentFilter);
+
         SyncUtils.triggerInitialSync(this);
-        SyncUtils.triggerManualSync();
+        //  SyncUtils.triggerManualSync();
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             mAppWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
@@ -171,5 +183,23 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener 
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (syncResponseReceiver != null)
+            unregisterReceiver(syncResponseReceiver);
+    }
 
+    @Override
+    public void onLoadStarted() {
+        ringProgressDialog = ProgressDialog.show(MainActivity.this, "Please wait ...", "Downloading Image ...", true);
+        ringProgressDialog.setCancelable(true);
+    }
+
+    @Override
+    public void onLoadFinished() {
+        if (ringProgressDialog != null) {
+            ringProgressDialog.dismiss();
+        }
+    }
 }

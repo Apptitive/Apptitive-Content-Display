@@ -8,11 +8,13 @@ import android.os.Bundle;
 
 import com.apptitive.content_display.utilities.Constants;
 import com.apptitive.content_display.utilities.LogUtil;
+import com.apptitive.content_display.utilities.Utilities;
 
 /**
  * Created by Sharif on 7/17/2014.
  */
 public class SyncUtils {
+
     public static void triggerInitialSync(Context context) {
         LogUtil.LOGE("initial sync");
         Account account = AuthenticatorService.GetAccount(Constants.ACCOUNT_TYPE);
@@ -20,6 +22,7 @@ public class SyncUtils {
                 (AccountManager) context.getSystemService(Context.ACCOUNT_SERVICE);
         if (accountManager.addAccountExplicitly(account, null, null)) {
             LogUtil.LOGE("first time call sync");
+            Utilities.startSyncReceiver(context);
             triggerManualSync();
         }
     }
@@ -35,5 +38,9 @@ public class SyncUtils {
                 AuthenticatorService.GetAccount(Constants.ACCOUNT_TYPE),
                 Constants.AUTHORITY,
                 settingsBundle);
+    }
+
+    public static void triggerPeriodicSync(long syncFrequency) {
+        ContentResolver.addPeriodicSync(AuthenticatorService.GetAccount(Constants.ACCOUNT_TYPE), Constants.AUTHORITY, new Bundle(), syncFrequency);
     }
 }
