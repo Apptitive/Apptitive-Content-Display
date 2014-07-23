@@ -54,15 +54,20 @@ public class DetailsFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        gson = new Gson();
-        detailsListAdapter = new DetailsListAdapter(getActivity(), jsonToDetail(Arrays.asList(gson.fromJson(detailProvider.getContent().getDetails(), JsonDetail[].class))));
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        setListAdapter(detailsListAdapter);
         return inflater.inflate(R.layout.fragment_details, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        gson = new Gson();
+        detailsListAdapter = new DetailsListAdapter(getActivity(), jsonToDetail(Arrays.asList(gson.fromJson(detailProvider.getContent().getDetails(), JsonDetail[].class))));
+        setListAdapter(detailsListAdapter);
     }
 
     private List<Detail> jsonToDetail(List<JsonDetail> jsonDetails) {
@@ -76,6 +81,11 @@ public class DetailsFragment extends ListFragment {
             details.add(detail1);
         }
         return details;
+    }
+
+    public void switchContent() {
+        jsonToDetail(Arrays.asList(gson.fromJson(detailProvider.getContent().getDetails(), JsonDetail[].class)));
+        setListAdapter(detailsListAdapter);
     }
 
     public interface DetailProvider {

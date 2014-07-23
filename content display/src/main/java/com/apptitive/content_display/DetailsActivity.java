@@ -28,7 +28,6 @@ import com.apptitive.content_display.utilities.Config;
 import com.apptitive.content_display.utilities.Constants;
 import com.apptitive.content_display.utilities.HttpHelper;
 import com.apptitive.content_display.utilities.Utilities;
-import com.dibosh.experiments.android.support.customfonthelper.AndroidCustomFontSupport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,12 +58,16 @@ public class DetailsActivity extends BaseActionBar implements DetailsFragment.De
             content = extras.getParcelable(Constants.content.EXTRA_CONTENT);
         }
 
+        if (savedInstanceState != null) {
+            content = savedInstanceState.getParcelable(Constants.content.EXTRA_CONTENT);
+            menuId = savedInstanceState.getString(Constants.menu.EXTRA_MENU_ID);
+        }
+
         actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.ActionBarInnerBg)));
-        actionBar.setTitle(Utilities.getBanglaSpannableString(content.getHeader(), this));
+        actionBar.setTitle(content.getHeader());
         ImageLoader imageLoader = HttpHelper.getInstance(this).getImageLoader();
         imageLoader.get(Config.getImageUrl(this) + menuId + "_ab_title.png", new ImageLoader.ImageListener() {
-
             @Override
             public void onErrorResponse(VolleyError error) {
             }
@@ -144,29 +147,19 @@ public class DetailsActivity extends BaseActionBar implements DetailsFragment.De
         });
     }
 
-    private void showHideFragment(boolean show) {
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        if (show) {
-            fragmentContainer.setVisibility(View.VISIBLE);
-            detailsFragment = new DetailsFragment();
-            ft.add(fragmentContainer.getId(), detailsFragment);
-        } else {
-            if (detailsFragment != null) {
-                ft.remove(detailsFragment);
-                fragmentContainer.setVisibility(View.GONE);
-            }
-        }
-        ft.commit();
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(Constants.menu.EXTRA_MENU_ID, menuId);
+        ;
+        outState.putParcelable(Constants.content.EXTRA_CONTENT, content);
     }
 
-    private List<Content> dbResultToContent(List<DbContent> dbContents) {
-        List<Content> contents = new ArrayList<Content>();
-        for (DbContent dbContent : dbContents) {
-            Content content = new Content();
-            content.populateFrom(dbContent);
-            contents.add(content);
-        }
-        return contents;
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        content = savedInstanceState.getParcelable(Constants.content.EXTRA_CONTENT);
+        menuId = savedInstanceState.getString(Constants.menu.EXTRA_MENU_ID);
     }
 
     @Override
@@ -195,9 +188,33 @@ public class DetailsActivity extends BaseActionBar implements DetailsFragment.De
             super.onBackPressed();
     }
 
-    @Override
-    public void setTitle(CharSequence title) {
-        actionBar.setTitle(AndroidCustomFontSupport.getCorrectedBengaliFormat(title.toString(), Utilities.getFont(this), -1));
+    private void showHideFragment(boolean show) {
+        if (detailsFragment == null) {
+            detailsFragment = new DetailsFragment();
+        }
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        if (show) {
+            if (detailsFragment.isAdded()) {
+                detailsFragment.switchContent();
+            } else {
+                fragmentContainer.setVisibility(View.VISIBLE);
+                ft.add(fragmentContainer.getId(), detailsFragment);
+            }
+        } else {
+            ft.remove(detailsFragment);
+            fragmentContainer.setVisibility(View.GONE);
+        }
+        ft.commit();
+    }
+
+    private List<Content> dbResultToContent(List<DbContent> dbContents) {
+        List<Content> contents = new ArrayList<Content>();
+        for (DbContent dbContent : dbContents) {
+            Content content = new Content();
+            content.populateFrom(dbContent);
+            contents.add(content);
+        }
+        return contents;
     }
 
     public Content getContent() {
