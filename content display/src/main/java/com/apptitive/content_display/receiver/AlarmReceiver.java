@@ -10,7 +10,7 @@ import com.apptitive.content_display.utilities.LogUtil;
 public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        LogUtil.LOGE("Alarm is called");
+        LogUtil.LOGE("inside alarm receiver");
         SyncUtils.triggerManualSync();
     }
 
