@@ -1,5 +1,6 @@
 package com.apptitive.content_display;
 
+import android.app.ProgressDialog;
 import android.appwidget.AppWidgetManager;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -41,6 +42,7 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
     private List<Region> regions;
     private Region region;
     private SyncResponseReceiver syncResponseReceiver;
+    private ProgressDialog ringProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +57,7 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
         registerReceiver(syncResponseReceiver, intentFilter);
 
         SyncUtils.triggerInitialSync(this);
-        SyncUtils.triggerManualSync();
+        //  SyncUtils.triggerManualSync();
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             mAppWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
@@ -190,11 +192,14 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
 
     @Override
     public void onLoadStarted() {
-
+        ringProgressDialog = ProgressDialog.show(MainActivity.this, "Please wait ...", "Downloading Image ...", true);
+        ringProgressDialog.setCancelable(true);
     }
 
     @Override
     public void onLoadFinished() {
-
+        if (ringProgressDialog != null) {
+            ringProgressDialog.dismiss();
+        }
     }
 }

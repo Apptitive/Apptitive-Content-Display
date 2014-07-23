@@ -25,8 +25,6 @@ public class SyncResponseReceiver extends BroadcastReceiver {
         } else if (intent.getStringExtra("status").equals("finished")) {
             LogUtil.LOGE("loading finished");
             loaderListener.onLoadFinished();
-        } else if (intent.getStringExtra("status").equals("failed")) {
-            loaderListener.onLoadFailed();
         }
     }
 }
