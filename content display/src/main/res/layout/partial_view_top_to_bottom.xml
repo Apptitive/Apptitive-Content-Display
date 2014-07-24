@@ -3,16 +3,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:gravity="center"
     android:background="@drawable/menu_selector">
 
     <com.android.volley.toolbox.NetworkImageView
         android:id="@+id/niv_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginBottom="@dimen/dp_10"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/saom"/>
+        android:layout_marginBottom="@dimen/dp_2"
+        android:src="@drawable/saom" />
 
     <TextView
         android:id="@+id/tv_title"
@@ -20,9 +20,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/niv_icon"
         android:layout_centerHorizontal="true"
-        android:textSize="@dimen/text_size_15"
+        android:text="@string/no_title"
         android:textColor="@color/white"
-        android:textStyle="bold"
-        android:text="No Title"/>
+        android:textSize="@dimen/text_size_15"
+        android:textStyle="bold" />
 
 </RelativeLayout>

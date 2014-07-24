@@ -55,5 +55,7 @@
 
     <string name="title_activity_start">StartActivity</string>
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_test">TestActivity</string>
+    <string name="no_title">No Title</string>
 
 </resources>

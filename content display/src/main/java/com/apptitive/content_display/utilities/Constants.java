@@ -28,20 +28,7 @@ public final class Constants {
     public static final String ACCOUNT_TYPE = "apptitive.com";
     // The account name
     public static final String ACCOUNT_NAME = "dummyaccount";
-
-    public final class menu {
-        public static final String EXTRA_MENU_ID = "_menuId";
-        public static final String EXTRA_MENU_TITLE = "_menuTitle";
-    }
-
-    public final class content {
-        public static final String EXTRA_CONTENT = "_content";
-
-        public final class view {
-            public static final String TYPE_NATIVE = "native";
-            public static final String TYPE_HTML = "html";
-        }
-    }
+    public static final String ACTION_RESPONSE = " com.apptitive.content_display.sync.POST_SYNC_RESPONSE";
 
     public static final class detail {
         public static final int VIEW_TYPE_P = 0;
@@ -50,14 +37,6 @@ public final class Constants {
         public static final int VIEW_TYPE_B = 3;
         public static final int VIEW_TYPE_I = 4;
         public static final int VIEW_TYPE_COUNT = VIEW_TYPE_I + 1;
-
-        public final class tag {
-            public static final String PARAGRAPH = "p";
-            public static final String BOLD = "b";
-            public static final String UNORDERED_LIST_ITEM = "li";
-            public static final String HEADER_1 = "h1";
-            public static final String ITALIC = "i";
-        }
 
         public static int findTagFor(String key) {
             if (key.equalsIgnoreCase(tag.PARAGRAPH))
@@ -71,6 +50,28 @@ public final class Constants {
             else if (key.equalsIgnoreCase(tag.ITALIC))
                 return VIEW_TYPE_I;
             return 0;
+        }
+
+        public final class tag {
+            public static final String PARAGRAPH = "p";
+            public static final String BOLD = "b";
+            public static final String UNORDERED_LIST_ITEM = "li";
+            public static final String HEADER_1 = "h1";
+            public static final String ITALIC = "i";
+        }
+    }
+
+    public final class menu {
+        public static final String EXTRA_MENU_ID = "_menuId";
+        public static final String EXTRA_MENU_TITLE = "_menuTitle";
+    }
+
+    public final class content {
+        public static final String EXTRA_CONTENT = "_content";
+
+        public final class view {
+            public static final String TYPE_NATIVE = "native";
+            public static final String TYPE_HTML = "html";
         }
     }
 

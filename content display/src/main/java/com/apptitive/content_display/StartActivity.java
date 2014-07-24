@@ -13,6 +13,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.apptitive.content_display.helper.DbManager;
 import com.apptitive.content_display.helper.DisplayPattern;
+import com.apptitive.content_display.helper.Helper;
 import com.apptitive.content_display.model.ContentMenu;
 import com.apptitive.content_display.sync.SyncUtils;
 import com.apptitive.content_display.utilities.Config;
@@ -25,7 +26,6 @@ public class StartActivity extends ActionBarActivity {
     private List<ContentMenu> contentMenuList;
     private LinearLayout llMain;
     private int currentMenu;
-    private int patternLayoutMarginBottom = 12;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,45 +66,43 @@ public class StartActivity extends ActionBarActivity {
             int patternId = contentMenuList.get(currentMenu).getPatternId();
 
             if (patternId == 1) {
-                View view = getViewForContentMenuPattern(R.layout.menu_pattern_1, 400);
+                View view = getViewForContentMenuPattern(R.layout.menu_pattern_1);
                 populateContentMenuItem(view, R.id.sub_pattern_left_top, contentMenuList.get(currentMenu++), DisplayPattern.LeftToRight);
                 populateContentMenuItem(view, R.id.sub_pattern_left_bottom, contentMenuList.get(currentMenu++), DisplayPattern.LeftToRight);
                 populateContentMenuItem(view, R.id.sub_pattern_right, contentMenuList.get(currentMenu++), DisplayPattern.TopToBottom);
             } else if (patternId == 2) {
-                View view = getViewForContentMenuPattern(R.layout.menu_pattern_2, 400);
+                View view = getViewForContentMenuPattern(R.layout.menu_pattern_2);
                 populateContentMenuItem(view, R.id.sub_pattern_left, contentMenuList.get(currentMenu++), DisplayPattern.TopToBottom);
                 populateContentMenuItem(view, R.id.sub_pattern_right_top, contentMenuList.get(currentMenu++), DisplayPattern.LeftToRight);
                 populateContentMenuItem(view, R.id.sub_pattern_right_bottom, contentMenuList.get(currentMenu++), DisplayPattern.LeftToRight);
             } else if (patternId == 3) {
-                View view = getViewForContentMenuPattern(R.layout.menu_pattern_3, 200);
+                View view = getViewForContentMenuPattern(R.layout.menu_pattern_3);
                 populateContentMenuItem(view, R.id.sub_pattern_whole, contentMenuList.get(currentMenu++), DisplayPattern.Fill);
             }
         }
 
     }
 
-    private View getViewForContentMenuPattern(int layoutId, int layoutHeight){
+    private View getViewForContentMenuPattern(int layoutId) {
 
         ViewStub viewStub = new ViewStub(this, layoutId);
         llMain.addView(viewStub);
         View view = viewStub.inflate();
         ViewGroup.LayoutParams lp = view.getLayoutParams();
-        ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
-        mlp.bottomMargin = patternLayoutMarginBottom;
-        lp.height = layoutHeight;
-
+        lp.height = ViewGroup.LayoutParams.MATCH_PARENT;
         view.setLayoutParams(lp);
-        view.setLayoutParams(mlp);
 
         return view;
     }
 
 
-
     private void populateContentMenuItem(View view, int subPatternId, final ContentMenu menu, Enum displayPattern) {
         ViewStub stub = (ViewStub) view.findViewById(subPatternId);
         if (displayPattern.equals(DisplayPattern.LeftToRight)) {
-            stub.setLayoutResource(R.layout.partial_view_left_right);
+            if (Helper.isPortraitMode(this.getWindowManager()))
+                stub.setLayoutResource(R.layout.partial_view_left_right);
+            else
+                stub.setLayoutResource(R.layout.partial_view_top_to_bottom);
         } else if (displayPattern.equals(DisplayPattern.TopToBottom)) {
             stub.setLayoutResource(R.layout.partial_view_top_to_bottom);
         } else if (displayPattern.equals(DisplayPattern.Fill)) {
@@ -114,8 +112,8 @@ public class StartActivity extends ActionBarActivity {
         TextView textView = (TextView) v.findViewById(R.id.tv_title);
         textView.setText(menu.getTitle());
         ImageLoader imageLoader = HttpHelper.getInstance(this).getImageLoader();
-        NetworkImageView imgNetWorkView =(NetworkImageView)v.findViewById(R.id.niv_icon);
-        imgNetWorkView.setImageUrl(Config.getImageUrl(this)+menu.getMenuId()+".9.png", imageLoader);
+        NetworkImageView imgNetWorkView = (NetworkImageView) v.findViewById(R.id.niv_icon);
+        imgNetWorkView.setImageUrl(Config.getImageUrl(this) + menu.getMenuId() + ".9.png", imageLoader);
 
         v.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,5 +126,6 @@ public class StartActivity extends ActionBarActivity {
             }
         });
     }
+
 
 }
