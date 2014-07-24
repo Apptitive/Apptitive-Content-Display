@@ -20,15 +20,13 @@ public final class Constants {
     public static final String IFTAR_ROW_POSITION = "iftar_row_position";
     public static final String SEHRI_ROW_POSITION = "sehri_row_position";
 
-    public static final int MENU_REQUEST_CODE = 1;
-    public static final int CONTENT_REQUEST_CODE = 2;
-
     public static final String AUTHORITY = "com.apptitive.content_display.sync.StubProvider";
     // An account type, in the form of a domain name
     public static final String ACCOUNT_TYPE = "apptitive.com";
     // The account name
     public static final String ACCOUNT_NAME = "dummyaccount";
-    public static final String ACTION_RESPONSE = " com.apptitive.content_display.sync.POST_SYNC_RESPONSE";
+    public static final String ACTION_RESPONSE = "com.apptitive.content_display.sync.POST_SYNC_RESPONSE";
+    public static final String APP_FIRST_TIME_CREATED="app_first_time_created";
 
     public static final class detail {
         public static final int VIEW_TYPE_P = 0;

@@ -16,6 +16,7 @@ public class SplashScreen extends Activity {
     @Override
     public void onStart() {
         super.onStart();
+       // SyncUtils.triggerManualSync();
         // EasyTracker.getInstance(this).activityStart(this);
     }
 

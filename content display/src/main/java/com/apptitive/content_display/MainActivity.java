@@ -1,6 +1,5 @@
 package com.apptitive.content_display;
 
-import android.app.ProgressDialog;
 import android.appwidget.AppWidgetManager;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -15,12 +14,9 @@ import android.view.View;
 import com.apptitive.content_display.helper.CSVToDbHelper;
 import com.apptitive.content_display.helper.DbManager;
 import com.apptitive.content_display.helper.DbTableName;
-import com.apptitive.content_display.interfaces.LoaderListener;
 import com.apptitive.content_display.model.Region;
 import com.apptitive.content_display.model.TimeTable;
-import com.apptitive.content_display.receiver.SyncResponseReceiver;
 import com.apptitive.content_display.receiver.TimeTableWidgetProvider;
-import com.apptitive.content_display.sync.SyncUtils;
 import com.apptitive.content_display.utilities.Config;
 import com.apptitive.content_display.utilities.Constants;
 import com.apptitive.content_display.utilities.DateTimeUtils;
@@ -32,7 +28,7 @@ import java.text.ParseException;
 import java.util.List;
 
 
-public class MainActivity extends BaseActionBar implements View.OnClickListener, LoaderListener {
+public class MainActivity extends BaseActionBar implements View.OnClickListener {
     private int mAppWidgetId;
     private ActionBar actionBar;
     private PreferenceHelper preferenceHelper;
@@ -41,8 +37,6 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
     private List<TimeTable> timeTables;
     private List<Region> regions;
     private Region region;
-    private SyncResponseReceiver syncResponseReceiver;
-    private ProgressDialog ringProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,12 +47,7 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
 
         IntentFilter intentFilter = new IntentFilter(Constants.ACTION_RESPONSE);
         intentFilter.addCategory(Intent.CATEGORY_DEFAULT);
-        syncResponseReceiver = new SyncResponseReceiver(this);
-        registerReceiver(syncResponseReceiver, intentFilter);
-
-       // SyncUtils.triggerInitialSync(this);
-
-        SyncUtils.triggerManualSync();
+        //  SyncUtils.triggerManualSync();
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             mAppWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
@@ -66,8 +55,8 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
 
         preferenceHelper = new PreferenceHelper(this);
         if (!preferenceHelper.getBoolean(Constants.IS_DB_CREATED)) {
-            CSVToDbHelper.readCSVAndInserIntoDb(this, R.raw.region, DbTableName.Region);
-            CSVToDbHelper.readCSVAndInserIntoDb(this, R.raw.timetable, DbTableName.TimeTable);
+            CSVToDbHelper.readInsertCsvToDb(this, R.raw.region, DbTableName.Region);
+            CSVToDbHelper.readInsertCsvToDb(this, R.raw.timetable, DbTableName.TimeTable);
             preferenceHelper.setBoolean(Constants.IS_DB_CREATED, true);
         }
 
@@ -182,28 +171,5 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
             default:
                 break;
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (syncResponseReceiver != null)
-            unregisterReceiver(syncResponseReceiver);
-    }
-
-    @Override
-    public void onLoadStarted() {
-        ringProgressDialog = ProgressDialog.show(MainActivity.this, "Please wait ...", "Downloading Image ...", true);
-        ringProgressDialog.setCancelable(true);
-    }
-
-    @Override
-    public void onLoadFinished() {
-        if (ringProgressDialog != null) {
-            ringProgressDialog.dismiss();
-
-
-        }
-
     }
 }

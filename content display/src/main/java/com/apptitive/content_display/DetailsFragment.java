@@ -14,15 +14,12 @@ import com.apptitive.content_display.model.Detail;
 import com.apptitive.content_display.model.JsonDetail;
 import com.google.gson.Gson;
 
-import org.xmlpull.v1.XmlPullParserFactory;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class DetailsFragment extends ListFragment {
 
-    private XmlPullParserFactory parserFactory;
     private DetailProvider detailProvider;
     private DetailsListAdapter detailsListAdapter;
     private List<Detail> details;
@@ -57,21 +54,26 @@ public class DetailsFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        gson = new Gson();
-        detailsListAdapter = new DetailsListAdapter(getActivity(), jsonToDetail(Arrays.asList(gson.fromJson(detailProvider.getContent().getDetails(), JsonDetail[].class))));
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        setListAdapter(detailsListAdapter);
         return inflater.inflate(R.layout.fragment_details, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        gson = new Gson();
+        detailsListAdapter = new DetailsListAdapter(getActivity(), jsonToDetail(Arrays.asList(gson.fromJson(detailProvider.getContent().getDetails(), JsonDetail[].class))));
+        setListAdapter(detailsListAdapter);
     }
 
     private List<Detail> jsonToDetail(List<JsonDetail> jsonDetails) {
         if (details == null)
             details = new ArrayList<Detail>();
-        else details.clear();
+        details.clear();
 
         for (JsonDetail jsonDetail : jsonDetails) {
             Detail detail1 = new Detail();
@@ -79,6 +81,11 @@ public class DetailsFragment extends ListFragment {
             details.add(detail1);
         }
         return details;
+    }
+
+    public void switchContent() {
+        jsonToDetail(Arrays.asList(gson.fromJson(detailProvider.getContent().getDetails(), JsonDetail[].class)));
+        setListAdapter(detailsListAdapter);
     }
 
     public interface DetailProvider {

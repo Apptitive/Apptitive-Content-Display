@@ -58,8 +58,8 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.clearTable(connectionSource, TimeTable.class);
             TableUtils.clearTable(connectionSource, ContentMenu.class);
             TableUtils.clearTable(connectionSource, DbContent.class);
-            CSVToDbHelper.readCSVAndInserIntoDb(context, R.raw.region, DbTableName.Region);
-            CSVToDbHelper.readCSVAndInserIntoDb(context, R.raw.timetable, DbTableName.TimeTable);
+            CSVToDbHelper.readInsertCsvToDb(context, R.raw.region, DbTableName.Region);
+            CSVToDbHelper.readInsertCsvToDb(context, R.raw.timetable, DbTableName.TimeTable);
             for (String sql : allSql) {
                 sqLiteDatabase.execSQL(sql);
             }

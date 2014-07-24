@@ -1,8 +1,11 @@
 package com.apptitive.content_display;
 
-import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
@@ -10,18 +13,20 @@ import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.apptitive.content_display.helper.DbManager;
 import com.apptitive.content_display.helper.DisplayPattern;
 import com.apptitive.content_display.helper.Helper;
 import com.apptitive.content_display.model.ContentMenu;
-import com.apptitive.content_display.receiver.SyncResponseReceiver;
-import com.apptitive.content_display.sync.SyncUtils;
+import com.apptitive.content_display.services.SyncService;
+import com.apptitive.content_display.utilities.AlarmUtil;
 import com.apptitive.content_display.utilities.Config;
 import com.apptitive.content_display.utilities.Constants;
 import com.apptitive.content_display.utilities.HttpHelper;
 import com.apptitive.content_display.utilities.LogUtil;
+import com.apptitive.content_display.utilities.PreferenceHelper;
 
 import java.util.List;
 
@@ -30,8 +35,27 @@ public class StartActivity extends ActionBarActivity {
     private List<ContentMenu> contentMenuList;
     private LinearLayout llMain;
     private int currentMenu;
-    private SyncResponseReceiver syncResponseReceiver;
-    private ProgressDialog ringProgressDialog;
+    private boolean isContentShowInOncreate = true;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+
+        PreferenceHelper preferenceHelper = new PreferenceHelper(this);
+        if (!preferenceHelper.getBoolean(Constants.APP_FIRST_TIME_CREATED)) {
+
+            IntentFilter mStatusIntentFilter = new IntentFilter(
+                    Constants.ACTION_RESPONSE);
+            LocalBroadcastManager.getInstance(this).registerReceiver(
+                    myBroadCastReceiver, mStatusIntentFilter);
+
+            Intent intent = new Intent(this, SyncService.class);
+            startService(intent);
+            preferenceHelper.setBoolean(Constants.APP_FIRST_TIME_CREATED, true);
+            isContentShowInOncreate = false;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,13 +63,9 @@ public class StartActivity extends ActionBarActivity {
         setContentView(R.layout.activity_start);
         DbManager.init(this);
 
-/*        IntentFilter intentFilter = new IntentFilter(Constants.ACTION_RESPONSE);
-        intentFilter.addCategory(Intent.CATEGORY_DEFAULT);
-        syncResponseReceiver = new SyncResponseReceiver(this);
-        registerReceiver(syncResponseReceiver, intentFilter);*/
-
-        //SyncUtils.triggerInitialSync(this);
-        SyncUtils.triggerManualSync();
+        AlarmUtil.setUpAlarm(this,1);
+        //  ringProgressDialog = ProgressDialog.show(StartActivity.this, "Please wait ...", "Downloading Image ...", true);
+        // ringProgressDialog.setCancelable(true);
 
       /*ContentMenu contentMenu1 = new ContentMenu(1, "1", "Title 1", "add", 1, 1);
         ContentMenu contentMenu2 = new ContentMenu(2, "2", "Title 2", "add", 1, 2);
@@ -66,37 +86,22 @@ public class StartActivity extends ActionBarActivity {
         DbManager.getInstance().addMenu(contentMenu4);
         DbManager.getInstance().addMenu(contentMenu5);
         DbManager.getInstance().addMenu(contentMenu6);*/
+        if (isContentShowInOncreate)
+            renderContentMenu();
 
-        renderContentMenu();
     }
 
-/*
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (syncResponseReceiver != null)
-            unregisterReceiver(syncResponseReceiver);
-    }
 
-    @Override
-    public void onLoadStarted() {
-        //ringProgressDialog = ProgressDialog.show(StartActivity.this, "Please wait ...", "Downloading Image ...", true);
-        //ringProgressDialog.setCancelable(true);
-    }
+    private BroadcastReceiver myBroadCastReceiver = new BroadcastReceiver() {
 
-    @Override
-    public void onLoadFinished() {
-
-        LogUtil.LOGD("trigerred onload finished()");
-        renderContentMenu();
-        if (ringProgressDialog != null) {
-            ringProgressDialog.dismiss();
-
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            LogUtil.LOGE("inside broadcast receiver");
+            renderContentMenu();
         }
+    };
 
-    }*/
-
-    private void renderContentMenu() {
+    public void renderContentMenu() {
         llMain = (LinearLayout) findViewById(R.id.ll_main);
         contentMenuList = DbManager.getInstance().getAllMenus();
 
@@ -111,15 +116,13 @@ public class StartActivity extends ActionBarActivity {
                 View view = getViewForContentMenuPattern(R.layout.menu_pattern_1);
                 populateContentMenuItem(view, R.id.sub_pattern_left_top, contentMenuList.get(currentMenu++), DisplayPattern.LeftToRight);
                 populateContentMenuItem(view, R.id.sub_pattern_left_bottom, contentMenuList.get(currentMenu++), DisplayPattern.LeftToRight);
-                populateContentMenuItem(view, R.id.sub_pattern_right, contentMenuList.get(currentMenu++), DisplayPattern.ToptoBottom);
             } else if (patternId == 2) {
                 View view = getViewForContentMenuPattern(R.layout.menu_pattern_2);
-                populateContentMenuItem(view, R.id.sub_pattern_left, contentMenuList.get(currentMenu++), DisplayPattern.ToptoBottom);
+                populateContentMenuItem(view, R.id.sub_pattern_left, contentMenuList.get(currentMenu++), DisplayPattern.TopToBottom);
                 populateContentMenuItem(view, R.id.sub_pattern_right_top, contentMenuList.get(currentMenu++), DisplayPattern.LeftToRight);
                 populateContentMenuItem(view, R.id.sub_pattern_right_bottom, contentMenuList.get(currentMenu++), DisplayPattern.LeftToRight);
             } else if (patternId == 3) {
                 View view = getViewForContentMenuPattern(R.layout.menu_pattern_3);
-                populateContentMenuItem(view, R.id.sub_pattern_whole, contentMenuList.get(currentMenu++), DisplayPattern.Whole);
             }
         }
     }
@@ -148,6 +151,7 @@ public class StartActivity extends ActionBarActivity {
         } else if (displayPattern.equals(DisplayPattern.ToptoBottom)) {
             stub.setLayoutResource(R.layout.partial_view_top_to_bottom);
         } else if (displayPattern.equals(DisplayPattern.Whole)) {
+        } else if (displayPattern.equals(DisplayPattern.Fill)) {
             stub.setLayoutResource(R.layout.partial_view_whole);
         }
         View v = stub.inflate();
@@ -169,5 +173,9 @@ public class StartActivity extends ActionBarActivity {
         });
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 
 }
