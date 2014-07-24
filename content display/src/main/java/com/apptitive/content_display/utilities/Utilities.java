@@ -147,27 +147,4 @@ public class Utilities {
         }
     }
 
-    public static void startSyncReceiver(Context context) {
-        Intent syncStartIntent = new Intent();
-        syncStartIntent.setAction(Constants.ACTION_RESPONSE);
-        syncStartIntent.addCategory(Intent.CATEGORY_DEFAULT);
-        syncStartIntent.putExtra("status", "started");
-        context.sendBroadcast(syncStartIntent);
-    }
-
-    public static void stopSyncReceiver(Context context) {
-        Intent syncStartIntent = new Intent();
-        syncStartIntent.setAction(Constants.ACTION_RESPONSE);
-        syncStartIntent.addCategory(Intent.CATEGORY_DEFAULT);
-        syncStartIntent.putExtra("status", "finished");
-        context.sendBroadcast(syncStartIntent);
-    }
-
-    public static void faildeSync(Context context) {
-        Intent syncStartIntent = new Intent();
-        syncStartIntent.setAction(Constants.ACTION_RESPONSE);
-        syncStartIntent.addCategory(Intent.CATEGORY_DEFAULT);
-        syncStartIntent.putExtra("status", "failed");
-        context.sendBroadcast(syncStartIntent);
-    }
 }

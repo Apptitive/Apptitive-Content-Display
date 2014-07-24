@@ -17,9 +17,6 @@
         android:label="@string/app_name"
         android:theme="@style/Theme.ContentDisplay" >
         <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name" />
-        <activity
             android:name=".DetailsActivity"
             android:parentActivityName=".ContentActivity" >
             <meta-data
@@ -28,25 +25,25 @@
         </activity>
         <activity
             android:name=".SettingsActivity"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".StartActivity" />
         <activity
             android:name=".ContentActivity"
             android:launchMode="singleTask"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".StartActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.apptitive.ramadan.MainActivity" />
         </activity>
         <activity
             android:name=".SehriIfterActivity"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".StartActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.apptitive.ramadan.MainActivity" />
         </activity>
         <activity
             android:name=".SaomVongerKaronActivity"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".StartActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.apptitive.ramadan.MainActivity" />
@@ -58,6 +55,7 @@
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -98,36 +96,11 @@
 
         <activity
             android:name=".StartActivity"
-            android:label="@string/title_activity_start" />
-
-        <service android:name=".sync.AuthenticatorService" >
-            <intent-filter>
-                <action android:name="android.accounts.AccountAuthenticator" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.accounts.AccountAuthenticator"
-                android:resource="@xml/authenticator" />
-        </service>
+            android:label="@string/title_activity_start"/>
         <service
-            android:name=".sync.SyncService"
-            android:exported="true"
-            android:process=":sync" >
-            <intent-filter>
-                <action android:name="android.content.SyncAdapter" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.content.SyncAdapter"
-                android:resource="@xml/syncadapter" />
+            android:name=".services.SyncService"
+            android:exported="false" >
         </service>
-
-        <provider
-            android:name=".sync.StubProvider"
-            android:authorities="com.apptitive.content_display.sync.StubProvider"
-            android:exported="false"
-            android:syncable="true" />
-
     </application>
 
 </manifest>

@@ -1,7 +1,11 @@
 package com.apptitive.content_display;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
@@ -9,16 +13,21 @@ import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.apptitive.content_display.helper.DbManager;
 import com.apptitive.content_display.helper.DisplayPattern;
 import com.apptitive.content_display.helper.Helper;
 import com.apptitive.content_display.model.ContentMenu;
-import com.apptitive.content_display.sync.SyncUtils;
+import com.apptitive.content_display.services.SyncService;
+import com.apptitive.content_display.utilities.AlarmUtil;
 import com.apptitive.content_display.utilities.Config;
 import com.apptitive.content_display.utilities.Constants;
 import com.apptitive.content_display.utilities.HttpHelper;
+import com.apptitive.content_display.utilities.LogUtil;
+import com.apptitive.content_display.utilities.PreferenceHelper;
+
 import java.util.List;
 
 public class StartActivity extends ActionBarActivity {
@@ -26,14 +35,37 @@ public class StartActivity extends ActionBarActivity {
     private List<ContentMenu> contentMenuList;
     private LinearLayout llMain;
     private int currentMenu;
+    private boolean isContentShowInOncreate = true;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+
+        PreferenceHelper preferenceHelper = new PreferenceHelper(this);
+        if (!preferenceHelper.getBoolean(Constants.APP_FIRST_TIME_CREATED)) {
+
+            IntentFilter mStatusIntentFilter = new IntentFilter(
+                    Constants.ACTION_RESPONSE);
+            LocalBroadcastManager.getInstance(this).registerReceiver(
+                    myBroadCastReceiver, mStatusIntentFilter);
+
+            Intent intent = new Intent(this, SyncService.class);
+            startService(intent);
+            preferenceHelper.setBoolean(Constants.APP_FIRST_TIME_CREATED, true);
+            isContentShowInOncreate = false;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
         DbManager.init(this);
-        SyncUtils.triggerInitialSync(this);
-        SyncUtils.triggerManualSync();
+
+        AlarmUtil.setUpAlarm(this,1);
+        //  ringProgressDialog = ProgressDialog.show(StartActivity.this, "Please wait ...", "Downloading Image ...", true);
+        // ringProgressDialog.setCancelable(true);
 
       /*ContentMenu contentMenu1 = new ContentMenu(1, "1", "Title 1", "add", 1, 1);
         ContentMenu contentMenu2 = new ContentMenu(2, "2", "Title 2", "add", 1, 2);
@@ -54,7 +86,22 @@ public class StartActivity extends ActionBarActivity {
         DbManager.getInstance().addMenu(contentMenu4);
         DbManager.getInstance().addMenu(contentMenu5);
         DbManager.getInstance().addMenu(contentMenu6);*/
+        if (isContentShowInOncreate)
+            renderContentMenu();
 
+    }
+
+
+    private BroadcastReceiver myBroadCastReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            LogUtil.LOGE("inside broadcast receiver");
+            renderContentMenu();
+        }
+    };
+
+    public void renderContentMenu() {
         llMain = (LinearLayout) findViewById(R.id.ll_main);
         contentMenuList = DbManager.getInstance().getAllMenus();
 
@@ -80,7 +127,6 @@ public class StartActivity extends ActionBarActivity {
                 populateContentMenuItem(view, R.id.sub_pattern_whole, contentMenuList.get(currentMenu++), DisplayPattern.Whole);
             }
         }
-
     }
 
     private View getViewForContentMenuPattern(int layoutId) {
@@ -127,5 +173,9 @@ public class StartActivity extends ActionBarActivity {
         });
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 
 }

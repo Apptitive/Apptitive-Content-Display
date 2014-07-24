@@ -164,7 +164,6 @@ public class DiskLruImageCache implements ImageCache {
 
     private String createKey(String key) {
         String generatedKey = new String(String.valueOf(key.hashCode()));
-        Log.e("hash code", "" + generatedKey + "----and key" + key);
         return generatedKey;
     }
 }
