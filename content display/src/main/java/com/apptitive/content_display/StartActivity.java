@@ -14,7 +14,9 @@ import android.view.ViewStub;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+
 import com.android.volley.toolbox.ImageLoader;
+
 import com.android.volley.toolbox.NetworkImageView;
 import com.apptitive.content_display.helper.DbManager;
 import com.apptitive.content_display.helper.DisplayPattern;
