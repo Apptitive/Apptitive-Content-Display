@@ -1,42 +1,66 @@
 package com.apptitive.content_display;
 
-import android.appwidget.AppWidgetManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.WindowCompat;
 import android.support.v7.app.ActionBar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewStub;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
-import com.apptitive.content_display.helper.CSVToDbHelper;
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
 import com.apptitive.content_display.helper.DbManager;
-import com.apptitive.content_display.helper.DbTableName;
-import com.apptitive.content_display.model.Region;
-import com.apptitive.content_display.model.TimeTable;
-import com.apptitive.content_display.receiver.TimeTableWidgetProvider;
+import com.apptitive.content_display.helper.DisplayPattern;
+import com.apptitive.content_display.helper.Helper;
+import com.apptitive.content_display.model.ContentMenu;
+import com.apptitive.content_display.services.SyncService;
 import com.apptitive.content_display.utilities.Config;
 import com.apptitive.content_display.utilities.Constants;
-import com.apptitive.content_display.utilities.DateTimeUtils;
+import com.apptitive.content_display.utilities.HttpHelper;
 import com.apptitive.content_display.utilities.LogUtil;
 import com.apptitive.content_display.utilities.PreferenceHelper;
-import com.apptitive.content_display.views.BanglaTextView;
 
-import java.text.ParseException;
 import java.util.List;
 
 
-public class MainActivity extends BaseActionBar implements View.OnClickListener {
-    private int mAppWidgetId;
+public class MainActivity extends BaseActionBar {
     private ActionBar actionBar;
-    private PreferenceHelper preferenceHelper;
-    private BanglaTextView iftarTime;
-    private BanglaTextView seheriTime;
-    private List<TimeTable> timeTables;
-    private List<Region> regions;
-    private Region region;
+    private List<ContentMenu> contentMenuList;
+    private LinearLayout llMain;
+    private int currentMenu;
+    private boolean isContentShowInOncreate = true;
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+
+        PreferenceHelper preferenceHelper = new PreferenceHelper(this);
+        if (!preferenceHelper.getBoolean(Constants.APP_FIRST_TIME_CREATED)) {
+
+            IntentFilter mStatusIntentFilter = new IntentFilter(
+                    Constants.ACTION_RESPONSE);
+            LocalBroadcastManager.getInstance(this).registerReceiver(
+                    myBroadCastReceiver, mStatusIntentFilter);
+
+            Intent intent = new Intent(this, SyncService.class);
+            startService(intent);
+            preferenceHelper.setBoolean(Constants.APP_FIRST_TIME_CREATED, true);
+            isContentShowInOncreate = false;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,78 +69,21 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener 
         supportRequestWindowFeature(WindowCompat.FEATURE_ACTION_BAR_OVERLAY);
         setContentView(R.layout.activity_main);
 
-        IntentFilter intentFilter = new IntentFilter(Constants.ACTION_RESPONSE);
-        intentFilter.addCategory(Intent.CATEGORY_DEFAULT);
-        //  SyncUtils.triggerManualSync();
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            mAppWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
-        }
-
-        preferenceHelper = new PreferenceHelper(this);
-        if (!preferenceHelper.getBoolean(Constants.IS_DB_CREATED)) {
-            CSVToDbHelper.readInsertCsvToDb(this, R.raw.region, DbTableName.Region);
-            CSVToDbHelper.readInsertCsvToDb(this, R.raw.timetable, DbTableName.TimeTable);
-            preferenceHelper.setBoolean(Constants.IS_DB_CREATED, true);
-        }
+        if (isContentShowInOncreate)
+            renderContentMenu();
 
         actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.ActionBarHomeBg)));
         actionBar.setDisplayShowTitleEnabled(false);
-
-        findViewById(R.id.tab_iftar_time).setOnClickListener(this);
-        findViewById(R.id.tab_saom).setOnClickListener(this);
-        findViewById(R.id.tab_nioat).setOnClickListener(this);
-        findViewById(R.id.tab_ramadan).setOnClickListener(this);
-        findViewById(R.id.tab_saom_vonger_karon).setOnClickListener(this);
-        findViewById(R.id.tab_tarabih).setOnClickListener(this);
-
-        iftarTime = (BanglaTextView) findViewById(R.id.tv_ifter_time);
-        seheriTime = (BanglaTextView) findViewById(R.id.tv_seheri_time);
-
-        timeTables = DbManager.getInstance().getAllTimeTables();
-        regions = DbManager.getInstance().getAllRegions();
-        LogUtil.LOGE(Config.getImageUrl(this));
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Intent intent = new Intent(this, TimeTableWidgetProvider.class);
-        intent.setAction("android.appwidget.action.APPWIDGET_UPDATE");
-        int[] ids = {mAppWidgetId};
-        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
-        sendBroadcast(intent);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        seheriTime.setText("0:00");
-        iftarTime.setText("0:00");
-
-        region = DateTimeUtils.getSelectedLocation(regions, preferenceHelper.getString(Constants.PREF_KEY_LOCATION, Constants.DEFAULT_REGION));
-        if (region != null) {
-            try {
-                if (region.isPositive()) {
-                    seheriTime.setBanglaText(DateTimeUtils.getSehriIftarTime(region.getIntervalSehri(), timeTables, true, true));
-                    iftarTime.setBanglaText(DateTimeUtils.getSehriIftarTime(region.getIntervalIfter(), timeTables, true, false));
-                } else {
-                    seheriTime.setBanglaText(DateTimeUtils.getSehriIftarTime(-region.getIntervalSehri(), timeTables, true, true));
-                    iftarTime.setBanglaText(DateTimeUtils.getSehriIftarTime(-region.getIntervalIfter(), timeTables, true, false));
-                }
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -125,51 +92,104 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener 
             startActivity(new Intent(MainActivity.this, SettingsActivity.class));
             return true;
         } else if (id == R.id.action_alarm) {
-            startActivity(new Intent(MainActivity.this, AlarmActivity.class));
+            IntentFilter mStatusIntentFilter = new IntentFilter(
+                    Constants.ACTION_RESPONSE);
+            LocalBroadcastManager.getInstance(this).registerReceiver(
+                    myBroadCastReceiver, mStatusIntentFilter);
+
+            Intent intent = new Intent(this, SyncService.class);
+            startService(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onClick(View view) {
-        Intent i;
-        switch (view.getId()) {
-            case R.id.tab_saom:
-                i = new Intent(this, ContentActivity.class);
-                i.putExtra(Constants.menu.EXTRA_MENU_ID, "1");
-                i.putExtra(Constants.menu.EXTRA_MENU_TITLE, getString(R.string.saom));
+    private BroadcastReceiver myBroadCastReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            LogUtil.LOGE("inside broadcast receiver");
+            flash();
+            renderContentMenu();
+        }
+    };
+
+    public void renderContentMenu() {
+        llMain = (LinearLayout) findViewById(R.id.ll_main);
+        contentMenuList = DbManager.getInstance().getAllMenus();
+
+        for (currentMenu = 0; currentMenu < contentMenuList.size(); ) {
+            int patternId = contentMenuList.get(currentMenu).getPatternId();
+
+            if (patternId == 1) {
+                View view = getViewForContentMenuPattern(R.layout.menu_pattern_1);
+                populateContentMenuItem(view, R.id.sub_pattern_left_top, contentMenuList.get(currentMenu++), DisplayPattern.LeftToRight);
+                populateContentMenuItem(view, R.id.sub_pattern_left_bottom, contentMenuList.get(currentMenu++), DisplayPattern.LeftToRight);
+                populateContentMenuItem(view, R.id.sub_pattern_right, contentMenuList.get(currentMenu++), DisplayPattern.TopToBottom);
+            } else if (patternId == 2) {
+                View view = getViewForContentMenuPattern(R.layout.menu_pattern_2);
+                populateContentMenuItem(view, R.id.sub_pattern_left, contentMenuList.get(currentMenu++), DisplayPattern.TopToBottom);
+                populateContentMenuItem(view, R.id.sub_pattern_right_top, contentMenuList.get(currentMenu++), DisplayPattern.LeftToRight);
+                populateContentMenuItem(view, R.id.sub_pattern_right_bottom, contentMenuList.get(currentMenu++), DisplayPattern.LeftToRight);
+            } else if (patternId == 3) {
+                View view = getViewForContentMenuPattern(R.layout.menu_pattern_3);
+                populateContentMenuItem(view, R.id.sub_pattern_whole, contentMenuList.get(currentMenu++), DisplayPattern.Fill);
+            }
+        }
+    }
+
+    private View getViewForContentMenuPattern(int layoutId) {
+
+        ViewStub viewStub = new ViewStub(this, layoutId);
+        llMain.addView(viewStub);
+        View view = viewStub.inflate();
+        ViewGroup.LayoutParams lp = view.getLayoutParams();
+        lp.height = ViewGroup.LayoutParams.MATCH_PARENT;
+        view.setLayoutParams(lp);
+
+        return view;
+    }
+
+
+    private void populateContentMenuItem(View view, int subPatternId, final ContentMenu menu, Enum displayPattern) {
+        ViewStub stub = (ViewStub) view.findViewById(subPatternId);
+        if (displayPattern.equals(DisplayPattern.LeftToRight)) {
+            if (Helper.isPortraitMode(this.getWindowManager()))
+                stub.setLayoutResource(R.layout.partial_view_left_right);
+            else
+                stub.setLayoutResource(R.layout.partial_view_top_to_bottom);
+        } else if (displayPattern.equals(DisplayPattern.TopToBottom)) {
+            stub.setLayoutResource(R.layout.partial_view_top_to_bottom);
+        } else if (displayPattern.equals(DisplayPattern.Fill)) {
+            stub.setLayoutResource(R.layout.partial_view_fill);
+        }
+        View v = stub.inflate();
+        TextView textView = (TextView) v.findViewById(R.id.tv_title);
+        textView.setText(menu.getTitle());
+        ImageLoader imageLoader = HttpHelper.getInstance(this).getImageLoader();
+        NetworkImageView imgNetWorkView = (NetworkImageView) v.findViewById(R.id.niv_icon);
+        imgNetWorkView.setImageUrl(Config.getImageUrl(this) + menu.getMenuId() + ".9.png", imageLoader);
+
+        v.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("View Click", menu.getTitle());
+                Intent i = new Intent(getBaseContext(), ContentActivity.class);
+                i.putExtra(Constants.menu.EXTRA_MENU_ID, menu.getMenuId());
+                i.putExtra(Constants.menu.EXTRA_MENU_TITLE, menu.getTitle());
                 startActivity(i);
-                break;
-            case R.id.tab_iftar_time:
-                this.startActivity(new Intent(MainActivity.this, SehriIfterActivity.class));
-                break;
-            case R.id.tab_nioat:
-                i = new Intent(this, ContentActivity.class);
-                i.putExtra(Constants.menu.EXTRA_MENU_ID, "1");
-                i.putExtra(Constants.menu.EXTRA_MENU_TITLE, getString(R.string.niyat_o_doa));
-                startActivity(i);
-                break;
-            case R.id.tab_ramadan:
-                i = new Intent(this, ContentActivity.class);
-                i.putExtra(Constants.menu.EXTRA_MENU_ID, "1");
-                i.putExtra(Constants.menu.EXTRA_MENU_TITLE, getString(R.string.ramadan));
-                startActivity(i);
-                break;
-            case R.id.tab_saom_vonger_karon:
-                i = new Intent(this, SaomVongerKaronActivity.class);
-                i.putExtra(Constants.menu.EXTRA_MENU_ID, "1");
-                i.putExtra(Constants.menu.EXTRA_MENU_TITLE, getString(R.string.saom_vongo));
-                startActivity(i);
-                break;
-            case R.id.tab_tarabih:
-                i = new Intent(this, ContentActivity.class);
-                i.putExtra(Constants.menu.EXTRA_MENU_ID, "1");
-                i.putExtra(Constants.menu.EXTRA_MENU_TITLE, getString(R.string.tarabih));
-                startActivity(i);
-                break;
-            default:
-                break;
+            }
+        });
+    }
+
+
+    private void flash() {
+        if (null != llMain && llMain.getChildCount() > 0) {
+            try {
+                llMain.removeViews(0, llMain.getChildCount());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }
