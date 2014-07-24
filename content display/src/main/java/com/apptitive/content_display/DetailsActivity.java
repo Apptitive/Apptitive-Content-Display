@@ -151,7 +151,6 @@ public class DetailsActivity extends BaseActionBar implements DetailsFragment.De
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(Constants.menu.EXTRA_MENU_ID, menuId);
-        ;
         outState.putParcelable(Constants.content.EXTRA_CONTENT, content);
     }
 

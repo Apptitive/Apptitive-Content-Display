@@ -14,7 +14,7 @@ import java.io.InputStreamReader;
  */
 public class CSVToDbHelper {
 
-    public static void readCSVAndInserIntoDb(Context ctx, int resourceId, DbTableName dbTableName) {
+    public static void readInsertCsvToDb(Context ctx, int resourceId, DbTableName dbTableName) {
 
         InputStream inputStream = ctx.getResources().openRawResource(resourceId);
         BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));

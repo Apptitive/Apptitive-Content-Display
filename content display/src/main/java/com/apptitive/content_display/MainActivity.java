@@ -19,7 +19,6 @@ import com.apptitive.content_display.sync.SyncUtils;
 import com.apptitive.content_display.utilities.Config;
 import com.apptitive.content_display.utilities.Constants;
 import com.apptitive.content_display.utilities.DateTimeUtils;
-import com.apptitive.content_display.utilities.HttpHelper;
 import com.apptitive.content_display.utilities.LogUtil;
 import com.apptitive.content_display.utilities.PreferenceHelper;
 import com.apptitive.content_display.views.BanglaTextView;
@@ -52,8 +51,8 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener 
 
         preferenceHelper = new PreferenceHelper(this);
         if (!preferenceHelper.getBoolean(Constants.IS_DB_CREATED)) {
-            CSVToDbHelper.readCSVAndInserIntoDb(this, R.raw.region, DbTableName.Region);
-            CSVToDbHelper.readCSVAndInserIntoDb(this, R.raw.timetable, DbTableName.TimeTable);
+            CSVToDbHelper.readInsertCsvToDb(this, R.raw.region, DbTableName.Region);
+            CSVToDbHelper.readInsertCsvToDb(this, R.raw.timetable, DbTableName.TimeTable);
             preferenceHelper.setBoolean(Constants.IS_DB_CREATED, true);
         }
 
