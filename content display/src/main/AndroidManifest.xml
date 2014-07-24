@@ -98,7 +98,8 @@
 
         <activity
             android:name=".StartActivity"
-            android:label="@string/title_activity_start" />
+            android:label="@string/title_activity_start"
+            android:configChanges="keyboardHidden|orientation"/>
 
         <service android:name=".sync.AuthenticatorService" >
             <intent-filter>

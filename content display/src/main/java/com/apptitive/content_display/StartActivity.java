@@ -1,5 +1,6 @@
 package com.apptitive.content_display;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -15,10 +16,13 @@ import com.apptitive.content_display.helper.DbManager;
 import com.apptitive.content_display.helper.DisplayPattern;
 import com.apptitive.content_display.helper.Helper;
 import com.apptitive.content_display.model.ContentMenu;
+import com.apptitive.content_display.receiver.SyncResponseReceiver;
 import com.apptitive.content_display.sync.SyncUtils;
 import com.apptitive.content_display.utilities.Config;
 import com.apptitive.content_display.utilities.Constants;
 import com.apptitive.content_display.utilities.HttpHelper;
+import com.apptitive.content_display.utilities.LogUtil;
+
 import java.util.List;
 
 public class StartActivity extends ActionBarActivity {
@@ -26,13 +30,21 @@ public class StartActivity extends ActionBarActivity {
     private List<ContentMenu> contentMenuList;
     private LinearLayout llMain;
     private int currentMenu;
+    private SyncResponseReceiver syncResponseReceiver;
+    private ProgressDialog ringProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
         DbManager.init(this);
-        SyncUtils.triggerInitialSync(this);
+
+/*        IntentFilter intentFilter = new IntentFilter(Constants.ACTION_RESPONSE);
+        intentFilter.addCategory(Intent.CATEGORY_DEFAULT);
+        syncResponseReceiver = new SyncResponseReceiver(this);
+        registerReceiver(syncResponseReceiver, intentFilter);*/
+
+        //SyncUtils.triggerInitialSync(this);
         SyncUtils.triggerManualSync();
 
       /*ContentMenu contentMenu1 = new ContentMenu(1, "1", "Title 1", "add", 1, 1);
@@ -55,6 +67,36 @@ public class StartActivity extends ActionBarActivity {
         DbManager.getInstance().addMenu(contentMenu5);
         DbManager.getInstance().addMenu(contentMenu6);*/
 
+        renderContentMenu();
+    }
+
+/*
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (syncResponseReceiver != null)
+            unregisterReceiver(syncResponseReceiver);
+    }
+
+    @Override
+    public void onLoadStarted() {
+        //ringProgressDialog = ProgressDialog.show(StartActivity.this, "Please wait ...", "Downloading Image ...", true);
+        //ringProgressDialog.setCancelable(true);
+    }
+
+    @Override
+    public void onLoadFinished() {
+
+        LogUtil.LOGD("trigerred onload finished()");
+        renderContentMenu();
+        if (ringProgressDialog != null) {
+            ringProgressDialog.dismiss();
+
+        }
+
+    }*/
+
+    private void renderContentMenu() {
         llMain = (LinearLayout) findViewById(R.id.ll_main);
         contentMenuList = DbManager.getInstance().getAllMenus();
 
@@ -80,8 +122,8 @@ public class StartActivity extends ActionBarActivity {
                 populateContentMenuItem(view, R.id.sub_pattern_whole, contentMenuList.get(currentMenu++), DisplayPattern.Whole);
             }
         }
-
     }
+
 
     private View getViewForContentMenuPattern(int layoutId) {
 

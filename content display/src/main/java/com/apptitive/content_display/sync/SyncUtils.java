@@ -15,16 +15,18 @@ import com.apptitive.content_display.utilities.Utilities;
  */
 public class SyncUtils {
 
-    public static void triggerInitialSync(Context context) {
+    public static Account createSyncAccount(Context context) {
         LogUtil.LOGE("initial sync");
         Account account = AuthenticatorService.GetAccount(Constants.ACCOUNT_TYPE);
         AccountManager accountManager =
                 (AccountManager) context.getSystemService(Context.ACCOUNT_SERVICE);
         if (accountManager.addAccountExplicitly(account, null, null)) {
             LogUtil.LOGE("first time call sync");
-            Utilities.startSyncReceiver(context);
-            triggerManualSync();
+          //  Utilities.startSyncReceiver(context);
+           // triggerManualSync();
+        return account;
         }
+        return null;
     }
 
 

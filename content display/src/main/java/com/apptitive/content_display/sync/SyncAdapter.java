@@ -6,7 +6,6 @@ import android.content.ContentProviderClient;
 import android.content.Context;
 import android.content.SyncResult;
 import android.os.Bundle;
-
 import com.apptitive.content_display.helper.DbManager;
 import com.apptitive.content_display.interfaces.JsonArrayCompleteListener;
 import com.apptitive.content_display.model.ContentMenu;
@@ -17,7 +16,6 @@ import com.apptitive.content_display.utilities.HttpHelper;
 import com.apptitive.content_display.utilities.JsonParser;
 import com.apptitive.content_display.utilities.LogUtil;
 import com.apptitive.content_display.utilities.Utilities;
-
 import org.json.JSONArray;
 
 /**
@@ -48,8 +46,9 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter implements JsonArra
             ContentMenu.updateDb(dbManager, JsonParser.getParsedContentMenus(result.toString()));
         } else if (requestCode == Constants.CONTENT_REQUEST_CODE) {
             DbContent.updateDb(dbManager, JsonParser.getParsedDbContents(result));
-            LogUtil.LOGE("successful");
             Utilities.stopSyncReceiver(getContext());
+            LogUtil.LOGE("successful");
+
         }
     }
 

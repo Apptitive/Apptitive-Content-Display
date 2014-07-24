@@ -56,8 +56,9 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
         syncResponseReceiver = new SyncResponseReceiver(this);
         registerReceiver(syncResponseReceiver, intentFilter);
 
-        SyncUtils.triggerInitialSync(this);
-        //  SyncUtils.triggerManualSync();
+       // SyncUtils.triggerInitialSync(this);
+
+        SyncUtils.triggerManualSync();
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             mAppWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
@@ -200,6 +201,9 @@ public class MainActivity extends BaseActionBar implements View.OnClickListener,
     public void onLoadFinished() {
         if (ringProgressDialog != null) {
             ringProgressDialog.dismiss();
+
+
         }
+
     }
 }
