@@ -94,6 +94,10 @@ public class DetailsListAdapter extends BaseAdapter {
         return convertView;
     }
 
+    public void changeDataSet(List<Detail> details) {
+        this.details = details;
+    }
+
     private class ViewHolder {
         TextView tvDetail;
     }

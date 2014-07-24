@@ -66,15 +66,14 @@ public class DetailsFragment extends ListFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         gson = new Gson();
-        detailsListAdapter = new DetailsListAdapter(getActivity(), jsonToDetail(Arrays.asList(gson.fromJson(detailProvider.getContent().getDetails(), JsonDetail[].class))));
+        details = new ArrayList<Detail>();
+        details = jsonToDetail(Arrays.asList(gson.fromJson(detailProvider.getContent().getDetails(), JsonDetail[].class)));
+        detailsListAdapter = new DetailsListAdapter(getActivity(), details);
         setListAdapter(detailsListAdapter);
     }
 
     private List<Detail> jsonToDetail(List<JsonDetail> jsonDetails) {
-        if (details == null)
-            details = new ArrayList<Detail>();
-        details.clear();
-
+        List<Detail> details = new ArrayList<Detail>();
         for (JsonDetail jsonDetail : jsonDetails) {
             Detail detail1 = new Detail();
             detail1.populateFrom(jsonDetail);
@@ -84,8 +83,12 @@ public class DetailsFragment extends ListFragment {
     }
 
     public void switchContent() {
-        jsonToDetail(Arrays.asList(gson.fromJson(detailProvider.getContent().getDetails(), JsonDetail[].class)));
+        setListAdapter(null);
+        details.clear();
+        details = jsonToDetail(Arrays.asList(gson.fromJson(detailProvider.getContent().getDetails(), JsonDetail[].class)));
+        detailsListAdapter.changeDataSet(details);
         setListAdapter(detailsListAdapter);
+        detailsListAdapter.notifyDataSetChanged();
     }
 
     public interface DetailProvider {
