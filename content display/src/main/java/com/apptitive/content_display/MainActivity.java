@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.apptitive.content_display.helper.DbManager;
@@ -91,7 +92,13 @@ public class MainActivity extends BaseActionBar {
             startActivity(new Intent(MainActivity.this, SettingsActivity.class));
             return true;
         } else if (id == R.id.action_alarm) {
-            startActivity(new Intent(MainActivity.this, AlarmActivity.class));
+            IntentFilter mStatusIntentFilter = new IntentFilter(
+                    Constants.ACTION_RESPONSE);
+            LocalBroadcastManager.getInstance(this).registerReceiver(
+                    myBroadCastReceiver, mStatusIntentFilter);
+
+            Intent intent = new Intent(this, SyncService.class);
+            startService(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -102,6 +109,7 @@ public class MainActivity extends BaseActionBar {
         @Override
         public void onReceive(Context context, Intent intent) {
             LogUtil.LOGE("inside broadcast receiver");
+            flash();
             renderContentMenu();
         }
     };
@@ -153,7 +161,7 @@ public class MainActivity extends BaseActionBar {
         } else if (displayPattern.equals(DisplayPattern.TopToBottom)) {
             stub.setLayoutResource(R.layout.partial_view_top_to_bottom);
         } else if (displayPattern.equals(DisplayPattern.Fill)) {
-            stub.setLayoutResource(R.layout.partial_view_whole);
+            stub.setLayoutResource(R.layout.partial_view_fill);
         }
         View v = stub.inflate();
         TextView textView = (TextView) v.findViewById(R.id.tv_title);
@@ -174,4 +182,14 @@ public class MainActivity extends BaseActionBar {
         });
     }
 
+
+    private void flash() {
+        if (null != llMain && llMain.getChildCount() > 0) {
+            try {
+                llMain.removeViews(0, llMain.getChildCount());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

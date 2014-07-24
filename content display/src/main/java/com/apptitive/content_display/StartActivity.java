@@ -120,7 +120,7 @@ public class StartActivity extends ActionBarActivity {
         } else if (displayPattern.equals(DisplayPattern.TopToBottom)) {
             stub.setLayoutResource(R.layout.partial_view_top_to_bottom);
         } else if (displayPattern.equals(DisplayPattern.Fill)) {
-            stub.setLayoutResource(R.layout.partial_view_whole);
+            stub.setLayoutResource(R.layout.partial_view_fill);
         }
         View v = stub.inflate();
         TextView textView = (TextView) v.findViewById(R.id.tv_title);
