@@ -21,7 +21,6 @@ import com.apptitive.content_display.helper.DisplayPattern;
 import com.apptitive.content_display.helper.Helper;
 import com.apptitive.content_display.model.ContentMenu;
 import com.apptitive.content_display.services.SyncService;
-import com.apptitive.content_display.utilities.AlarmUtil;
 import com.apptitive.content_display.utilities.Config;
 import com.apptitive.content_display.utilities.Constants;
 import com.apptitive.content_display.utilities.HttpHelper;
@@ -36,6 +35,14 @@ public class StartActivity extends ActionBarActivity {
     private LinearLayout llMain;
     private int currentMenu;
     private boolean isContentShowInOncreate = true;
+    private BroadcastReceiver myBroadCastReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            LogUtil.LOGE("inside broadcast receiver");
+            renderContentMenu();
+        }
+    };
 
     @Override
     protected void onStart() {
@@ -63,7 +70,6 @@ public class StartActivity extends ActionBarActivity {
         setContentView(R.layout.activity_start);
         DbManager.init(this);
 
-        AlarmUtil.setUpAlarm(this,1);
         //  ringProgressDialog = ProgressDialog.show(StartActivity.this, "Please wait ...", "Downloading Image ...", true);
         // ringProgressDialog.setCancelable(true);
 
@@ -90,16 +96,6 @@ public class StartActivity extends ActionBarActivity {
             renderContentMenu();
 
     }
-
-
-    private BroadcastReceiver myBroadCastReceiver = new BroadcastReceiver() {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            LogUtil.LOGE("inside broadcast receiver");
-            renderContentMenu();
-        }
-    };
 
     public void renderContentMenu() {
         llMain = (LinearLayout) findViewById(R.id.ll_main);
