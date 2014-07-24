@@ -198,12 +198,13 @@ public class DetailsActivity extends BaseActionBar implements DetailsFragment.De
             } else {
                 fragmentContainer.setVisibility(View.VISIBLE);
                 ft.add(fragmentContainer.getId(), detailsFragment);
+                ft.commit();
             }
         } else {
-            ft.remove(detailsFragment);
             fragmentContainer.setVisibility(View.GONE);
+            ft.remove(detailsFragment);
+            ft.commit();
         }
-        ft.commit();
     }
 
     private List<Content> dbResultToContent(List<DbContent> dbContents) {

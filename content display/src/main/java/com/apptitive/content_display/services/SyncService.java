@@ -1,7 +1,8 @@
 package com.apptitive.content_display.services;
 
-import android.app.IntentService;
+import android.app.Service;
 import android.content.Intent;
+import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.android.volley.Response;
@@ -18,16 +19,16 @@ import com.apptitive.content_display.utilities.LogUtil;
 
 import org.json.JSONArray;
 
-public class SyncService extends IntentService {
+public class SyncService extends Service {
     private DbManager dbManager;
 
-    public SyncService() {
-        super("TestService");
+    @Override
+    public IBinder onBind(Intent intent) {
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 
     @Override
-    protected void onHandleIntent(Intent intent) {
-
+    public int onStartCommand(Intent intent, int flags, int startId) {
         HttpHelper httpHelper = HttpHelper.getInstance(this);
         DbManager.init(this);
         dbManager = DbManager.getInstance();
@@ -68,9 +69,8 @@ public class SyncService extends IntentService {
         }
         );
         httpHelper.addToRequestQueue(topicRequest);
-
-
         LogUtil.LOGE("inside test service");
+        return START_STICKY;
     }
 
 }

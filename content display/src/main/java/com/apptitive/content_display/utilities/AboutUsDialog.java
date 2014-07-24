@@ -14,6 +14,7 @@ import android.webkit.WebViewClient;
 public class AboutUsDialog {
     private static final String TAG = "ChangeLogDialog";
     private final Context mContext;
+    protected DialogInterface.OnDismissListener mOnDismissListener;
     private String versionName;
     private String mStyle = "h1 { margin-left: 0px; font-size: 12pt; }"
             + "li { margin-left: 0px; font-size: 9pt; }"
@@ -21,8 +22,6 @@ public class AboutUsDialog {
             + "p {font-style:italic; margin-left: 8px; font-size: 9pt;}"
             + ".summary { font-size: 9pt; color: #606060; display: block; clear: left; }"
             + ".date { font-size: 9pt; color: #606060;  display: block; }";
-
-    protected DialogInterface.OnDismissListener mOnDismissListener;
 
     public AboutUsDialog(final Context context) {
         mContext = context;
@@ -103,7 +102,7 @@ public class AboutUsDialog {
         });
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(mContext)
-                .setTitle("Ramadan V" + versionName).setView(webView)
+                .setTitle("Content Display V" + versionName).setView(webView)
                 .setPositiveButton(closeString, new Dialog.OnClickListener() {
                     public void onClick(final DialogInterface dialogInterface,
                                         final int i) {
