@@ -11,7 +11,6 @@ import com.android.volley.toolbox.ImageLoader;
 import com.apptitive.content_display.utilities.Config;
 import com.apptitive.content_display.utilities.Constants;
 import com.apptitive.content_display.utilities.HttpHelper;
-import com.apptitive.content_display.utilities.Utilities;
 
 
 public class ContentActivity extends BaseActionBar implements ContentFragment.ContentProvider {
@@ -32,11 +31,10 @@ public class ContentActivity extends BaseActionBar implements ContentFragment.Co
 
         actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.ActionBarHomeBg)));
-        actionBar.setTitle(Utilities.getBanglaSpannableString(menuTitle, this));
+        actionBar.setTitle(menuTitle);
 
         ImageLoader imageLoader = HttpHelper.getInstance(this).getImageLoader();
         imageLoader.get(Config.getImageUrl(this) + menuId + "_ab_title.png", new ImageLoader.ImageListener() {
-
             @Override
             public void onErrorResponse(VolleyError error) {
             }

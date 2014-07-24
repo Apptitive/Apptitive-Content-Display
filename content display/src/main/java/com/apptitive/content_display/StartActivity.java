@@ -116,15 +116,15 @@ public class StartActivity extends ActionBarActivity {
                 View view = getViewForContentMenuPattern(R.layout.menu_pattern_1);
                 populateContentMenuItem(view, R.id.sub_pattern_left_top, contentMenuList.get(currentMenu++), DisplayPattern.LeftToRight);
                 populateContentMenuItem(view, R.id.sub_pattern_left_bottom, contentMenuList.get(currentMenu++), DisplayPattern.LeftToRight);
-                populateContentMenuItem(view, R.id.sub_pattern_right, contentMenuList.get(currentMenu++), DisplayPattern.ToptoBottom);
+                populateContentMenuItem(view, R.id.sub_pattern_right, contentMenuList.get(currentMenu++), DisplayPattern.TopToBottom);
             } else if (patternId == 2) {
                 View view = getViewForContentMenuPattern(R.layout.menu_pattern_2);
-                populateContentMenuItem(view, R.id.sub_pattern_left, contentMenuList.get(currentMenu++), DisplayPattern.ToptoBottom);
+                populateContentMenuItem(view, R.id.sub_pattern_left, contentMenuList.get(currentMenu++), DisplayPattern.TopToBottom);
                 populateContentMenuItem(view, R.id.sub_pattern_right_top, contentMenuList.get(currentMenu++), DisplayPattern.LeftToRight);
                 populateContentMenuItem(view, R.id.sub_pattern_right_bottom, contentMenuList.get(currentMenu++), DisplayPattern.LeftToRight);
             } else if (patternId == 3) {
                 View view = getViewForContentMenuPattern(R.layout.menu_pattern_3);
-                populateContentMenuItem(view, R.id.sub_pattern_whole, contentMenuList.get(currentMenu++), DisplayPattern.Whole);
+                populateContentMenuItem(view, R.id.sub_pattern_whole, contentMenuList.get(currentMenu++), DisplayPattern.Fill);
             }
         }
     }
@@ -149,9 +149,9 @@ public class StartActivity extends ActionBarActivity {
                 stub.setLayoutResource(R.layout.partial_view_left_right);
             else
                 stub.setLayoutResource(R.layout.partial_view_top_to_bottom);
-        } else if (displayPattern.equals(DisplayPattern.ToptoBottom)) {
+        } else if (displayPattern.equals(DisplayPattern.TopToBottom)) {
             stub.setLayoutResource(R.layout.partial_view_top_to_bottom);
-        } else if (displayPattern.equals(DisplayPattern.Whole)) {
+        } else if (displayPattern.equals(DisplayPattern.Fill)) {
             stub.setLayoutResource(R.layout.partial_view_whole);
         }
         View v = stub.inflate();
