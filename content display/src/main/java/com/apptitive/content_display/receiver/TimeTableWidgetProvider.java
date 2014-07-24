@@ -1,14 +1,11 @@
 package com.apptitive.content_display.receiver;
 
-import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
 import android.widget.RemoteViews;
 
-import com.apptitive.content_display.MainActivity;
 import com.apptitive.content_display.R;
 import com.apptitive.content_display.helper.DbManager;
 import com.apptitive.content_display.model.Region;
@@ -66,13 +63,13 @@ public class TimeTableWidgetProvider extends AppWidgetProvider {
                 }
             }
 
-            Intent intent = new Intent(context, MainActivity.class);
+/*            Intent intent = new Intent(context, MainActivity.class);
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
 
             PendingIntent pendingIntent = PendingIntent.getActivity(context,
                     0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             remoteViews.setOnClickPendingIntent(R.id.widget_sehri_iftar_time, pendingIntent);
-            appWidgetManager.updateAppWidget(widgetId, remoteViews);
+            appWidgetManager.updateAppWidget(widgetId, remoteViews);*/
         }
     }
 }
