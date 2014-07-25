@@ -4,7 +4,7 @@
     tools:context="com.apptitive.content_display.MainActivity">
     <item
         android:id="@+id/action_alarm"
-        android:icon="@drawable/ic_action_alarms"
+        android:icon="@drawable/ic_action_refresh"
         android:title="@string/action_alarm"
         app:showAsAction="always"></item>
     <item

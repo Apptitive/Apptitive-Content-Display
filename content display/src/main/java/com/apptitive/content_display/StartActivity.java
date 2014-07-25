@@ -31,6 +31,7 @@ import com.apptitive.content_display.utilities.Utilities;
 
 import java.util.List;
 
+
 public class StartActivity extends ActionBarActivity {
 
     private List<ContentMenu> contentMenuList;
@@ -72,41 +73,13 @@ public class StartActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
         DbManager.init(this);
-
-        //  ringProgressDialog = ProgressDialog.show(StartActivity.this, "Please wait ...", "Downloading Image ...", true);
-        // ringProgressDialog.setCancelable(true);
-
-      /*ContentMenu contentMenu1 = new ContentMenu(1, "1", "Title 1", "add", 1, 1);
-        ContentMenu contentMenu2 = new ContentMenu(2, "2", "Title 2", "add", 1, 2);
-        ContentMenu contentMenu3 = new ContentMenu(3, "3", "Title 3", "add", 1, 3);
-
-        ContentMenu contentMenu4 = new ContentMenu(4, "4", "Title 4", "add", 2, 1);
-        ContentMenu contentMenu5 = new ContentMenu(5, "5", "Title 5", "add", 2, 2);
-        ContentMenu contentMenu6 = new ContentMenu(6, "6", "Title 6", "add", 2, 3);
-
-        ContentMenu contentMenu7 = new ContentMenu(7, "7", "Title 7", "add", 3, 1);
-
-        DbManager.getInstance().addMenu(contentMenu1);
-        DbManager.getInstance().addMenu(contentMenu2);
-        DbManager.getInstance().addMenu(contentMenu3);
-
-        DbManager.getInstance().addMenu(contentMenu7);
-
-        DbManager.getInstance().addMenu(contentMenu4);
-        DbManager.getInstance().addMenu(contentMenu5);
-        DbManager.getInstance().addMenu(contentMenu6);*/
         if (isContentShowInOncreate)
             renderContentMenu();
-
     }
 
     public void renderContentMenu() {
         llMain = (LinearLayout) findViewById(R.id.ll_main);
         contentMenuList = DbManager.getInstance().getAllMenus();
-
-        for (ContentMenu c : contentMenuList) {
-            Log.e("Menu Title ", c.getTitle());
-        }
 
         for (currentMenu = 0; currentMenu < contentMenuList.size(); ) {
             int patternId = contentMenuList.get(currentMenu).getPatternId();
@@ -151,7 +124,7 @@ public class StartActivity extends ActionBarActivity {
         } else if (displayPattern.equals(DisplayPattern.TopToBottom)) {
             stub.setLayoutResource(R.layout.partial_view_top_to_bottom);
         } else if (displayPattern.equals(DisplayPattern.Fill)) {
-            stub.setLayoutResource(R.layout.partial_view_whole);
+            stub.setLayoutResource(R.layout.partial_view_fill);
         }
         View v = stub.inflate();
         TextView textView = (TextView) v.findViewById(R.id.tv_title);

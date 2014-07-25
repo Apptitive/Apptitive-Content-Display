@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/menu_selector"
-    android:orientation="horizontal">
+    android:orientation="vertical">
 
     <com.android.volley.toolbox.NetworkImageView
         android:id="@+id/niv_icon"
@@ -12,12 +12,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_weight="1"
-        android:src="@drawable/saom" />
+        android:src="@drawable/ramadan" />
 
     <TextView
         android:id="@+id/tv_title"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
         android:layout_gravity="center"
         android:layout_weight="1"
         android:text="No Title"

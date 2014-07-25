@@ -3,6 +3,7 @@ package com.apptitive.content_display;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.WindowCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -138,8 +139,8 @@ public class DetailsActivity extends BaseActionBar implements DetailsFragment.De
                     webViewDetails.setVisibility(View.VISIBLE);
                     webViewDetails.loadData(content.getDetails(), "text/html", "utf-8");
                 } else if (content.getDetailType().equals(DetailType.NATIVE)) {
-                    showHideFragment(true);
                     webViewDetails.setVisibility(View.GONE);
+                    showHideFragment(true);
                 }
                 listViewDrawer.setAdapter(drawerListAdapter);
                 drawerLayout.closeDrawer(listViewDrawer);
@@ -197,8 +198,14 @@ public class DetailsActivity extends BaseActionBar implements DetailsFragment.De
                 detailsFragment.switchContent();
             } else {
                 fragmentContainer.setVisibility(View.VISIBLE);
-                ft.add(fragmentContainer.getId(), detailsFragment);
-                ft.commit();
+                Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+                if (fragment instanceof DetailsFragment) {
+                    ft.replace(fragmentContainer.getId(), detailsFragment);
+                    ft.commit();
+                } else {
+                    ft.add(fragmentContainer.getId(), detailsFragment);
+                    ft.commit();
+                }
             }
         } else {
             fragmentContainer.setVisibility(View.GONE);

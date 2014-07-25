@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.apptitive.content_display"
     android:versionCode="1"
-    android:versionName="first release" >
+    android:versionName="first release">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -15,35 +15,21 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/Theme.ContentDisplay" >
+        android:theme="@style/Theme.ContentDisplay">
         <activity
             android:name=".DetailsActivity"
-            android:parentActivityName=".ContentActivity" >
+            android:parentActivityName=".ContentActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.apptitive.ramadan.TopicsActivity" />
         </activity>
         <activity
             android:name=".SettingsActivity"
-            android:parentActivityName=".StartActivity" />
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".ContentActivity"
             android:launchMode="singleTask"
-            android:parentActivityName=".StartActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.apptitive.ramadan.MainActivity" />
-        </activity>
-        <activity
-            android:name=".SehriIfterActivity"
-            android:parentActivityName=".StartActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.apptitive.ramadan.MainActivity" />
-        </activity>
-        <activity
-            android:name=".SaomVongerKaronActivity"
-            android:parentActivityName=".StartActivity" >
+            android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.apptitive.ramadan.MainActivity" />
@@ -52,10 +38,9 @@
             android:name=".SplashScreen"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -76,7 +61,7 @@
         <receiver
             android:name=".receiver.NotificationCancelReceiver"
             android:enabled="true"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="notification_cancelled" />
             </intent-filter>
@@ -84,7 +69,7 @@
         <receiver
             android:name=".receiver.TimeTableWidgetProvider"
             android:icon="@drawable/widget_timetable"
-            android:label="@string/widget_label" >
+            android:label="@string/widget_label">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -96,11 +81,15 @@
 
         <activity
             android:name=".StartActivity"
-            android:label="@string/title_activity_start"/>
+            android:label="@string/title_activity_start" />
+
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/title_activity_start" />
+
         <service
             android:name=".services.SyncService"
-            android:exported="false" >
-        </service>
+            android:exported="false"></service>
     </application>
 
 </manifest>
