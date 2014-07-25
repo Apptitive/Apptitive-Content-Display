@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
@@ -27,7 +26,6 @@ import com.apptitive.content_display.utilities.Constants;
 import com.apptitive.content_display.utilities.HttpHelper;
 import com.apptitive.content_display.utilities.LogUtil;
 import com.apptitive.content_display.utilities.PreferenceHelper;
-import com.apptitive.content_display.utilities.Utilities;
 
 import java.util.List;
 
@@ -53,7 +51,7 @@ public class StartActivity extends ActionBarActivity {
 
 
         PreferenceHelper preferenceHelper = new PreferenceHelper(this);
-        if (!preferenceHelper.getBoolean(Constants.APP_FIRST_TIME_CREATED) & Utilities.isNetworkAvailable(this)) {
+        if (!preferenceHelper.getBoolean(Constants.APP_FIRST_TIME_CREATED)) {
             IntentFilter mStatusIntentFilter = new IntentFilter(
                     Constants.ACTION_RESPONSE);
             LocalBroadcastManager.getInstance(this).registerReceiver(
@@ -63,8 +61,6 @@ public class StartActivity extends ActionBarActivity {
             startService(intent);
             preferenceHelper.setBoolean(Constants.APP_FIRST_TIME_CREATED, true);
             isContentShowInOncreate = false;
-        } else {
-            Toast.makeText(this, "Your internet connection is not available. Please connect your internet.", Toast.LENGTH_SHORT).show();
         }
     }
 
