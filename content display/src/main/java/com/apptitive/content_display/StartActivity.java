@@ -36,6 +36,7 @@ public class StartActivity extends ActionBarActivity {
     private LinearLayout llMain;
     private int currentMenu;
     private boolean isContentShowInOncreate = true;
+    private PreferenceHelper preferenceHelper;
     private BroadcastReceiver myBroadCastReceiver = new BroadcastReceiver() {
 
         @Override
@@ -50,8 +51,8 @@ public class StartActivity extends ActionBarActivity {
         super.onStart();
 
 
-        PreferenceHelper preferenceHelper = new PreferenceHelper(this);
-        if (!preferenceHelper.getBoolean(Constants.APP_FIRST_TIME_CREATED)) {
+        preferenceHelper = new PreferenceHelper(this);
+        if (!isFirstTimeAppLaunched()) {
             IntentFilter mStatusIntentFilter = new IntentFilter(
                     Constants.ACTION_RESPONSE);
             LocalBroadcastManager.getInstance(this).registerReceiver(
@@ -62,6 +63,11 @@ public class StartActivity extends ActionBarActivity {
             preferenceHelper.setBoolean(Constants.APP_FIRST_TIME_CREATED, true);
             isContentShowInOncreate = false;
         }
+    }
+
+    private boolean isFirstTimeAppLaunched() {
+        return preferenceHelper.getBoolean(Constants.APP_FIRST_TIME_CREATED);
+
     }
 
     @Override
