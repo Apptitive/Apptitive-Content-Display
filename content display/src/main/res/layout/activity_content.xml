@@ -10,6 +10,6 @@
         android:layout_height="match_parent"
         android:name="com.apptitive.content_display.ContentFragment"
         android:id="@+id/fragment_topics"
-        tools:layout="@layout/fragment_topics" />
+        tools:layout="@layout/fragment_content" />
 
 </RelativeLayout>

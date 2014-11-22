@@ -60,7 +60,7 @@ public class Utilities {
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context)
-                        .setSmallIcon(R.drawable.icon_tarabih)
+                        .setSmallIcon(R.drawable.ic_saom)
                         .setContentTitle(isBuildAboveThirteen() ? getBanglaSpannableString(context.getString(R.string.ramadan_app_alarm), context) : context.getString(R.string.ramadan_app_alarm_eng))
                         .setContentText(isBuildAboveThirteen() ? getBanglaSpannableString(context.getString(R.string.alarm_turn_off), context) : context.getString(R.string.alarm_turn_off_eng));
         NotificationManager mNotifyMgr =
