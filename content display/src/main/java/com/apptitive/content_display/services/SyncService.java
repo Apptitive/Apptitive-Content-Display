@@ -72,5 +72,4 @@ public class SyncService extends Service {
         LogUtil.LOGE("inside test service");
         return START_STICKY;
     }
-
 }
